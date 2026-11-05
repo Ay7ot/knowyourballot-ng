@@ -1,0 +1,44 @@
+name: Ingest INEC candidate lists
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: [data/sources.json, scripts/ingest_inec.py]
+  schedule:
+    - cron: "0 5 * * *" # daily, 6am Lagos time: INEC updates lists after substitutions and court orders
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ingest
+  cancel-in-progress: false
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pdfplumber==0.11.4
+      - name: Download and parse INEC documents
+        run: python scripts/ingest_inec.py
+      - name: Join candidates to the electoral map
+        run: python scripts/build_ballot.py
+      - name: Keep the source PDFs for 30 days
+        uses: actions/upload-artifact@v4
+        with:
+          name: inec-pdfs
+          path: .cache/inec/
+          retention-days: 30
+      - name: Commit changes
+        run: |
+          git config user.name "ballot-data-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/candidates data/ballot.json
+          if git diff --cached --quiet; then echo "No changes"; exit 0; fi
+          git commit -m "data: refresh INEC candidate lists"
+          git push

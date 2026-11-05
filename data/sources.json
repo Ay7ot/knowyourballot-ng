@@ -1,0 +1,25 @@
+{
+  "note": "INEC pages the ingest job reads. Every PDF linked from a press page is downloaded and parsed. fallback_documents are used only if a press page yields no PDFs.",
+  "offices": {
+    "presidential": {
+      "press_pages": ["https://www.inecnigeria.org/press/updated-list-of-candidates-for-2027-presidential-election"],
+      "fallback_documents": []
+    },
+    "senate": {
+      "press_pages": ["https://www.inecnigeria.org/press/updated-list-of-candidates-for-2027-senatorial-district-elections"],
+      "fallback_documents": ["https://www.inecnigeria.org/documents/press/2027%20SENATE%20FINAL%20LIST%20OF%20CANDIDATES.pdf"]
+    },
+    "reps": {
+      "press_pages": ["https://www.inecnigeria.org/press/updated-list-of-candidates-for-jan-2027-national-assembly-elections"],
+      "fallback_documents": ["https://www.inecnigeria.org/documents/press/2027%20REPS%20FINAL%20LIST%20OF%20CANDIDATES.pdf"]
+    },
+    "governorship": {
+      "press_pages": ["https://www.inecnigeria.org/press/updated-final-list-of-candidates-for-2027-governorship-election"],
+      "fallback_documents": []
+    },
+    "assembly": {
+      "press_pages": ["https://www.inecnigeria.org/press/final-list-of-candidates-for-2027-state-houses-of-assembly-elections"],
+      "fallback_documents": []
+    }
+  }
+}
