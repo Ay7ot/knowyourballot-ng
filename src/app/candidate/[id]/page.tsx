@@ -8,7 +8,7 @@ import PartyMark from "@/components/PartyMark";
 import type { Person } from "@/lib/types";
 import { Crumbs } from "@/components/ui";
 import { PickButton } from "@/components/picks";
-import { correctionUrl } from "@/lib/site";
+import { correctionUrl, photoUrl } from "@/lib/site";
 import { gutter } from "@/lib/gutter";
 import { electionFor } from "@/components/RaceSheet";
 
@@ -110,7 +110,14 @@ export default async function CandidatePage({ params }: { params: Promise<{ id: 
           {st && c.office !== "governor" ? `, ${st.short}` : ""} on <span className="mono">{day}</span>.{" "}
           <span className="text-muted">{OFFICE_INFO[c.office].what}</span>
         </p>
-        {photo && <div className="border-t border-rule px-5 py-2"><Credit photo={photo} who={c.name} /></div>}
+        {photo ? (
+          <div className="border-t border-rule px-5 py-2"><Credit photo={photo} who={c.name} /></div>
+        ) : (
+          <p className="border-t border-rule px-5 py-2 text-xs text-muted">
+            No verified photo yet. INEC doesn&apos;t publish candidate photos.{" "}
+            <a className="underline" href={photoUrl(c.name, `/candidate/${c.id}`)}>Campaigns can send an official photo</a>.
+          </p>
+        )}
       </header>
 
       {c.office === "president" && (

@@ -6,6 +6,10 @@ on:
       offices:
         description: "Offices to look up photos for (comma-separated: president,governor,senate,rep,assembly)"
         default: "president,governor,senate"
+      recheck:
+        description: "Look again at candidates checked in the last 14 days"
+        type: boolean
+        default: false
   push:
     branches: [main]
     paths: [scripts/fetch_party_logos.py, scripts/fetch_candidate_photos.py]
@@ -32,12 +36,14 @@ jobs:
       - name: Party logos from INEC's party profiles
         run: python scripts/fetch_party_logos.py
       - name: Verified candidate photos from Wikidata and Wikimedia Commons
+        env:
+          RECHECK: ${{ github.event.inputs.recheck }}
         run: python scripts/fetch_candidate_photos.py "${{ github.event.inputs.offices || 'president,governor,senate' }}" | tee photos.log
       - name: Commit changes
         run: |
           git config user.name "ballot-data-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/party_logos.json data/candidate_photos.json public/parties public/candidates
+          git add data/party_logos.json data/candidate_photos.json data/photo_report.json public/parties public/candidates
           if git diff --cached --quiet; then echo "No changes"; exit 0; fi
           git commit -m "media: refresh party logos and candidate photos"
           git pull --rebase origin main

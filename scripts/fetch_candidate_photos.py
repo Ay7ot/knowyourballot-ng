@@ -12,7 +12,8 @@ Two-word INEC names must match the person's main Wikidata label, not just an ali
 Accepted photos go to public/candidates/{id}.webp with the author, licence and evidence in
 data/candidate_photos.json, which the site shows as a credit line.
 """
-import io, json, re, sys, time, unicodedata, urllib.parse, urllib.request
+import io, itertools, json, os, re, sys, time, unicodedata, urllib.parse, urllib.request
+from collections import Counter
 from datetime import date
 from pathlib import Path
 from PIL import Image
@@ -20,12 +21,19 @@ from PIL import Image
 ROOT = Path(__file__).resolve().parent.parent
 UA = "KnowYourBallotNG/1.0 (https://github.com/Ay7ot/knowyourballot-ng; civic voter-information site)"
 WD = "https://www.wikidata.org/w/api.php"
+ENWIKI = "https://en.wikipedia.org/w/api.php"
+RECHECK_ALL = os.environ.get("RECHECK") == "true"
 COMMONS = "https://commons.wikimedia.org/w/api.php"
 OFFICES = set((sys.argv[1] if len(sys.argv) > 1 else "president,governor,senate").split(","))
 AGE_REF = date(2026, 10, 1)  # INEC printed ages at nomination, autumn 2026
 RECHECK_DAYS = 14
 FREE = re.compile(r"^(cc0|cc[- ]by(-sa)?[- ]?\d|public domain|pd)", re.I)
 NONFREE = re.compile(r"\b(nc|nd)\b|non-?commercial|no ?deriv", re.I)
+# first names shared by very many Nigerians: a match on two of these alone proves nothing
+COMMON = {"mohammed", "muhammad", "muhammed", "mohammad", "musa", "abubakar", "ibrahim", "sani", "abdullahi", "aliyu", "usman", "yusuf", "bello",
+          "umar", "umaru", "sule", "adamu", "garba", "hassan", "ahmed", "ahmad", "ali", "isa", "idris", "lawal", "suleiman", "sulaiman", "yahaya",
+          "john", "peter", "james", "paul", "david", "joseph", "samuel", "michael", "emmanuel", "daniel", "sunday", "monday", "friday", "godwin",
+          "blessing", "grace", "mary", "elizabeth", "esther", "chukwuemeka", "chinedu", "oluwaseun", "olumide", "adebayo", "ade", "abdul"}
 STOP = {"alhaji", "chief", "dr", "engr", "prof", "hon", "barr", "mrs", "mr", "sen", "otunba", "arc", "pharm", "rev", "pastor", "mallam", "comrade", "amb"}
 
 
@@ -86,17 +94,26 @@ def find_person(name: str, age: int | None, party: str, party_full: str | None) 
     words = toks(name)
     if len(words) < 2:
         return None, "name too short to match safely"
-    hits = api(WD, action="query", list="search", srlimit=8, srsearch=f"{' '.join(sorted(words))} haswbstatement:P31=Q5 haswbstatement:P27=Q1033")
-    ids = [h["title"] for h in hits.get("query", {}).get("search", [])]
+    # INEC prints names in varying order and with extra middle names, so search the full name, then each pair of words
+    queries = [sorted(words)] + [list(p) for p in itertools.combinations(sorted(words), 2)] if len(words) > 2 else [sorted(words)]
+    ids: list[str] = []
+    for q in queries[:7]:
+        hits = api(WD, action="query", list="search", srlimit=6, srsearch=f"{' '.join(q)} haswbstatement:P31=Q5 haswbstatement:P27=Q1033")
+        ids += [h["title"] for h in hits.get("query", {}).get("search", []) if h["title"] not in ids]
+        if len(ids) >= 30:
+            break
+    ids = ids[:40]
     if not ids:
         return None, "no Nigerian person on Wikidata with this name"
-    ents = api(WD, action="wbgetentities", ids="|".join(ids), props="labels|aliases|claims|sitelinks", languages="en").get("entities", {})
+    ents = {}
+    for i in range(0, len(ids), 20):
+        ents.update(api(WD, action="wbgetentities", ids="|".join(ids[i:i + 20]), props="labels|aliases|claims|sitelinks", languages="en").get("entities", {}))
     passing = []
     for q, e in ents.items():
         label = e.get("labels", {}).get("en", {}).get("value", "")
         names = [label] + [a["value"] for a in e.get("aliases", {}).get("en", [])]
-        overlap = max((len(words & toks(n)) for n in names), default=0)
-        if overlap < 2:
+        best = max((words & toks(n) for n in names), key=len, default=set())
+        if len(best) < 2 or best <= COMMON:
             continue
         # a two-word name like "Abdullahi Sani" is common: require both words in the person's main label
         if len(words) == 2 and not words <= toks(label):
@@ -115,13 +132,25 @@ def find_person(name: str, age: int | None, party: str, party_full: str | None) 
                 evidence = f"party on Wikidata matches {party}"
         if evidence:
             passing.append((q, e, label, evidence))
+    if len(passing) > 1:
+        # duplicate Wikidata items are common; prefer the single one that has an English Wikipedia article
+        with_wiki = [p for p in passing if p[1].get("sitelinks", {}).get("enwiki")]
+        if len(with_wiki) == 1:
+            passing = with_wiki
     if len(passing) != 1:
         return None, "no verified match" if not passing else f"ambiguous: {', '.join(p[0] for p in passing)}"
     q, e, label, evidence = passing[0]
     imgs = claim_ids(e, "P18")
+    wiki = e.get("sitelinks", {}).get("enwiki", {}).get("title")
+    if not imgs and wiki:
+        # fall back to the lead image of their English Wikipedia article (still checked for a free Commons licence)
+        res = api(ENWIKI, action="query", titles=wiki, prop="pageimages", piprop="name")
+        for pg in res.get("query", {}).get("pages", {}).values():
+            if pg.get("pageimage"):
+                imgs = [pg["pageimage"].replace("_", " ")]
     if not imgs:
-        return None, f"{q} ({label}) has no photo on Wikidata"
-    return {"qid": q, "label": label, "evidence": evidence, "image": imgs[0], "wiki": e.get("sitelinks", {}).get("enwiki", {}).get("title")}, "ok"
+        return None, f"{q} ({label}) has no photo on Wikidata or Wikipedia"
+    return {"qid": q, "label": label, "evidence": evidence, "image": imgs[0], "wiki": wiki}, "ok"
 
 
 def commons_photo(filename: str) -> dict | None:
@@ -163,13 +192,15 @@ def main():
         store["photos"].pop(pid)
         store["checked"].pop(pid, None)
     stats = {"ok": 0, "skip": 0, "miss": 0}
+    report_path = ROOT / "data" / "photo_report.json"
+    report = json.loads(report_path.read_text()).get("misses", {}) if report_path.exists() else {}
     for pid, name, age, party in people:
         if any(r.get("name") == name for r in rejects.get(pid, [])):
             store["photos"].pop(pid, None)
             (out_dir / f"{pid}.webp").unlink(missing_ok=True)
             continue
         last = store["checked"].get(pid)
-        if pid in store["photos"] or (last and (today - date.fromisoformat(last)).days < RECHECK_DAYS):
+        if pid in store["photos"] or (not RECHECK_ALL and last and (today - date.fromisoformat(last)).days < RECHECK_DAYS):
             stats["skip"] += 1
             continue
         try:
@@ -188,9 +219,11 @@ def main():
                     "licenseUrl": photo["licenseUrl"], "artist": photo["artist"],
                 }
                 stats["ok"] += 1
+                report.pop(pid, None)
                 print(f"OK   {pid}: {name} -> {person['qid']} {person['label']} ({person['evidence']})")
             else:
                 stats["miss"] += 1
+                report[pid] = re.sub(r"Q\d+ \([^)]*\) ", "", re.sub(r"ambiguous: .*", "ambiguous", re.sub(r"^Q\d+: ", "", why)))
                 print(f"--   {pid}: {name}: {why}")
         except Exception as e:  # noqa: BLE001
             print(f"ERR  {pid}: {e}")
@@ -200,6 +233,8 @@ def main():
     store["photos"] = dict(sorted(store["photos"].items()))
     store["checked"] = dict(sorted(store["checked"].items()))
     path.write_text(json.dumps(store, indent=1) + "\n")
+    report = {k: v for k, v in sorted(report.items()) if k in live and k not in store["photos"]}
+    report_path.write_text(json.dumps({"summary": dict(Counter(report.values()).most_common()), "misses": report}, indent=0) + "\n")
     print(stats, f"{len(store['photos'])} photos on file")
 
 
