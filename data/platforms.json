@@ -1,0 +1,88 @@
+{
+  "checked": "2026-11-06",
+  "topics": ["Economy", "Fuel and power", "Security", "Jobs", "Agriculture", "Education", "Health", "Infrastructure", "Governance"],
+  "sources": {
+    "nt-atiku-kebbi": { "outlet": "New Telegraph", "date": "2026-11-05", "title": "2027: Atiku, Amaechi storm Kebbi, vow to restore fuel subsidy", "url": "https://newtelegraphng.com/2027-atiku-amaechi-storm-kebbi-vows-to-restore-fuel-subsidy/" },
+    "pt-shettima-nasarawa": { "outlet": "Premium Times (press release from the Vice President's office)", "date": "2026-11-05", "title": "2027: Shettima says Tinubu administration turning regions into economic powerhouses as APC campaigns in Nasarawa", "url": "https://www.premiumtimesng.com/news/top-news/922821-2027-shettima-says-tinubu-administration-turning-regions-into-economic-powerhouses-as-apc-campaigns-in-nasarawa.html" },
+    "von-obi-launch": { "outlet": "Voice of Nigeria", "date": "2026-08-21", "title": "Peter Obi launches 2027 presidential campaign", "url": "https://von.gov.ng/peter-obi-launches-2027-presidential-campaign/" },
+    "nn-obi-manifesto": { "outlet": "Naija News", "date": "2026-11-04", "title": "Peter Obi yet to present manifesto months to election", "url": "https://www.naijanews.com/2026/11/04/peter-obi-yet-to-present-manifesto/" },
+    "td-makinde": { "outlet": "ThisDay", "date": "2026-11-05", "title": "2027: Makinde unveils manifesto, prioritises microeconomic reforms for citizens' welfare", "url": "https://www.thisdaylive.com/2026/11/05/2027-makinde-unveils-manifesto-prioritises-microeconomic-reforms-for-citizens-welfare/" },
+    "nan-makinde": { "outlet": "News Agency of Nigeria", "date": "2026-11-04", "title": "2027: Makinde-Daura campaign organisation unveils 'Reset Nigeria' manifesto", "url": "https://nannews.ng/2027-makinde-daura-campaign-organisation-unveils-reset-nigeria-manifesto/" },
+    "von-makinde": { "outlet": "Voice of Nigeria", "date": "2026-11-04", "title": "APM presidential candidate unveils 2027 election manifesto", "url": "https://von.gov.ng/apm-presidential-candidate-unveils-2027-election-manifesto/" },
+    "nt-sdp": { "outlet": "New Telegraph", "date": "2026-09-08", "title": "2027: SDP unveils manifesto, prioritises fight against poverty, insecurity", "url": "https://newtelegraphng.com/2027-sdp-unveils-manifesto-prioritises-fight-against-poverty-insecurity/" },
+    "auth-adebayo": { "outlet": "The Authority", "date": "2026-10-16", "title": "2027: Adebayo unveils governance blueprint focused on security, jobs, power, others", "url": "https://authorityngr.com/2026/10/16/2027-adebayo-unveils-governance-blueprint-focused-on-security-jobs-power-others-map/" }
+  },
+  "candidates": {
+    "president--apm": {
+      "status": "manifesto",
+      "title": "Reset Nigeria",
+      "unveiled": "2026-11-04",
+      "document": null,
+      "note": "Unveiled in Abuja. No full text has been published online that we could find.",
+      "pledges": [
+        { "topic": "Economy", "text": "Lower the cost of living and the cost of production so Nigerian businesses can compete.", "src": ["td-makinde", "von-makinde"] },
+        { "topic": "Fuel and power", "text": "Let manufacturers connect to the national grid for electricity cheaper than diesel generators.", "src": ["td-makinde"] },
+        { "topic": "Economy", "text": "Pursue macroeconomic stability for growth, jobs, higher incomes and lower living costs.", "src": ["td-makinde", "nan-makinde"] },
+        { "topic": "Governance", "text": "Tie each promise to a responsible institution, a delivery plan and measurable results, reviewed at 100 days and over three years.", "src": ["td-makinde", "nan-makinde"] },
+        { "topic": "Governance", "text": "Serve one transitional four-year term to reset the political system.", "src": ["td-makinde"] },
+        { "topic": "Governance", "text": "Keep national development plans running whichever party holds power.", "src": ["td-makinde"] }
+      ]
+    },
+    "president--sdp": {
+      "status": "manifesto",
+      "title": "Farewell to Poverty and Insecurity: Governance and Accelerated Development, Blueprint of a New Nigeria 2027–2031",
+      "unveiled": "2026-09-08",
+      "document": null,
+      "note": "Unveiled in Abuja. Not published online; supporters say copies are available on request by email.",
+      "pledges": [
+        { "topic": "Fuel and power", "text": "Bring petrol to ₦200 per litre within the first year by expanding domestic refining and changing crude supply to local refineries.", "src": ["nt-sdp"] },
+        { "topic": "Security", "text": "Act against terrorism, kidnapping and illegal mining, and reclaim territory held by terrorists.", "src": ["nt-sdp"] },
+        { "topic": "Health", "text": "Free healthcare, including free medical screening twice a year.", "src": ["nt-sdp"] },
+        { "topic": "Education", "text": "Free education as part of a social welfare programme.", "src": ["nt-sdp"] },
+        { "topic": "Economy", "text": "Policies to cut transport and housing costs.", "src": ["nt-sdp"] },
+        { "topic": "Agriculture", "text": "Expand farming in year one, then irrigation, food storage and processing.", "src": ["auth-adebayo"] },
+        { "topic": "Infrastructure", "text": "Industrial clusters plus rail, broadband, housing and water projects in years two and three.", "src": ["auth-adebayo"] },
+        { "topic": "Governance", "text": "Base budgets on Chapter II of the Constitution, create a Presidential Delivery Office in the first 100 days and publish a performance dashboard.", "src": ["nt-sdp", "auth-adebayo"] }
+      ]
+    },
+    "president--ndc": {
+      "status": "pledges",
+      "title": null,
+      "unveiled": null,
+      "document": null,
+      "note": "Set out an agenda at his campaign launch on 21 August 2026. As of 4 November, critics said no written manifesto had been published.",
+      "noteSrc": ["von-obi-launch", "nn-obi-manifesto"],
+      "pledges": [
+        { "topic": "Economy", "text": "Move the economy from consumption to production and cut dependence on imports.", "src": ["von-obi-launch"] },
+        { "topic": "Security", "text": "Better intelligence and coordination between security agencies, stronger policing and border control, and community early-warning systems.", "src": ["von-obi-launch"] },
+        { "topic": "Agriculture", "text": "Support farming with security, irrigation, rural roads, storage, finance and agro-processing.", "src": ["von-obi-launch"] },
+        { "topic": "Education", "text": "Strengthen basic education, universities, and technical and vocational training.", "src": ["von-obi-launch"] },
+        { "topic": "Health", "text": "Improve maternal and child health, essential medicines and support for health workers.", "src": ["von-obi-launch"] },
+        { "topic": "Governance", "text": "Tie public spending to defined objectives and measurable outcomes.", "src": ["von-obi-launch"] }
+      ]
+    },
+    "president--adc": {
+      "status": "pledges",
+      "title": null,
+      "unveiled": null,
+      "document": null,
+      "note": "We haven't found a published 2027 manifesto. These are pledges reported from campaign rallies.",
+      "pledges": [
+        { "topic": "Fuel and power", "text": "Restore the fuel subsidy.", "src": ["nt-atiku-kebbi"] },
+        { "topic": "Security", "text": "Improve security.", "src": ["nt-atiku-kebbi"] },
+        { "topic": "Jobs", "text": "Create jobs.", "src": ["nt-atiku-kebbi"] }
+      ]
+    },
+    "president--apc": {
+      "status": "pledges",
+      "title": null,
+      "unveiled": null,
+      "document": null,
+      "note": "Campaigning on the record of the Renewed Hope agenda. We haven't found a published 2027 manifesto. These pledges are from the running mate's campaign statements.",
+      "pledges": [
+        { "topic": "Infrastructure", "text": "Complete road links that connect producers to markets, including the Akwanga–Jos–Bauchi–Gombe–Biu–Maiduguri highway.", "src": ["pt-shettima-nasarawa"] },
+        { "topic": "Jobs", "text": "Create jobs through transport infrastructure, industrial policy and more local mineral processing.", "src": ["pt-shettima-nasarawa"] }
+      ]
+    }
+  }
+}

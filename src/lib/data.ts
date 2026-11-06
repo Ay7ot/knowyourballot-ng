@@ -3,6 +3,7 @@ import geoJson from "@data/geo.json";
 import ballotJson from "@data/ballot.json";
 import partiesJson from "@data/parties.json";
 import photoJson from "@data/candidate_photos.json";
+import platformJson from "@data/platforms.json";
 import logoJson from "@data/party_logos.json";
 import type { Ballot, BallotSection, Candidate, Geo, Lga, Race, State, Office } from "./types";
 
@@ -206,3 +207,9 @@ export function candidatePhoto(id: string, name: string): Photo | null {
   const p = PHOTOS[id];
   return p && p.name === name ? p : null;
 }
+
+export type PlatformSource = { outlet: string; date: string; title: string; url: string };
+export type Pledge = { topic: string; text: string; src: string[] };
+export type Platform = { status: "manifesto" | "pledges"; title: string | null; unveiled: string | null; document: string | null; note: string; noteSrc?: string[]; pledges: Pledge[] };
+export const PLATFORMS = platformJson as unknown as { checked: string; topics: string[]; sources: Record<string, PlatformSource>; candidates: Record<string, Platform> };
+export const platformFor = (id: string): Platform | null => PLATFORMS.candidates[id] ?? null;

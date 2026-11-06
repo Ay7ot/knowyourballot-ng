@@ -91,6 +91,11 @@ export default async function RacePage({ params }: { params: Promise<{ id: strin
           </p>
         )}
 
+        {race.id === "president" && (
+          <Link href="/promises" className="mt-4 flex items-center justify-between gap-3 rounded-md border-2 border-ink bg-sheet px-4 py-3 font-semibold hover:bg-green-soft">
+            Compare what the candidates promise, topic by topic <span aria-hidden>→</span>
+          </Link>
+        )}
         <p className="mt-4 text-sm text-muted">
           Listed in INEC&apos;s order, which is also the order on the ballot paper. Something wrong?{" "}
           <a className="underline" href={correctionUrl(title, `/race/${race.id}`)}>Report a correction</a>.
