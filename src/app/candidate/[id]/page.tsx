@@ -101,8 +101,9 @@ export default async function CandidatePage({ params }: { params: Promise<{ id: 
               </div>
             </div>
           </div>
-          <div className="thumb-cell grid w-20 shrink-0 place-items-center">
+          <div className="thumb-cell flex w-20 shrink-0 flex-col items-center justify-center gap-1 px-1">
             <PickButton race={race.id} cand={c.id} name={c.name} />
+            <span aria-hidden className="text-center text-[0.7rem] leading-tight text-muted">Mark as my pick</span>
           </div>
         </div>
         <p className="px-5 py-3 text-sm">
