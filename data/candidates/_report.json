@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-06T08:17:37Z",
+ "generated_at": "2026-11-06T08:21:36Z",
  "offices": {
   "presidential": {
    "documents": 1,
@@ -7,13 +7,13 @@
    "failed": []
   },
   "senate": {
-   "documents": 37,
+   "documents": 38,
    "rows": 1303,
    "failed": []
   },
   "reps": {
-   "documents": 36,
-   "rows": 3477,
+   "documents": 37,
+   "rows": 3569,
    "failed": []
   },
   "governorship": {
