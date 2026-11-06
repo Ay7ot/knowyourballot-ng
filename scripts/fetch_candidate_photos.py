@@ -229,7 +229,9 @@ def main():
             print(f"ERR  {pid}: {e}")
             continue
         store["checked"][pid] = today.isoformat()
-        time.sleep(0.3)
+        if (stats["ok"] + stats["miss"]) % 100 == 0:
+            path.write_text(json.dumps(store, indent=1) + "\n")  # keep progress if the job times out
+        time.sleep(0.2)
     store["photos"] = dict(sorted(store["photos"].items()))
     store["checked"] = dict(sorted(store["checked"].items()))
     path.write_text(json.dumps(store, indent=1) + "\n")
