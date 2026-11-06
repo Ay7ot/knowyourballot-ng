@@ -7,6 +7,7 @@ import { gutter } from "@/lib/gutter";
 
 const NAV = [
   { href: "/", label: "Find my ballot", note: "Search by polling unit, LGA, ward or name" },
+  { href: "/who-decides", label: "Who decides", note: "Fuel, naira, roads, schools: which office controls what" },
   { href: "/guide", label: "Voting day", note: "What to bring and how voting works" },
   { href: "/state", label: "States", note: "Browse all 36 states and the FCT" },
   { href: "/data", label: "Sources", note: "Where the data comes from, and corrections" },

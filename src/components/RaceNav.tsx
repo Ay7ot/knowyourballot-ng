@@ -15,20 +15,25 @@ export default function RaceNav({ races }: { races: NavRace[] }) {
   const strip = useRef<HTMLOListElement>(null);
 
   useEffect(() => {
-    const els = races.map((r) => document.getElementById(r.id)).filter(Boolean) as HTMLElement[];
-    if (!els.length) return;
-    const seen = new Map<string, boolean>();
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) seen.set(e.target.id, e.isIntersecting);
-        const first = els.find((el) => seen.get(el.id));
-        if (first) setActive(first.id);
-      },
-      // A band across the upper part of the screen, below the sticky bars.
-      { rootMargin: "-120px 0px -55% 0px" },
-    );
-    els.forEach((el) => io.observe(el));
-    return () => io.disconnect();
+    // The active race is the last one whose top has scrolled up past the sticky bars.
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      let cur: string | null = null;
+      for (const r of races) {
+        const el = document.getElementById(r.id);
+        if (!el || el.offsetParent === null) continue;
+        if (el.getBoundingClientRect().top <= 160) cur = r.id;
+      }
+      setActive(cur);
+    };
+    const onScroll = () => (raf ||= requestAnimationFrame(update));
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(raf);
+    };
   }, [races]);
 
   // Keep the active chip in view inside the strip without moving the page.

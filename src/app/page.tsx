@@ -93,6 +93,13 @@ export default function Home() {
         <p className="mt-3 text-xs text-muted">
           Dates from INEC&apos;s revised 2027 timetable. Governorship polls in Anambra, Bayelsa, Edo, Ekiti, Imo, Kogi, Ondo and Osun run on their own calendar. The FCT has no governor or state assembly.
         </p>
+        <Link prefetch={false} href="/who-decides" className="mt-6 flex items-center justify-between gap-4 rounded-md border-2 border-green bg-green-soft px-5 py-4 hover:bg-green-soft/70">
+          <span>
+            <span className="display-tight block text-lg">Who controls fuel prices? Your roads? Your school?</span>
+            <span className="block text-sm text-muted">See which office decides what before you choose who to vote for.</span>
+          </span>
+          <span aria-hidden className="text-2xl text-green">→</span>
+        </Link>
       </section>
 
       <section className="border-y border-rule bg-sheet">

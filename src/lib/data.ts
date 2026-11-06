@@ -1,4 +1,5 @@
 import "server-only";
+import { GLOSSARY, ISSUES } from "./civics";
 import geoJson from "@data/geo.json";
 import ballotJson from "@data/ballot.json";
 import partiesJson from "@data/parties.json";
@@ -252,6 +253,11 @@ export function quickEntries(): QuickEntry[] {
   };
   for (const t of PLATFORMS.topics)
     out.push({ g: "Topic", n: `Promises on ${t.toLowerCase()}`, x: "What the presidential candidates say, with sources", h: `/promises#topic-${t.toLowerCase().replace(/\W+/g, "-")}`, k: `${t.toLowerCase()} ${TOPIC_WORDS[t] ?? ""}` });
+  out.push({ g: "Help", n: "Who decides what", x: "Which office controls fuel, the naira, roads, schools, hospitals and security", h: "/who-decides", k: "who decides controls responsible power powers federal state local government lga chairman job duties role constitution blame" });
+  for (const i of ISSUES)
+    out.push({ g: "Help", n: `Who controls ${i.issue.toLowerCase()}?`, x: `${i.who}.`, h: `/who-decides#issue-${i.id}`, k: `${i.words} who controls responsible decide` });
+  for (const t of GLOSSARY)
+    out.push({ g: "Help", n: t.term === t.term.toUpperCase() ? `What is ${t.term}?` : `What does “${t.term.toLowerCase()}” mean?`, x: t.short, h: `/who-decides#${t.id}`, k: `${t.term.toLowerCase()} ${t.words ?? ""} meaning mean definition` });
   for (const [code, name] of Object.entries(ALL_PARTIES)) {
     const c = presCands.find((p) => p.party === code);
     out.push({

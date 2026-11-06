@@ -4,6 +4,10 @@ import { candidatesOf, ELECTIONS, LEVEL_SHORT, OFFICE_INFO, OFFICE_LABEL, partyL
 import PartyMark from "./PartyMark";
 import { CompareToggle, PickButton } from "./picks";
 import RaceFilter from "./RaceFilter";
+import Term from "./Term";
+import { OFFICE_POWER } from "@/lib/civics";
+
+const SUB_TERM: Partial<Record<Office, string>> = { senate: "senatorial-district", rep: "federal-constituency", assembly: "state-constituency" };
 
 const fmtDay = (iso: string) => new Date(`${iso}T12:00:00Z`).toLocaleDateString("en-NG", { weekday: "short", day: "numeric", month: "short" });
 export const electionFor = (o: Office) => ELECTIONS.find((e) => e.offices.includes(o))!;
@@ -52,8 +56,16 @@ export default function RaceSheet({ race, title, sub, showInfo = true, collapsed
         <H id={`${scope}-h`} tabIndex={-1} className={`display-tight mt-1 outline-none ${main ? "text-3xl sm:text-4xl" : "text-2xl"}`}>
           {title ?? race.name}
         </H>
-        {sub && <p className="mt-0.5 text-sm text-muted">{sub}</p>}
-        {showInfo && <p className="mt-2 max-w-[62ch] text-[0.95rem]">{info.what}</p>}
+        {sub && <p className="mt-0.5 text-sm text-muted">{SUB_TERM[race.office] ? <Term id={SUB_TERM[race.office]!}>{sub}</Term> : sub}</p>}
+        {showInfo && (
+          <p className="mt-2 max-w-[62ch] text-[0.95rem]">
+            <span className="label mr-1.5 text-[0.65rem] text-green">Can change</span>
+            {OFFICE_POWER[race.office].can}{" "}
+            <Link prefetch={false} href={`/who-decides#office-${race.office}`} className="whitespace-nowrap text-sm text-muted underline hover:text-ink">
+              and what they can&apos;t
+            </Link>
+          </p>
+        )}
         <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
           <p className="text-sm text-muted">
             <span className="tabular font-semibold text-ink">{cands.length}</span> candidates · tap the thumbprint to mark your pick
