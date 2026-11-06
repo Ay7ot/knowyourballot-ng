@@ -51,6 +51,20 @@ export default function BallotTray({
     if (cmp.length === 0) setOpen(false);
   }, [cmp.length]);
 
+  // Jump to the first race still unmarked that's showing (split LGAs hide the other Reps race).
+  function goNext() {
+    for (const r of races) {
+      if (picks[r.id]) continue;
+      const el = document.getElementById(r.id);
+      if (el && el.offsetParent !== null) {
+        el.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+        el.querySelector<HTMLElement>("h1, h2, h3")?.focus({ preventScroll: true });
+        return;
+      }
+    }
+    document.getElementById("my-ballot")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
   const rows: [string, (c: TrayCandidate) => React.ReactNode][] = [
     ["Party", (c) => c.partyName ?? c.party],
     ["Race", (c) => c.raceLabel],
@@ -65,7 +79,7 @@ export default function BallotTray({
     <>
       <div className="no-print sticky bottom-0 z-20 mt-10 border-t border-rule bg-sheet/95 backdrop-blur" style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}>
         <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3 py-3" style={{ paddingLeft: "max(16px, env(safe-area-inset-left, 0px))", paddingRight: "max(16px, env(safe-area-inset-right, 0px))" }}>
-          <a href="#my-ballot" className="flex items-center gap-2 text-sm">
+          <a href="#my-ballot" className="flex min-h-10 items-center gap-2 text-sm">
             <Thumbprint className={`h-7 w-7 ${marked ? "text-violet" : "text-muted"}`} />
             <span>
               <strong className="tabular">{marked}</strong> of <span className="tabular">{races.length}</span> races marked
@@ -81,7 +95,16 @@ export default function BallotTray({
               </button>
             </div>
           ) : (
-            <span className="text-sm text-muted">Tick “Compare” on up to 3 candidates</span>
+            <div className="flex items-center gap-3">
+              <span className={`text-sm text-muted ${races.length > 1 ? "hidden md:inline" : ""}`}>Tick “Compare” on up to 3 candidates</span>
+              {races.length < 2 ? null : marked < races.length ? (
+                <button type="button" onClick={goNext} className="h-10 rounded-md border-2 border-green px-3 text-sm font-semibold text-green hover:bg-green-soft">
+                  {marked ? "Next unmarked race" : "Start marking"} <span aria-hidden>↓</span>
+                </button>
+              ) : (
+                <a href="#my-ballot" className="inline-flex h-10 items-center rounded-md bg-violet px-3 text-sm font-semibold text-white">See my ballot</a>
+              )}
+            </div>
           )}
         </div>
       </div>
@@ -111,7 +134,7 @@ export default function BallotTray({
                       )}
                       <PartyMark code={c.party} logo={c.logo} name={c.partyName} />
                     </div>
-                    <Link href={`/candidate/${c.id}`} className="mt-2 block text-base font-semibold hover:underline">{c.name}</Link>
+                    <Link prefetch={false} href={`/candidate/${c.id}`} className="mt-2 block text-base font-semibold hover:underline">{c.name}</Link>
                     <button type="button" onClick={() => toggleCompare(c.id)} className="mt-1 text-xs text-muted underline">Remove</button>
                   </th>
                 ))}

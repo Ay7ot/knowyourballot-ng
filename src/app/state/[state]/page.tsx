@@ -25,7 +25,7 @@ function DistrictList({ title, items }: { title: string; items: { href: string; 
       <ul className="divide-y divide-rule">
         {items.map((d) => (
           <li key={d.href}>
-            <Link href={d.href} className="group grid grid-cols-[1fr_auto] gap-x-3 py-3">
+            <Link prefetch={false} href={d.href} className="group grid grid-cols-[1fr_auto] gap-x-3 py-3">
               <span className="font-semibold group-hover:underline">{d.name}</span>
               <span className="mono text-sm text-muted">{d.count ?? "–"}</span>
               <span className="col-span-2 line-clamp-2 text-sm text-muted">{d.lgas}</span>
@@ -72,7 +72,7 @@ export default async function StatePage({ params }: { params: Promise<{ state: s
           <ul className="mt-4 grid grid-cols-2 gap-x-6 sm:grid-cols-3 lg:grid-cols-4">
             {lgas.map((l) => (
               <li key={l.id} className="border-b border-rule">
-                <Link href={lgaHref(l)} className="flex items-center justify-between gap-2 py-2.5 hover:text-green">
+                <Link prefetch={false} href={lgaHref(l)} className="flex items-center justify-between gap-2 py-2.5 hover:text-green">
                   <span className="truncate">{l.name}</span>
                   <span aria-hidden className="text-muted">→</span>
                 </Link>
@@ -117,7 +117,7 @@ export default async function StatePage({ params }: { params: Promise<{ state: s
               <ul className="grid gap-x-6 sm:grid-cols-2 lg:grid-cols-3">
                 {sha.map((a) => (
                   <li key={a.id} className="border-b border-rule">
-                    <Link href={`/race/sha--${a.id}`} className="flex justify-between gap-3 py-2.5 hover:text-green">
+                    <Link prefetch={false} href={`/race/sha--${a.id}`} className="flex justify-between gap-3 py-2.5 hover:text-green">
                       <span className="min-w-0 truncate">{a.name}</span>
                       <span className="mono text-sm text-muted">{count(`sha--${a.id}`)}</span>
                     </Link>

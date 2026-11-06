@@ -52,7 +52,7 @@ function Facts({ p }: { p: Person }) {
       p.level ? (
         <>
           {LEVEL_LABEL[p.level]}
-          <span className="block text-xs text-muted">Our reading of INEC&apos;s text below. <Link href="/guide#qualifications" className="underline">What the letters mean</Link></span>
+          <span className="block text-xs text-muted">Our reading of INEC&apos;s text below. <Link prefetch={false} href="/guide#qualifications" className="underline">What the letters mean</Link></span>
         </>
       ) : null,
     ],
@@ -106,7 +106,7 @@ export default async function CandidatePage({ params }: { params: Promise<{ id: 
           </div>
         </div>
         <p className="px-5 py-3 text-sm">
-          Running for <Link href={`/race/${race.id}`} className="font-medium underline">{raceTitle}</Link>
+          Running for <Link prefetch={false} href={`/race/${race.id}`} className="font-medium underline">{raceTitle}</Link>
           {st && c.office !== "governor" ? `, ${st.short}` : ""} on <span className="mono">{day}</span>.{" "}
           <span className="text-muted">{OFFICE_INFO[c.office].what}</span>
         </p>
@@ -123,7 +123,7 @@ export default async function CandidatePage({ params }: { params: Promise<{ id: 
       <section className="sheet mt-6 overflow-hidden" aria-labelledby="promise-h">
         <div className="sheet-band flex flex-wrap items-baseline justify-between gap-2 px-5 pb-3 pt-4">
           <h2 id="promise-h" className="font-semibold">What they promise</h2>
-          <Link href={c.office === "president" ? "/promises" : `/race/${race.id}#promises`} className="text-sm text-green underline">
+          <Link prefetch={false} href={c.office === "president" ? "/promises" : `/race/${race.id}#promises`} className="text-sm text-green underline">
             Compare everyone in this race
           </Link>
         </div>

@@ -19,7 +19,7 @@ export default function RacePromises({ cands }: { cands: Candidate[] }) {
             <li key={c.id} className="flex gap-4 px-5 py-4">
               <PartyMark code={c.party} logo={partyLogo(c.party)} name={partyName(c.party)} size="sm" />
               <div className="min-w-0">
-                <Link href={`/candidate/${c.id}`} className="font-semibold hover:underline">{c.name}</Link>
+                <Link prefetch={false} href={`/candidate/${c.id}`} className="font-semibold hover:underline">{c.name}</Link>
                 {!platformFor(c.id) && <p className="text-xs text-muted">No personal manifesto found. Showing their party&apos;s platform.</p>}
                 <div className="mt-1"><PlatformStatus p={src(c)} /></div>
               </div>

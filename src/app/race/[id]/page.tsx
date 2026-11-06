@@ -85,7 +85,7 @@ export default async function RacePage({ params }: { params: Promise<{ id: strin
               return (
                 <span key={id}>
                   {i > 0 && ", "}
-                  <Link className="underline decoration-rule underline-offset-2 hover:decoration-ink" href={lgaHref(l)}>{l.name}</Link>
+                  <Link prefetch={false} className="underline decoration-rule underline-offset-2 hover:decoration-ink" href={lgaHref(l)}>{l.name}</Link>
                 </span>
               );
             })}
@@ -100,7 +100,7 @@ export default async function RacePage({ params }: { params: Promise<{ id: strin
           </section>
         )}
         {race.id === "president" && (
-          <Link href="/promises" className="mt-4 flex items-center justify-between gap-3 rounded-md border-2 border-ink bg-sheet px-4 py-3 font-semibold hover:bg-green-soft">
+          <Link prefetch={false} href="/promises" className="mt-4 flex items-center justify-between gap-3 rounded-md border-2 border-ink bg-sheet px-4 py-3 font-semibold hover:bg-green-soft">
             Compare what the candidates promise, topic by topic <span aria-hidden>→</span>
           </Link>
         )}

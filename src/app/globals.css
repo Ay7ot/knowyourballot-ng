@@ -1,8 +1,4 @@
 @import "tailwindcss";
-@import "@fontsource-variable/archivo/wdth.css";
-@import "@fontsource-variable/atkinson-hyperlegible-next/index.css";
-@import "@fontsource/ibm-plex-mono/400.css";
-@import "@fontsource/ibm-plex-mono/500.css";
 
 /*
   Layout concept: the voter's own ballot paper. Each race is a printed sheet with a
@@ -25,9 +21,9 @@
   --amber-soft: #fbefd6;
   --amber-ink: #6e4600;
 
-  --font-display: "Archivo Variable", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
-  --font-body: "Atkinson Hyperlegible Next Variable", "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --font-display: var(--font-archivo), "Arial Narrow", Arial, sans-serif;
+  --font-body: var(--font-atkinson), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: var(--font-plex), ui-monospace, "SFMono-Regular", Menlo, monospace;
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
@@ -63,7 +59,7 @@
   --font-mono: var(--font-mono);
 }
 
-html { -webkit-text-size-adjust: 100%; scroll-padding-top: 5rem; }
+html { -webkit-text-size-adjust: 100%; }
 body {
   background: var(--paper);
   color: var(--ink);

@@ -10,6 +10,7 @@ import ShareButton from "@/components/ShareButton";
 import BallotTray from "@/components/BallotTray";
 import MyBallot, { BallotToc } from "@/components/MyBallot";
 import VotingDay from "@/components/VotingDay";
+import RaceNav from "@/components/RaceNav";
 import { ResetCompareOnMount } from "@/components/picks";
 import { Crumbs } from "@/components/ui";
 import { gutter } from "@/lib/gutter";
@@ -51,6 +52,13 @@ export default async function LgaBallot({ params }: { params: Promise<{ state: s
 
   const dateOf = (o: Office) => ELECTIONS.find((e) => e.offices.includes(o))!.date;
   const tocRaces = items.map((i) => ({ id: i.race.id, label: i.title, office: OFFICE_LABEL[i.office], date: new Date(`${dateOf(i.office)}T12:00:00Z`).toLocaleDateString("en-NG", { day: "numeric", month: "short" }), fed: i.fed }));
+  const multiSha = items.filter((i) => i.office === "assembly").length > 1;
+  const SHORT: Record<Office, string> = { president: "President", senate: "Senate", rep: "Reps", governor: "Governor", assembly: "Assembly" };
+  const navRaces = items.map((i) => ({
+    id: i.race.id,
+    fed: i.fed,
+    short: (i.office === "assembly" && multiSha) || (i.office === "rep" && split) ? `${SHORT[i.office]} · ${i.race.name}` : SHORT[i.office],
+  }));
   const tray = items.flatMap((i) => candidatesOf(i.race).map((c) => toTray(c, i.title)));
 
   const chips = [
@@ -100,9 +108,11 @@ export default async function LgaBallot({ params }: { params: Promise<{ state: s
         </div>
       </section>
 
+      <RaceNav races={navRaces} />
+
       <div className="mx-auto grid max-w-5xl grid-cols-1 gap-8 py-8 lg:grid-cols-[minmax(0,1fr)_17rem]" style={gutter}>
         <div className="min-w-0 space-y-10">
-          <section id="area" aria-labelledby="area-h" className="scroll-mt-24">
+          <section id="area" aria-labelledby="area-h" className="scroll-mt-32 lg:scroll-mt-24">
             <p className="label text-green">Step 1</p>
             <h2 id="area-h" className="display-tight mt-1 text-2xl">Check this is your area</h2>
             <p className="mt-1 max-w-[62ch] text-muted">
@@ -133,7 +143,7 @@ export default async function LgaBallot({ params }: { params: Promise<{ state: s
                     {s.office === "assembly" && s.contests.length === 0 && !s.note && (
                       <p className="sheet px-5 py-4 text-sm text-muted">
                         <strong className="text-ink">State House of Assembly.</strong> We couldn&apos;t match a state constituency to this LGA from INEC&apos;s list.{" "}
-                        <Link className="underline" href={`/state/${state.slug}#all-assembly`}>See every state constituency in {state.short}</Link>.
+                        <Link prefetch={false} className="underline" href={`/state/${state.slug}#all-assembly`}>See every state constituency in {state.short}</Link>.
                       </p>
                     )}
                     {s.contests.map((c) =>
@@ -162,7 +172,7 @@ export default async function LgaBallot({ params }: { params: Promise<{ state: s
             <p className="label text-muted">On this ballot</p>
             <BallotToc races={tocRaces} />
             <p className="border-t border-rule pt-3 text-xs text-muted">
-              Candidates are in INEC&apos;s order. <Link href="/data" className="underline">How we build this page</Link>
+              Candidates are in INEC&apos;s order. <Link prefetch={false} href="/data" className="underline">How we build this page</Link>
             </p>
           </div>
         </aside>

@@ -25,7 +25,7 @@ export default function States() {
             <ul className="divide-y divide-rule">
               {states.map((s) => (
                 <li key={s.code}>
-                  <Link href={`/state/${s.slug}`} className="flex items-baseline justify-between gap-3 py-2.5 hover:text-green">
+                  <Link prefetch={false} href={`/state/${s.slug}`} className="flex items-baseline justify-between gap-3 py-2.5 hover:text-green">
                     <span className="font-medium">{s.short}</span>
                     <span className="mono text-xs text-muted">
                       {lgasOf(s.code).length} LGAs{!s.governorship && s.slug !== "fct" ? " · off-cycle" : ""}

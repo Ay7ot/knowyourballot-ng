@@ -23,6 +23,7 @@ export default function PromisesPage() {
         manifesto we say so; where they haven&apos;t, we use pledges reported from their campaign. Checked {day(PLATFORMS.checked)}.
       </p>
 
+      <h2 className="sr-only">Pledges by topic</h2>
       <div className="mt-8"><RacePromises cands={cands} /></div>
     </div>
   );

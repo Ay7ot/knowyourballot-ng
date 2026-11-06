@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import Link from "next/link";
 import SiteHeader from "@/components/SiteHeader";
+import { archivo, atkinson, plexMono } from "./fonts";
 import "./globals.css";
 import { gutter } from "@/lib/gutter";
 
@@ -27,7 +28,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-NG">
+    <html lang="en-NG" className={`${archivo.variable} ${atkinson.variable} ${plexMono.variable}`}>
       <body className="flex min-h-dvh flex-col">
         <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-50 focus:rounded focus:bg-sheet focus:px-3 focus:py-2">
           Skip to content
@@ -49,7 +50,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <div className="space-y-2">
               <p className="label text-ink">Fix something</p>
               <p>
-                See a mistake? <Link className="underline" href="/data#corrections">Send a correction with a source</Link>. A person reviews every one.
+                See a mistake? <Link prefetch={false} className="underline" href="/data#corrections">Send a correction with a source</Link>. A person reviews every one.
               </p>
             </div>
           </div>

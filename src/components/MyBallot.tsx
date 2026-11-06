@@ -30,7 +30,7 @@ export default function MyBallot({ races, candidates }: { races: { id: string; l
   const byId = new Map(candidates.map((c) => [c.id, c]));
   const marked = races.filter((r) => picks[r.id]).length;
   return (
-    <section id="my-ballot" aria-labelledby="mb-h" className="sheet scroll-mt-24 overflow-hidden">
+    <section id="my-ballot" aria-labelledby="mb-h" className="sheet scroll-mt-32 lg:scroll-mt-24 overflow-hidden">
       <header className="sheet-band px-5 pb-4 pt-5">
         <p className="label text-violet">Step 3</p>
         <h2 id="mb-h" className="display-tight mt-1 text-2xl">Your marked ballot</h2>
@@ -50,7 +50,7 @@ export default function MyBallot({ races, candidates }: { races: { id: string; l
                 {c ? (
                   <p className="mt-1 flex items-center gap-3 font-semibold">
                     <PartyMark code={c.party} logo={c.logo} name={c.partyName} size="sm" />
-                    <Link href={`/candidate/${c.id}`} className="hover:underline">{c.name}</Link>
+                    <Link prefetch={false} href={`/candidate/${c.id}`} className="hover:underline">{c.name}</Link>
                   </p>
                 ) : (
                   <a href={`#${r.id}`} className="text-sm font-medium text-green hover:underline">Not marked yet, go to this race</a>

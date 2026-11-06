@@ -130,7 +130,7 @@ export default function Home() {
               <ul className="mt-1 grid grid-cols-2">
                 {states.map((st) => (
                   <li key={st.code}>
-                    <Link href={`/state/${st.slug}`} className="block rounded px-1 py-1.5 hover:bg-green-soft hover:text-green">
+                    <Link prefetch={false} href={`/state/${st.slug}`} className="block rounded px-1 py-1.5 hover:bg-green-soft hover:text-green">
                       {st.short}
                     </Link>
                   </li>

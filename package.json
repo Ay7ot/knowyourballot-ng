@@ -26,5 +26,13 @@
     "@types/react-dom": "^19.1.9",
     "tailwindcss": "^4.1.13",
     "typescript": "^5.9.3"
-  }
+  },
+  "browserslist": [
+    "chrome >= 100",
+    "edge >= 100",
+    "firefox >= 100",
+    "safari >= 15.4",
+    "ios_saf >= 15.4",
+    "samsung >= 20"
+  ]
 }

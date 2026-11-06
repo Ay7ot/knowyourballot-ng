@@ -15,7 +15,7 @@ function CandidateLine({ c, raceId }: { c: Candidate; raceId: string }) {
       <div className="flex min-w-0 flex-1 items-center gap-3 py-3 pl-4 pr-3 sm:gap-4">
         <PartyMark code={c.party} logo={partyLogo(c.party)} name={partyName(c.party)} />
         <div className="min-w-0 flex-1">
-          <Link href={`/candidate/${c.id}`} className="block font-semibold leading-snug hover:underline">
+          <Link prefetch={false} href={`/candidate/${c.id}`} className="block font-semibold leading-snug hover:underline">
             {c.name}
           </Link>
           <p className="truncate text-sm text-muted">
@@ -43,13 +43,13 @@ export default function RaceSheet({ race, title, sub, showInfo = true, collapsed
   const H = main ? "h1" : "h3";
   const scope = `race-${race.id.replace(/[^a-z0-9]/gi, "")}`;
   return (
-    <section id={race.id} aria-labelledby={`${scope}-h`} className="sheet overflow-hidden scroll-mt-24" data-scope={scope}>
+    <section id={race.id} aria-labelledby={`${scope}-h`} className="sheet overflow-hidden scroll-mt-32 lg:scroll-mt-24" data-scope={scope}>
       <header className="sheet-band px-4 pb-4 pt-4 sm:px-5">
         <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
           <p className="label text-green">{OFFICE_LABEL[race.office]}</p>
           <p className="mono text-xs text-muted">{fmtDay(e.date)}</p>
         </div>
-        <H id={`${scope}-h`} className={`display-tight mt-1 ${main ? "text-3xl sm:text-4xl" : "text-2xl"}`}>
+        <H id={`${scope}-h`} tabIndex={-1} className={`display-tight mt-1 outline-none ${main ? "text-3xl sm:text-4xl" : "text-2xl"}`}>
           {title ?? race.name}
         </H>
         {sub && <p className="mt-0.5 text-sm text-muted">{sub}</p>}
@@ -60,7 +60,7 @@ export default function RaceSheet({ race, title, sub, showInfo = true, collapsed
           </p>
           <div className="flex flex-wrap items-center gap-3">
             {!main && (
-              <Link href={race.id === "president" ? "/promises" : `/race/${race.id}#promises`} className="text-sm font-medium text-green underline">
+              <Link prefetch={false} href={race.id === "president" ? "/promises" : `/race/${race.id}#promises`} className="text-sm font-medium text-green underline">
                 What they promise
               </Link>
             )}

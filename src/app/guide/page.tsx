@@ -47,18 +47,18 @@ export default function Guide() {
                 <p className="label text-green">{e.label}</p>
                 <p className="display-tight mt-1 text-xl">{fmt(e.date)}</p>
               </header>
-              <dl className="divide-y divide-rule">
+              <ul className="divide-y divide-rule">
                 {e.offices.map((o) => (
-                  <div key={o} className="grid grid-cols-[auto_1fr] gap-4 px-5 py-4">
+                  <li key={o} className="grid grid-cols-[auto_1fr] gap-4 px-5 py-4">
                     <Thumbprint className="mt-0.5 h-6 w-6 text-violet/70" />
                     <div>
-                      <dt className="font-semibold">{OFFICE_LABEL[o]}</dt>
-                      <dd className="mt-0.5 text-sm text-muted">{OFFICE_INFO[o].what}</dd>
-                      <dd className="mono mt-1 text-xs text-muted">{OFFICE_INFO[o].term} · {OFFICE_INFO[o].seats}</dd>
+                      <h3 className="font-semibold">{OFFICE_LABEL[o]}</h3>
+                      <p className="mt-0.5 text-sm text-muted">{OFFICE_INFO[o].what}</p>
+                      <p className="mono mt-1 text-xs text-muted">{OFFICE_INFO[o].term} · {OFFICE_INFO[o].seats}</p>
                     </div>
-                  </div>
+                  </li>
                 ))}
-              </dl>
+              </ul>
             </article>
           ))}
         </div>
@@ -112,7 +112,7 @@ export default function Guide() {
           ))}
         </ol>
         <p className="mt-6">
-          <Link href="/" className="inline-flex h-12 items-center rounded-md bg-green px-5 font-semibold text-green-ink">Find your ballot</Link>
+          <Link prefetch={false} href="/" className="inline-flex h-12 items-center rounded-md bg-green px-5 font-semibold text-green-ink">Find your ballot</Link>
         </p>
       </section>
     </div>

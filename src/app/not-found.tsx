@@ -9,7 +9,7 @@ export default function NotFound() {
       <h1 className="display mt-2 text-4xl">That page isn&apos;t on the ballot</h1>
       <p className="mt-2 text-muted">Search for your polling unit code, LGA, ward or a candidate instead.</p>
       <div className="mt-6"><FindBallot /></div>
-      <p className="mt-6"><Link className="underline" href="/">Back to home</Link></p>
+      <p className="mt-6"><Link prefetch={false} className="underline" href="/">Back to home</Link></p>
     </div>
   );
 }

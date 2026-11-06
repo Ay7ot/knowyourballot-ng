@@ -34,7 +34,7 @@ export default function VotingDay({ compact = false }: { compact?: boolean }) {
         {compact && (
           <>
             {" "}
-            <Link href="/guide" className="underline">Full voting-day guide</Link>
+            <Link prefetch={false} href="/guide" className="underline">Full voting-day guide</Link>
           </>
         )}
       </p>

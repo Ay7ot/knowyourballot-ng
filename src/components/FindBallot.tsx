@@ -51,6 +51,8 @@ export default function FindBallot({ autoFocus = false }: { autoFocus?: boolean 
   const [locating, setLocating] = useState(false);
   const [near, setNear] = useState<LgaPoint[] | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  // Autofocus shouldn't pull the (large) search index before the voter shows intent.
+  const autoFocused = useRef(false);
 
   const warm = useCallback(() => {
     if (fuse || loading) return;
@@ -62,7 +64,10 @@ export default function FindBallot({ autoFocus = false }: { autoFocus?: boolean 
   }, [fuse, loading]);
 
   useEffect(() => {
-    if (autoFocus && window.matchMedia("(min-width: 768px)").matches) inputRef.current?.focus();
+    if (autoFocus && window.matchMedia("(min-width: 768px)").matches) {
+      autoFocused.current = true;
+      inputRef.current?.focus();
+    }
   }, [autoFocus]);
 
   const pu = PU_RE.exec(q);
@@ -170,9 +175,11 @@ export default function FindBallot({ autoFocus = false }: { autoFocus?: boolean 
           className="w-full h-14 rounded-md border-2 border-ink bg-sheet pl-12 pr-4 text-[1.05rem] outline-none placeholder:text-muted focus:border-green focus:ring-4 focus:ring-green/20"
           value={q}
           onFocus={() => {
-            warm();
+            if (autoFocused.current) autoFocused.current = false;
+            else warm();
             setOpen(true);
           }}
+          onPointerDown={warm}
           onChange={(e) => {
             setQ(e.target.value);
             setActive(0);
