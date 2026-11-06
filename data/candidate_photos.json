@@ -165,17 +165,6 @@
    "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
    "artist": "Gwanki"
   },
-  "gov--sokoto--nrm--mate": {
-   "file": "/candidates/gov--sokoto--nrm--mate.webp",
-   "name": "Abdullahi Sani",
-   "wikidata": "Q60774837",
-   "wikidataLabel": "Sani Musa Danja",
-   "evidence": "born 1973, INEC age 52",
-   "commons": "https://commons.wikimedia.org/wiki/File:Sani_Musa_Danja.jpg",
-   "license": "CC BY 3.0",
-   "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
-   "artist": "globacomlimited"
-  },
   "gov--zamfara--apc": {
    "file": "/candidates/gov--zamfara--apc.webp",
    "name": "Lawal Dauda",
@@ -1265,7 +1254,6 @@
   "gov--sokoto--nnpp": "2026-11-06",
   "gov--sokoto--nnpp--mate": "2026-11-06",
   "gov--sokoto--nrm": "2026-11-06",
-  "gov--sokoto--nrm--mate": "2026-11-06",
   "gov--sokoto--pdp": "2026-11-06",
   "gov--sokoto--pdp--mate": "2026-11-06",
   "gov--sokoto--prp": "2026-11-06",

@@ -6,7 +6,9 @@ A Wikidata person is accepted for a candidate only if ALL of these hold:
   3. EITHER their date of birth (P569) gives an age within 1 year of the age INEC printed,
      OR (no birth date on Wikidata) one of their parties (P102) is the candidate's party;
   4. exactly one Wikidata person passes 1-3 (ambiguous names are skipped);
-  5. the image (P18) on Commons carries a free licence (CC0, public domain, CC BY, CC BY-SA).
+  5. the image (P18) on Commons carries a free licence (CC0, public domain, CC BY, CC BY-SA);
+  6. a person has not rejected the match after review (data/photo_rejects.json).
+Two-word INEC names must match the person's main Wikidata label, not just an alias.
 Accepted photos go to public/candidates/{id}.webp with the author, licence and evidence in
 data/candidate_photos.json, which the site shows as a credit line.
 """
@@ -96,6 +98,9 @@ def find_person(name: str, age: int | None, party: str, party_full: str | None) 
         overlap = max((len(words & toks(n)) for n in names), default=0)
         if overlap < 2:
             continue
+        # a two-word name like "Abdullahi Sani" is common: require both words in the person's main label
+        if len(words) == 2 and not words <= toks(label):
+            continue
         by = birth_year(e)
         evidence = None
         if by and age:
@@ -142,6 +147,7 @@ def main():
     out_dir = ROOT / "public" / "candidates"
     out_dir.mkdir(parents=True, exist_ok=True)
     today = date.today()
+    rejects = json.loads((ROOT / "data" / "photo_rejects.json").read_text()) if (ROOT / "data" / "photo_rejects.json").exists() else {}
     people = []
     for c in ballot["candidates"]:
         if c["office"] not in OFFICES:
@@ -158,6 +164,10 @@ def main():
         store["checked"].pop(pid, None)
     stats = {"ok": 0, "skip": 0, "miss": 0}
     for pid, name, age, party in people:
+        if any(r.get("name") == name for r in rejects.get(pid, [])):
+            store["photos"].pop(pid, None)
+            (out_dir / f"{pid}.webp").unlink(missing_ok=True)
+            continue
         last = store["checked"].get(pid)
         if pid in store["photos"] or (last and (today - date.fromisoformat(last)).days < RECHECK_DAYS):
             stats["skip"] += 1
