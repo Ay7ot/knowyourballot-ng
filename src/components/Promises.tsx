@@ -1,6 +1,10 @@
 import { PLATFORMS, type Platform } from "@/lib/data";
+import { manifestoUrl } from "@/lib/site";
 
-const day = (iso: string) => new Date(`${iso}T12:00:00Z`).toLocaleDateString("en-NG", { day: "numeric", month: "short", year: "numeric" });
+export const day = (iso: string) =>
+  iso.length === 7
+    ? new Date(`${iso}-15T12:00:00Z`).toLocaleDateString("en-NG", { month: "short", year: "numeric" })
+    : new Date(`${iso}T12:00:00Z`).toLocaleDateString("en-NG", { day: "numeric", month: "short", year: "numeric" });
 
 /** Numbered source links for a pledge, like footnotes. */
 export function Cites({ ids }: { ids: string[] }) {
@@ -18,11 +22,11 @@ export function Cites({ ids }: { ids: string[] }) {
   );
 }
 
-export function PlatformStatus({ p }: { p: Platform | null }) {
+export function PlatformStatus({ p, who = "this candidate" }: { p: Platform | null; who?: string }) {
   if (!p)
     return (
       <p className="text-sm text-muted">
-        We haven&apos;t found a published manifesto or reported pledges for this candidate as of {day(PLATFORMS.checked)}.
+        We haven&apos;t found a published manifesto or reported pledges for {who} as of {day(PLATFORMS.checked)}.
       </p>
     );
   return (
@@ -51,11 +55,11 @@ export function PlatformStatus({ p }: { p: Platform | null }) {
 }
 
 /** A candidate's pledges grouped by topic, each with its source. */
-export default function Promises({ p }: { p: Platform | null }) {
+export default function Promises({ p, who }: { p: Platform | null; who?: string }) {
   const topics = p ? PLATFORMS.topics.filter((t) => p.pledges.some((x) => x.topic === t)) : [];
   return (
     <div className="space-y-4">
-      <PlatformStatus p={p} />
+      <PlatformStatus p={p} who={who} />
       {topics.length > 0 && (
         <dl className="divide-y divide-rule border-y border-rule">
           {topics.map((t) => (
@@ -73,6 +77,25 @@ export default function Promises({ p }: { p: Platform | null }) {
           ))}
         </dl>
       )}
+    </div>
+  );
+}
+
+/** The candidate's own promises, then their party's platform, then a way for campaigns to send theirs. */
+export function CandidatePromises({ p, party, partyFull, name, pageUrl }: { p: Platform | null; party: Platform | null; partyFull: string; name: string; pageUrl: string }) {
+  return (
+    <div className="space-y-5">
+      <Promises p={p} />
+      {party && (
+        <div className="rounded-md bg-paper p-4">
+          <p className="label text-[0.65rem] text-muted">Their party&apos;s platform: {partyFull}</p>
+          <div className="mt-2"><Promises p={party} /></div>
+        </div>
+      )}
+      <p className="text-xs text-muted">
+        Pledges are paraphrased neutrally from the linked reports; we don&apos;t judge whether a promise is realistic.{" "}
+        <a className="underline" href={manifestoUrl(name, pageUrl)}>Send us {p ? "more of" : ""} this candidate&apos;s manifesto</a>.
+      </p>
     </div>
   );
 }

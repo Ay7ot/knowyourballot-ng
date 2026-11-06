@@ -212,4 +212,5 @@ export type PlatformSource = { outlet: string; date: string; title: string; url:
 export type Pledge = { topic: string; text: string; src: string[] };
 export type Platform = { status: "manifesto" | "pledges"; title: string | null; unveiled: string | null; document: string | null; note: string; noteSrc?: string[]; pledges: Pledge[] };
 export const PLATFORMS = platformJson as unknown as { checked: string; topics: string[]; sources: Record<string, PlatformSource>; candidates: Record<string, Platform> };
-export const platformFor = (id: string): Platform | null => PLATFORMS.candidates[id] ?? null;
+export const platformFor = (id: string): Platform | null => (PLATFORMS.candidates as Record<string, Platform>)[id] ?? null;
+export const partyPlatform = (code: string): Platform | null => ((PLATFORMS as unknown as { parties?: Record<string, Platform> }).parties ?? {})[code] ?? null;

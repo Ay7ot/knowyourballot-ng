@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { ballot, getCandidate, getRace, getState, candidatePhoto, LEVEL_LABEL, OFFICE_INFO, OFFICE_LABEL, partyLogo, partyName, platformFor } from "@/lib/data";
-import Promises from "@/components/Promises";
+import { ballot, getCandidate, getRace, getState, candidatePhoto, LEVEL_LABEL, OFFICE_INFO, OFFICE_LABEL, partyLogo, partyName, partyPlatform, platformFor } from "@/lib/data";
+import { CandidatePromises } from "@/components/Promises";
 import type { Photo } from "@/lib/data";
 import PartyMark from "@/components/PartyMark";
 import type { Person } from "@/lib/types";
@@ -120,18 +120,17 @@ export default async function CandidatePage({ params }: { params: Promise<{ id: 
         )}
       </header>
 
-      {c.office === "president" && (
-        <section className="sheet mt-6 overflow-hidden" aria-labelledby="promise-h">
-          <div className="sheet-band flex flex-wrap items-baseline justify-between gap-2 px-5 pb-3 pt-4">
-            <h2 id="promise-h" className="font-semibold">What they promise</h2>
-            <Link href="/promises" className="text-sm text-green underline">Compare every candidate by topic</Link>
-          </div>
-          <div className="px-5 py-4">
-            <Promises p={platformFor(c.id)} />
-            <p className="mt-3 text-xs text-muted">Pledges are paraphrased neutrally from the linked reports. We don&apos;t judge whether a promise is realistic.</p>
-          </div>
-        </section>
-      )}
+      <section className="sheet mt-6 overflow-hidden" aria-labelledby="promise-h">
+        <div className="sheet-band flex flex-wrap items-baseline justify-between gap-2 px-5 pb-3 pt-4">
+          <h2 id="promise-h" className="font-semibold">What they promise</h2>
+          <Link href={c.office === "president" ? "/promises" : `/race/${race.id}#promises`} className="text-sm text-green underline">
+            Compare everyone in this race
+          </Link>
+        </div>
+        <div className="px-5 py-4">
+          <CandidatePromises p={platformFor(c.id)} party={partyPlatform(c.party)} partyFull={full ?? c.party} name={c.name} pageUrl={`/candidate/${c.id}`} />
+        </div>
+      </section>
 
       <section className="sheet mt-6 overflow-hidden" aria-labelledby="facts-h">
         <h2 id="facts-h" className="sheet-band px-5 pb-3 pt-4 font-semibold">As listed by INEC</h2>

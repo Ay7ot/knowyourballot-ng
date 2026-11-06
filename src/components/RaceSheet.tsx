@@ -58,7 +58,14 @@ export default function RaceSheet({ race, title, sub, showInfo = true, collapsed
           <p className="text-sm text-muted">
             <span className="tabular font-semibold text-ink">{cands.length}</span> candidates · tap the thumbprint to mark your pick
           </p>
-          {cands.length > 6 && <RaceFilter scope={scope} />}
+          <div className="flex flex-wrap items-center gap-3">
+            {!main && (
+              <Link href={race.id === "president" ? "/promises" : `/race/${race.id}#promises`} className="text-sm font-medium text-green underline">
+                What they promise
+              </Link>
+            )}
+            {cands.length > 6 && <RaceFilter scope={scope} />}
+          </div>
         </div>
       </header>
       {cands.length ? (

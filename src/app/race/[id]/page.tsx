@@ -5,6 +5,7 @@ import { ballot, candidatesOf, geo, getFederal, getLgaById, getRace, getSenatori
 import type { District, Office, Race } from "@/lib/types";
 import { Crumbs, Pending } from "@/components/ui";
 import RaceSheet from "@/components/RaceSheet";
+import RacePromises from "@/components/RacePromises";
 import BallotTray from "@/components/BallotTray";
 import { ResetCompareOnMount } from "@/components/picks";
 import { correctionUrl } from "@/lib/site";
@@ -91,6 +92,13 @@ export default async function RacePage({ params }: { params: Promise<{ id: strin
           </p>
         )}
 
+        {cands.length > 0 && race.id !== "president" && (
+          <section id="promises" className="mt-10 scroll-mt-24" aria-labelledby="promises-h">
+            <h2 id="promises-h" className="display-tight text-2xl">What they promise</h2>
+            <p className="mb-4 mt-1 text-sm text-muted">Every pledge links to its source. Where a candidate has no manifesto of their own we show their party&apos;s, and say so.</p>
+            <RacePromises cands={cands} />
+          </section>
+        )}
         {race.id === "president" && (
           <Link href="/promises" className="mt-4 flex items-center justify-between gap-3 rounded-md border-2 border-ink bg-sheet px-4 py-3 font-semibold hover:bg-green-soft">
             Compare what the candidates promise, topic by topic <span aria-hidden>→</span>
