@@ -12,7 +12,7 @@ Two-word INEC names must match the person's main Wikidata label, not just an ali
 Accepted photos go to public/candidates/{id}.webp with the author, licence and evidence in
 data/candidate_photos.json, which the site shows as a credit line.
 """
-import io, itertools, json, os, re, sys, time, unicodedata, urllib.parse, urllib.request
+import difflib, io, itertools, json, os, re, sys, time, unicodedata, urllib.error, urllib.parse, urllib.request
 from collections import Counter
 from datetime import date
 from pathlib import Path
@@ -25,7 +25,9 @@ ENWIKI = "https://en.wikipedia.org/w/api.php"
 RECHECK_ALL = os.environ.get("RECHECK") == "true"
 COMMONS = "https://commons.wikimedia.org/w/api.php"
 OFFICES = set((sys.argv[1] if len(sys.argv) > 1 else "president,governor,senate").split(","))
-AGE_REF = date(2026, 10, 1)  # INEC printed ages at nomination, autumn 2026
+AGE_REF = date(2026, 10, 1)
+# Reps and State Assembly have ~13,000 candidates, few of them on Wikidata: search the full name only, to keep within rate limits
+FAST = not (OFFICES & {"president", "governor", "senate"})  # INEC printed ages at nomination, autumn 2026
 RECHECK_DAYS = 14
 FREE = re.compile(r"^(cc0|cc[- ]by(-sa)?[- ]?\d|public domain|pd)", re.I)
 NONFREE = re.compile(r"\b(nc|nd)\b|non-?commercial|no ?deriv", re.I)
@@ -40,12 +42,19 @@ STOP = {"alhaji", "chief", "dr", "engr", "prof", "hon", "barr", "mrs", "mr", "se
 def api(base: str, **params) -> dict:
     params.setdefault("format", "json")
     url = f"{base}?{urllib.parse.urlencode(params)}"
-    for attempt in range(4):
+    for attempt in range(6):
         try:
+            time.sleep(0.4)  # stay well under Wikimedia's rate limits
             with urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": UA}), timeout=60) as r:
                 return json.load(r)
+        except urllib.error.HTTPError as e:
+            if attempt == 5:
+                raise
+            wait = int(e.headers.get("Retry-After") or 0) or (30 if e.code == 429 else 2 ** attempt * 2)
+            print(f"  retry in {wait}s: {e}")
+            time.sleep(wait)
         except Exception as e:  # noqa: BLE001
-            if attempt == 3:
+            if attempt == 5:
                 raise
             time.sleep(2 ** attempt * 2)
             print(f"  retry {e}")
@@ -90,55 +99,85 @@ def party_names(qids: list[str]) -> set[str]:
     return set().union(*(_party_labels.get(q, set()) for q in qids)) if qids else set()
 
 
-def find_person(name: str, age: int | None, party: str, party_full: str | None) -> tuple[dict | None, str]:
+def same_word(a: str, b: str) -> bool:
+    return a == b or (min(len(a), len(b)) >= 4 and difflib.SequenceMatcher(None, a, b).ratio() >= 0.8)
+
+
+def covered(name_words: set[str], inec: set[str]) -> int:
+    """How many of a Wikidata name's words appear (allowing spelling variants) in INEC's name; -1 if any word doesn't."""
+    hits = 0
+    for w in name_words:
+        if any(same_word(w, x) for x in inec):
+            hits += 1
+        else:
+            return -1
+    return hits
+
+
+_labels: dict[str, str] = {}
+
+
+def labels(qids: list[str]) -> list[str]:
+    need = [q for q in qids if q not in _labels]
+    for i in range(0, len(need), 50):
+        res = api(WD, action="wbgetentities", ids="|".join(need[i:i + 50]), props="labels", languages="en")
+        for q, e in res.get("entities", {}).items():
+            _labels[q] = e.get("labels", {}).get("en", {}).get("value", "")
+    return [_labels.get(q, "") for q in qids]
+
+
+def find_person(name: str, age: int | None, party: str, party_full: str | None, state: list[str] | None) -> tuple[dict | None, str]:
     words = toks(name)
     if len(words) < 2:
         return None, "name too short to match safely"
-    # INEC prints names in varying order and with extra middle names, so search the full name, then each pair of words
-    queries = [sorted(words)] + [list(p) for p in itertools.combinations(sorted(words), 2)] if len(words) > 2 else [sorted(words)]
-    ids: list[str] = []
-    for q in queries[:7]:
-        hits = api(WD, action="query", list="search", srlimit=6, srsearch=f"{' '.join(q)} haswbstatement:P31=Q5 haswbstatement:P27=Q1033")
-        ids += [h["title"] for h in hits.get("query", {}).get("search", []) if h["title"] not in ids]
-        if len(ids) >= 30:
-            break
-    ids = ids[:40]
-    if not ids:
-        return None, "no Nigerian person on Wikidata with this name"
-    ents = {}
-    for i in range(0, len(ids), 20):
-        ents.update(api(WD, action="wbgetentities", ids="|".join(ids[i:i + 20]), props="labels|aliases|claims|sitelinks", languages="en").get("entities", {}))
-    passing = []
-    for q, e in ents.items():
-        label = e.get("labels", {}).get("en", {}).get("value", "")
-        names = [label] + [a["value"] for a in e.get("aliases", {}).get("en", [])]
-        best = max((words & toks(n) for n in names), key=len, default=set())
-        if len(best) < 2 or best <= COMMON:
-            continue
-        # a two-word name like "Abdullahi Sani" is common: require both words in the person's main label
-        if len(words) == 2 and not words <= toks(label):
-            continue
-        by = birth_year(e)
-        evidence = None
-        if by and age:
-            wd_age = AGE_REF.year - by
-            if abs(wd_age - age) <= 1 or abs(wd_age - 1 - age) <= 1:
-                evidence = f"born {by}, INEC age {age}"
-            else:
+    # INEC prints names in varying order and with extra names: search the full name first, word pairs only if that finds no one
+    rounds = [[sorted(words)]]
+    if len(words) > 2 and not FAST:
+        rounds.append([list(p) for p in itertools.combinations(sorted(words), 2)][:6])
+    passing, seen, why = [], set(), "no Nigerian person on Wikidata with this name"
+    for queries in rounds:
+        ids: list[str] = []
+        for q in queries:
+            hits = api(WD, action="query", list="search", srlimit=5, srsearch=f"{' '.join(q)} haswbstatement:P31=Q5 haswbstatement:P27=Q1033")
+            ids += [h["title"] for h in hits.get("query", {}).get("search", []) if h["title"] not in ids and h["title"] not in seen]
+        seen |= set(ids)
+        ents = {}
+        for i in range(0, len(ids), 20):
+            ents.update(api(WD, action="wbgetentities", ids="|".join(ids[i:i + 20]), props="labels|aliases|descriptions|claims|sitelinks", languages="en").get("entities", {}))
+        for q, e in ents.items():
+            label = e.get("labels", {}).get("en", {}).get("value", "")
+            names = [label] + [a["value"] for a in e.get("aliases", {}).get("en", [])]
+            # every word of one of their Wikidata names must be in INEC's name, and at least two of them
+            best = max((covered(toks(n), words) for n in names), default=-1)
+            if best < 2:
+                why = "no verified match"
                 continue
-        else:
-            pn = party_names(claim_ids(e, "P102"))
-            if party.lower() in pn or (party_full and party_full.lower() in pn):
-                evidence = f"party on Wikidata matches {party}"
-        if evidence:
+            if best == 2 and {w for n in names for w in toks(n) if covered({w}, words) == 1} <= COMMON:
+                why = "no verified match"
+                continue
+            by = birth_year(e)
+            if not (by and age and (abs(AGE_REF.year - by - age) <= 1)):
+                why = "no verified match (birth year missing or different)"
+                continue
+            evidence = f"born {by}, INEC age {age}"
+            if state:
+                # they must also be tied to the candidate's state: in their description, birthplace or offices held
+                text = " ".join([e.get("descriptions", {}).get("en", {}).get("value", "")] + labels(claim_ids(e, "P19") + claim_ids(e, "P39") + claim_ids(e, "P551")))
+                hit = next((st for st in state if st.lower() in text.lower()), None)
+                if not hit:
+                    why = "no verified match (not linked to this state on Wikidata)"
+                    continue
+                evidence += f", linked to {hit}"
             passing.append((q, e, label, evidence))
+        if passing:
+            break
     if len(passing) > 1:
         # duplicate Wikidata items are common; prefer the single one that has an English Wikipedia article
         with_wiki = [p for p in passing if p[1].get("sitelinks", {}).get("enwiki")]
         if len(with_wiki) == 1:
             passing = with_wiki
     if len(passing) != 1:
-        return None, "no verified match" if not passing else f"ambiguous: {', '.join(p[0] for p in passing)}"
+        return None, why if not passing else f"ambiguous: {', '.join(p[0] for p in passing)}"
     q, e, label, evidence = passing[0]
     imgs = claim_ids(e, "P18")
     wiki = e.get("sitelinks", {}).get("enwiki", {}).get("title")
@@ -177,14 +216,19 @@ def main():
     out_dir.mkdir(parents=True, exist_ok=True)
     today = date.today()
     rejects = json.loads((ROOT / "data" / "photo_rejects.json").read_text()) if (ROOT / "data" / "photo_rejects.json").exists() else {}
+    geo = json.loads((ROOT / "data" / "geo.json").read_text())
+    st_names = {st["code"]: [st["short"], st["name"]] + (["Abuja", "Federal Capital Territory"] if st["slug"] == "fct" else []) for st in geo["states"]}
+    race_state = {r["id"]: r.get("state") for r in ballot["races"]}
+    confirms = json.loads((ROOT / "data" / "photo_confirms.json").read_text()) if (ROOT / "data" / "photo_confirms.json").exists() else {}
     people = []
     for c in ballot["candidates"]:
         if c["office"] not in OFFICES:
             continue
-        people.append((c["id"], c["name"], c["age"], c["party"]))
+        sn = st_names.get(race_state.get(c["race"]) or "", None)
+        people.append((c["id"], c["name"], c["age"], c["party"], sn))
         if c.get("runningMate"):
             m = c["runningMate"]
-            people.append((f"{c['id']}--mate", m["name"], m["age"], c["party"]))
+            people.append((f"{c['id']}--mate", m["name"], m["age"], c["party"], sn))
     live = {p[0]: p[1] for p in people}
     # drop photos whose slot left the ballot or now holds a different person (substitutions)
     for pid in [k for k, v in store["photos"].items() if live.get(k) != v["name"]]:
@@ -194,17 +238,21 @@ def main():
     stats = {"ok": 0, "skip": 0, "miss": 0}
     report_path = ROOT / "data" / "photo_report.json"
     report = json.loads(report_path.read_text()).get("misses", {}) if report_path.exists() else {}
-    for pid, name, age, party in people:
+    for pid, name, age, party, state in people:
         if any(r.get("name") == name for r in rejects.get(pid, [])):
             store["photos"].pop(pid, None)
             (out_dir / f"{pid}.webp").unlink(missing_ok=True)
             continue
         last = store["checked"].get(pid)
-        if pid in store["photos"] or (not RECHECK_ALL and last and (today - date.fromisoformat(last)).days < RECHECK_DAYS):
+        # a person reviewed and confirmed the match (e.g. against news reports): keep it as is
+        if pid in store["photos"] and store["photos"][pid].get("wikidata") == confirms.get(pid, {}).get("wikidata"):
+            stats["skip"] += 1
+            continue
+        if (pid in store["photos"] and not RECHECK_ALL) or (not RECHECK_ALL and last and (today - date.fromisoformat(last)).days < RECHECK_DAYS):
             stats["skip"] += 1
             continue
         try:
-            person, why = find_person(name, age, party, parties.get(party))
+            person, why = find_person(name, age, party, parties.get(party), state)
             photo = commons_photo(person["image"]) if person else None
             if person and not photo:
                 why = f"{person['qid']}: photo licence not free"
@@ -222,6 +270,10 @@ def main():
                 report.pop(pid, None)
                 print(f"OK   {pid}: {name} -> {person['qid']} {person['label']} ({person['evidence']})")
             else:
+                if pid in store["photos"]:
+                    (out_dir / f"{pid}.webp").unlink(missing_ok=True)
+                    store["photos"].pop(pid)
+                    print(f"DROP {pid}: no longer passes checks")
                 stats["miss"] += 1
                 report[pid] = re.sub(r"Q\d+ \([^)]*\) ", "", re.sub(r"ambiguous: .*", "ambiguous", re.sub(r"^Q\d+: ", "", why)))
                 print(f"--   {pid}: {name}: {why}")

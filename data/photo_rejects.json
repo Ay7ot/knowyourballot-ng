@@ -5,5 +5,54 @@
    "wikidata": "Q60774837",
    "reason": "Matched the actor Sani Musa Danja on an alias; no source shows he is this candidate. Reviewed 2026-11-06."
   }
+ ],
+ "gov--taraba--nnpp": [
+  {
+   "name": "Uba Sani Abdullahi",
+   "wikidata": "Q62604069",
+   "reason": "Matched Kaduna governor Uba Sani on name and age only. Reviewed 2026-11-06."
+  }
+ ],
+ "gov--sokoto--lp": [
+  {
+   "name": "Haliru Abubakar Dikko",
+   "wikidata": "Q21062971",
+   "reason": "Matched former police chief Mohammed Dikko Abubakar on name and age only. Reviewed 2026-11-06."
+  }
+ ],
+ "sen--jigawa--jigawa-north-west--adc": [
+  {
+   "name": "Ahmed Mahmud Gumel",
+   "wikidata": "Q8050511",
+   "reason": "Matched Yayale Ahmed on name and age only. Reviewed 2026-11-06."
+  }
+ ],
+ "sen--kogi--kogi-east--adc": [
+  {
+   "name": "Abubakar Aminu Suleiman",
+   "wikidata": "Q107987201",
+   "reason": "Matched the poet Aminu Ala on name and age only. Reviewed 2026-11-06."
+  }
+ ],
+ "sen--nasarawa--nasarawa-west--ndc": [
+  {
+   "name": "Adamu Auta Umar Farouk",
+   "wikidata": "Q20195461",
+   "reason": "Matched Sadiya Umar Farouq on name and age only. Reviewed 2026-11-06."
+  }
+ ],
+ "sen--niger--niger-east--ypp": [
+  {
+   "name": "Muhammad Zakariyya Adam",
+   "wikidata": "Q141952112",
+   "reason": "Matched cleric Albani Gombe on name and age only. Reviewed 2026-11-06."
+  }
+ ],
+ "sen--zamfara--zamfara-central--lp": [
+  {
+   "name": "Musa Sgebu Gusau",
+   "wikidata": "Q115492153",
+   "reason": "Matched Ibrahim Musa Gusau on name and age only. Reviewed 2026-11-06."
+  }
  ]
 }
