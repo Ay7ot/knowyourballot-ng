@@ -63,7 +63,7 @@
   --font-mono: var(--font-mono);
 }
 
-html { -webkit-text-size-adjust: 100%; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: 5rem; }
 body {
   background: var(--paper);
   color: var(--ink);
