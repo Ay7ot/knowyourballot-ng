@@ -1,1 +1,107 @@
-{}
+{
+  "AA": {
+    "file": "/parties/aa.webp",
+    "source": "https://inecnigeria.org/_nuxt/action-alliance-aa_logo.DQolkzM6.jpg",
+    "page": "https://inecnigeria.org/parties/action-alliance-aa"
+  },
+  "AAC": {
+    "file": "/parties/aac.webp",
+    "source": "https://inecnigeria.org/_nuxt/african-action-congress-aac_logo.BiPR0ZxO.jpg",
+    "page": "https://inecnigeria.org/parties/african-action-congress-aac"
+  },
+  "ADC": {
+    "file": "/parties/adc.webp",
+    "source": "https://inecnigeria.org/_nuxt/african-democratic-congress-adc_logo.DBilnanA.jpg",
+    "page": "https://inecnigeria.org/parties/african-democratic-congress-adc"
+  },
+  "ADP": {
+    "file": "/parties/adp.webp",
+    "source": "https://inecnigeria.org/_nuxt/action-democratic-party-adp_logo.7qxyEaV2.png",
+    "page": "https://inecnigeria.org/parties/action-democratic-party-adp"
+  },
+  "APC": {
+    "file": "/parties/apc.webp",
+    "source": "https://inecnigeria.org/_nuxt/all-progressives-congress-apc_logo.CSXCWB6p.jpg",
+    "page": "https://inecnigeria.org/parties/all-progressives-congress-apc"
+  },
+  "APGA": {
+    "file": "/parties/apga.webp",
+    "source": "https://inecnigeria.org/_nuxt/all-progressives-grand-alliance-apga_logo.PfgYjSjV.jpg",
+    "page": "https://inecnigeria.org/parties/all-progressives-grand-alliance-apga"
+  },
+  "APM": {
+    "file": "/parties/apm.webp",
+    "source": "https://inecnigeria.org/_nuxt/allied-peoples-movement-apm_logo.BQN54Bkl.jpg",
+    "page": "https://inecnigeria.org/parties/allied-peoples-movement-apm"
+  },
+  "APP": {
+    "file": "/parties/app.webp",
+    "source": "https://inecnigeria.org/_nuxt/action-peoples-party-app_logo.BhRwRU7M.png",
+    "page": "https://inecnigeria.org/parties/action-peoples-party-app"
+  },
+  "BP": {
+    "file": "/parties/bp.webp",
+    "source": "https://inecnigeria.org/_nuxt/boot-party-bp_logo.Br5O5Wf6.jpg",
+    "page": "https://inecnigeria.org/parties/boot-party-bp"
+  },
+  "DLA": {
+    "file": "/parties/dla.webp",
+    "source": "https://inecnigeria.org/_nuxt/democratic-leadership-alliance-dla_logo.B-mFJlad.jpg",
+    "page": "https://inecnigeria.org/parties/democratic-leadership-alliance-dla"
+  },
+  "LP": {
+    "file": "/parties/lp.webp",
+    "source": "https://inecnigeria.org/_nuxt/labour-party-lp_logo.SV1XCjLU.jpg",
+    "page": "https://inecnigeria.org/parties/labour-party-lp"
+  },
+  "NDC": {
+    "file": "/parties/ndc.webp",
+    "source": "https://inecnigeria.org/_nuxt/nigeria-democratic-congress_logo.BRx6oQl5.jpeg",
+    "page": "https://inecnigeria.org/parties/nigeria-democratic-congress"
+  },
+  "NDP": {
+    "file": "/parties/ndp.webp",
+    "source": "https://inecnigeria.org/_nuxt/national-democratic-party_logo.B2wV2anp.jpg",
+    "page": "https://inecnigeria.org/parties/national-democratic-party"
+  },
+  "NNPP": {
+    "file": "/parties/nnpp.webp",
+    "source": "https://inecnigeria.org/_nuxt/new-nigeria-peoples-party-nnpp_logo.DkfmFai5.jpg",
+    "page": "https://inecnigeria.org/parties/new-nigeria-peoples-party-nnpp"
+  },
+  "NRM": {
+    "file": "/parties/nrm.webp",
+    "source": "https://inecnigeria.org/_nuxt/national-rescue-movement-nrm_logo.BUg-M2QT.png",
+    "page": "https://inecnigeria.org/parties/national-rescue-movement-nrm"
+  },
+  "PDP": {
+    "file": "/parties/pdp.webp",
+    "source": "https://inecnigeria.org/_nuxt/peoples-democratic-party-pdp_logo.D7bjcnnk.png",
+    "page": "https://inecnigeria.org/parties/peoples-democratic-party-pdp"
+  },
+  "PRP": {
+    "file": "/parties/prp.webp",
+    "source": "https://inecnigeria.org/_nuxt/peoples-redemption-party-prp_logo.C8_o4OQI.png",
+    "page": "https://inecnigeria.org/parties/peoples-redemption-party-prp"
+  },
+  "SDP": {
+    "file": "/parties/sdp.webp",
+    "source": "https://inecnigeria.org/_nuxt/social-democratic-party-sdp_logo.DhlQ2VXw.png",
+    "page": "https://inecnigeria.org/parties/social-democratic-party-sdp"
+  },
+  "YP": {
+    "file": "/parties/yp.webp",
+    "source": "https://inecnigeria.org/_nuxt/youth-party-yp_logo.CLRm4uyn.png",
+    "page": "https://inecnigeria.org/parties/youth-party-yp"
+  },
+  "YPP": {
+    "file": "/parties/ypp.webp",
+    "source": "https://inecnigeria.org/_nuxt/young-progressive-party-ypp_logo.Biw28-Pp.jpeg",
+    "page": "https://inecnigeria.org/parties/young-progressive-party-ypp"
+  },
+  "ZLP": {
+    "file": "/parties/zlp.webp",
+    "source": "https://inecnigeria.org/_nuxt/zenith-labour-party-zlp_logo.B_S46I7c.jpg",
+    "page": "https://inecnigeria.org/parties/zenith-labour-party-zlp"
+  }
+}
