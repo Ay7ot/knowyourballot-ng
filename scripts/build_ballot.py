@@ -24,6 +24,88 @@ for l in GEO["lgas"]:
     LGAS_BY_STATE[l["state"]].append(l)
 
 
+WARDS_BY_STATE = collections.defaultdict(list)
+for _w in GEO["wards"]:
+    WARDS_BY_STATE[_w["lga"].split("-")[0]].append(_w)
+
+ROMAN_RE = r"\b(i{1,3}|iv|vi{0,3}|[0-9]+)\b"
+
+
+def flat(s):
+    s = re.sub(r"\([^)]*\)", " ", s.lower())
+    s = re.sub(ROMAN_RE, " ", s)
+    return re.sub(r"[^a-z]", "", s)
+
+
+def match_assembly_lga(cname, state_code):
+    """Find the LGA a State Assembly constituency sits in. INEC names them after the LGA ("Ikeja II"),
+    after the LGA in brackets ("Koma/Leko (Jada I)"), or after wards ("Kawo")."""
+    lgas = LGAS_BY_STATE[state_code]
+    lflat = {l["id"]: re.sub(r"[^a-z]", "", re.sub(r"\([^)]*\)", " ", l["name"].lower())) for l in lgas}
+    ratio = lambda a, b: difflib.SequenceMatcher(None, a, b).ratio()
+
+    def best(text, cutoff):
+        t = flat(text)
+        if not t:
+            return None
+        sc = sorted(((ratio(t, lflat[l["id"]]), l) for l in lgas), key=lambda x: -x[0])
+        return sc[0][1] if sc and sc[0][0] >= cutoff else None
+
+    # 1. bracketed LGA name
+    for inner in re.findall(r"\(([^)]*)\)", cname):
+        m = best(inner, 0.8)
+        if m:
+            return m
+    # 2. whole name ~ an LGA name
+    m = best(cname, 0.85)
+    if m:
+        return m
+    # 3. an LGA name appears inside the constituency name (longest wins)
+    cf = flat(cname)
+    hits = sorted((l for l in lgas if len(lflat[l["id"]]) >= 4 and lflat[l["id"]] in cf), key=lambda l: -len(lflat[l["id"]]))
+    if hits:
+        return hits[0]
+    # 4. the first part names a ward
+    for part in re.split(r"[/\-]| and ", re.sub(r"\([^)]*\)", " ", cname.lower())):
+        pf = re.sub(r"[^a-z]", "", re.sub(ROMAN_RE, " ", part))
+        if len(pf) < 4:
+            continue
+        wards = [w for w in WARDS_BY_STATE[state_code] if re.sub(r"[^a-z]", "", w["name"].lower()) == pf]
+        if len({w["lga"] for w in wards}) == 1:
+            return next(l for l in lgas if l["id"] == wards[0]["lga"])
+    # 5. directions dropped ("Bende North" -> Bende), stricter cutoff
+    base = re.sub(r"\b(north|south|east|west|central)\b", " ", cname.lower())
+    m = best(base, 0.8)
+    if m:
+        return m
+    # 6. first word starts exactly one LGA's name ("Ado I" -> Ado Ekiti, "Yamaltu East" -> Yamaltu/Deba)
+    first = re.sub(r"[^a-z]", "", (re.findall(r"[a-z]+", cname.lower()) or [""])[0])
+    if len(first) >= 3:
+        starts = [l for l in lgas if lflat[l["id"]].startswith(first)]
+        if len(starts) == 1:
+            return starts[0]
+    return None
+
+
+def match_assembly_lgas(cname, state_code):
+    """Some constituencies span two LGAs ("Atakunmosa East and West"). Return every LGA named."""
+    parts = [p for p in re.split(r"/| and ", re.sub(r"\([^)]*\)", " ", cname), flags=re.I) if flat(p)]
+    if len(parts) >= 2 and "(" not in cname:
+        last_word = re.findall(r"[a-z]+", parts[0].lower())
+        found = []
+        for p in parts:
+            m = match_assembly_lga(p, state_code)
+            # "East and West": borrow the stem from the first part
+            if not m and last_word and len(re.findall(r"[a-z]+", p.lower())) == 1:
+                m = match_assembly_lga(" ".join(last_word[:-1] + re.findall(r"[a-z]+", p.lower())), state_code)
+            if m and (not found or m["id"] not in [f["id"] for f in found]):
+                found.append(m)
+        if len(found) >= 2 and all(flat(f["name"])[:4] in flat(cname) for f in found):
+            return found
+    m = match_assembly_lga(cname, state_code)
+    return [m] if m else []
+
+
 def norm(s):
     s = s.lower().replace("&", "/").replace(" and ", "/")
     s = re.sub(r"\b(federal|constituency|senatorial|district|zone|state)\b", " ", s)
@@ -182,13 +264,9 @@ def main():
             cname = title(r["constituency"])
             aid = f"{st['slug']}--{slug(cname)}"
             if aid not in assembly_consts:
-                base = re.sub(r"\b(i{1,3}|iv|v|vi{0,3}|[0-9]+|north|south|east|west|central)\b", " ",
-                              cname.lower())
-                m, _ = best_match(base, LGAS_BY_STATE[st["code"]], cutoff=0.6)
-                if not m:
-                    m, _ = best_match(cname, LGAS_BY_STATE[st["code"]], cutoff=0.6)
+                ms = match_assembly_lgas(cname, st["code"])
                 assembly_consts[aid] = {"id": aid, "state": st["code"], "name": cname,
-                                        "lgas": [m["id"]] if m else []}
+                                        "lgas": [m["id"] for m in ms]}
             race = add_race(f"sha--{aid}", "assembly", cname, state=st["code"], district=aid)
             add_candidate(race, r)
 

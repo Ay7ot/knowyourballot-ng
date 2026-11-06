@@ -7,7 +7,7 @@ const DATE: Record<string, string> = Object.fromEntries(
   ELECTIONS.flatMap((e) => e.offices.map((o) => [o, new Date(`${e.date}T12:00:00Z`).toLocaleDateString("en-NG", { day: "numeric", month: "short", year: "numeric" })])),
 );
 
-export default function BallotSections({ sections }: { sections: BallotSection[] }) {
+export default function BallotSections({ sections, stateSlug }: { sections: BallotSection[]; stateSlug: string }) {
   return (
     <div className="space-y-6">
       {sections.map((s) => (
@@ -20,10 +20,12 @@ export default function BallotSections({ sections }: { sections: BallotSection[]
             {s.note && <p className="mt-1 text-sm text-muted">{s.note}</p>}
           </header>
           {s.office === "assembly" && s.status === "loaded" && s.contests.length === 0 ? (
-            <div className="px-4 py-4 text-sm text-muted">
-              We couldn&apos;t match a state constituency to this LGA automatically.{" "}
-              <Link className="underline" href="#all-assembly">See all state constituencies in this state</Link>.
-            </div>
+            s.note ? null : (
+              <div className="px-4 py-4 text-sm text-muted">
+                We couldn&apos;t match a state constituency to this LGA automatically.{" "}
+                <Link className="underline" href={`/state/${stateSlug}#all-assembly`}>See all state constituencies in this state</Link>.
+              </div>
+            )
           ) : s.status === "pending" ? (
             <>
               {s.contests.map((c) => (

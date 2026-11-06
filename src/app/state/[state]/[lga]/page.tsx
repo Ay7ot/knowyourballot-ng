@@ -45,8 +45,8 @@ export default async function LgaBallot({ params }: { params: Promise<{ state: s
         <ShareButton title={`My 2027 ballot: ${lga.name}, ${state.short}`} />
       </div>
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_320px]">
-        <div className="order-2 lg:order-1"><BallotSections sections={sections} /></div>
+      <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
+        <div className="order-2 lg:order-1 min-w-0"><BallotSections sections={sections} stateSlug={state.slug} /></div>
         <aside className="order-1 lg:order-2 space-y-4 lg:sticky lg:top-20 self-start">
           <Suspense fallback={<div className="h-28 rounded-2xl border border-line bg-surface" />}>
             <WardContext stateCode={state.code} lgaCode={lga.id.split("-")[1]} wards={wards} split={lga.federal.length > 1} />

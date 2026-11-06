@@ -6,10 +6,11 @@ import type { Person } from "@/lib/types";
 import { Crumbs, PartyBadge } from "@/components/ui";
 import { correctionUrl } from "@/lib/site";
 
-export const dynamicParams = false;
+// 15,000+ candidates: prebuild the President and Governor pages, render the rest on first visit and cache them.
+export const dynamicParams = true;
+export const revalidate = 86400;
 export function generateStaticParams() {
-  // Next needs at least one param for a static route; the placeholder 404s.
-  return ballot.candidates.length ? ballot.candidates.map((c) => ({ id: c.id })) : [{ id: "none" }];
+  return ballot.candidates.filter((c) => c.office === "president" || c.office === "governor").map((c) => ({ id: c.id }));
 }
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const c = getCandidate((await params).id);
@@ -23,7 +24,7 @@ function Facts({ p }: { p: Person }) {
     ["Age", p.age ? `${p.age}` : null],
     ["Gender", p.gender],
     ["Qualifications", p.qualifications],
-    ["Disability (PWD)", p.pwd],
+    ["Disability (PWD)", p.pwd ?? "None declared"],
   ];
   return (
     <dl className="divide-y divide-line">

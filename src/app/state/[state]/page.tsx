@@ -87,7 +87,11 @@ export default async function StatePage({ params }: { params: Promise<{ state: s
         <section id="all-assembly" className="mt-10">
           <h2 className="text-xl font-semibold">State House of Assembly constituencies</h2>
           {sha.length === 0 ? (
-            <div className="mt-3 rounded-2xl overflow-hidden border border-line"><Pending what="State Assembly candidates" /></div>
+            officeStatus("assembly") === "loaded" ? (
+              <p className="mt-3 rounded-2xl bg-warn-soft text-warn-ink p-4 text-sm">INEC&apos;s published State Assembly list has no entries for {st.short} yet. We&apos;ll add them as soon as INEC publishes them.</p>
+            ) : (
+              <div className="mt-3 rounded-2xl overflow-hidden border border-line"><Pending what="State Assembly candidates" /></div>
+            )
           ) : (
             <ul className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
               {sha.map((a) => (

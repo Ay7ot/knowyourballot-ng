@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths: [data/sources.json, scripts/ingest_inec.py]
+    paths: [data/sources.json, scripts/ingest_inec.py, scripts/build_ballot.py]
   schedule:
     - cron: "0 5 * * *" # daily, 6am Lagos time: INEC updates lists after substitutions and court orders
 

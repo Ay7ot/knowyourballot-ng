@@ -18,11 +18,14 @@ const TYPE_LABEL: Record<SearchEntry["t"], string> = {
 };
 const PU_RE = /^\s*(\d{1,2})\s*[\/\-. ]\s*(\d{1,2})\s*[\/\-. ]\s*(\d{1,2})\s*[\/\-. ]\s*(\d{1,3})\s*$/;
 
-let indexPromise: Promise<Fuse<SearchEntry>> | null = null;
+type Index = { fuse: Fuse<SearchEntry>; data: SearchEntry[]; folded: string[] };
+const fold = (s: string) => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9 ]+/g, " ");
+let indexPromise: Promise<Index> | null = null;
 function loadIndex() {
-  indexPromise ??= Promise.all([fetch("/search-index.json").then((r) => r.json()), import("fuse.js")]).then(
-    ([data, mod]) =>
-      new mod.default<SearchEntry>(data as SearchEntry[], {
+  indexPromise ??= Promise.all([fetch("/search-index.json").then((r) => r.json()), import("fuse.js")]).then(([data, mod]) => ({
+    data: data as SearchEntry[],
+    folded: (data as SearchEntry[]).map((e) => ` ${fold(e.n)} `),
+    fuse: new mod.default<SearchEntry>(data as SearchEntry[], {
         keys: [
           { name: "n", weight: 3 },
           { name: "x", weight: 1 },
@@ -31,7 +34,7 @@ function loadIndex() {
         ignoreLocation: true,
         minMatchCharLength: 2,
       }),
-  );
+  }));
   return indexPromise;
 }
 let pointsPromise: Promise<LgaPoint[]> | null = null;
@@ -40,7 +43,7 @@ const loadPoints = (): Promise<LgaPoint[]> => (pointsPromise ??= fetch("/lga-poi
 export default function FindBallot({ autoFocus = false }: { autoFocus?: boolean }) {
   const router = useRouter();
   const [q, setQ] = useState("");
-  const [fuse, setFuse] = useState<Fuse<SearchEntry> | null>(null);
+  const [fuse, setFuse] = useState<Index | null>(null);
   const [loading, setLoading] = useState(false);
   const [active, setActive] = useState(0);
   const [open, setOpen] = useState(false);
@@ -66,11 +69,20 @@ export default function FindBallot({ autoFocus = false }: { autoFocus?: boolean 
   const results = useMemo(() => {
     if (!fuse || q.trim().length < 2 || pu) return [];
     const order: Record<SearchEntry["t"], number> = { l: 0, s: 1, w: 2, c: 3, f: 4, d: 5, a: 6 };
-    return fuse
+    // Every typed word appears in the name, in any order ("peter obi" finds "OBI PETER GREGORY").
+    const words = fold(q).split(" ").filter(Boolean);
+    const exact: SearchEntry[] = [];
+    for (let i = 0; i < fuse.data.length && exact.length < 40; i++) {
+      const f = fuse.folded[i];
+      if (words.every((w) => f.includes(` ${w}`))) exact.push(fuse.data[i]);
+    }
+    exact.sort((a, b) => order[a.t] - order[b.t] || a.n.length - b.n.length);
+    const fuzzy = fuse.fuse
       .search(q.trim(), { limit: 30 })
       .sort((a, b) => (a.score! - b.score!) * 4 + (order[a.item.t] - order[b.item.t]) * 0.02)
-      .slice(0, 8)
       .map((r) => r.item);
+    const seen = new Set<string>();
+    return [...exact, ...fuzzy].filter((e) => !seen.has(e.h) && seen.add(e.h)).slice(0, 8);
   }, [fuse, q, pu]);
 
   async function lookupPu(m: RegExpExecArray) {

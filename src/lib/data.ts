@@ -89,10 +89,13 @@ export function ballotForLga(lga: Lga): BallotSection[] {
   if (st.governorship) sec("governor", [{ id: st.code, name: st.short, raceId: `gov--${st.slug}` }]);
   if (st.assembly) {
     const consts = ballot.assembly.filter((a) => a.state === st.code && a.lgas.includes(lga.id));
+    const stateHasAny = ballot.assembly.some((a) => a.state === st.code);
     sec(
       "assembly",
       consts.map((a) => ({ id: a.id, name: a.name, raceId: `sha--${a.id}` })),
-      consts.length > 1
+      officeStatus("assembly") === "loaded" && !stateHasAny
+        ? `INEC's published State Assembly list has no entries for ${st.short} yet. We'll add them as soon as INEC publishes them.`
+        : consts.length > 1
         ? "Your LGA has more than one state constituency. INEC doesn't publish which wards make up each one, so check the name that matches your area, or look at your voter's card."
         : undefined,
     );
