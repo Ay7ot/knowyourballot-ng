@@ -12,7 +12,7 @@ on:
         default: false
   push:
     branches: [main]
-    paths: [scripts/fetch_party_logos.py, scripts/fetch_candidate_photos.py]
+    paths: [scripts/fetch_party_logos.py, scripts/fetch_candidate_photos.py, data/photo_overrides.json]
   schedule:
     - cron: "30 6 * * 1" # Mondays: pick up substitutions and newly added photos
 

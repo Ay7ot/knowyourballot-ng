@@ -289,12 +289,36 @@ def main():
         if (stats["ok"] + stats["miss"]) % 100 == 0:
             path.write_text(json.dumps(store, indent=1) + "\n")  # keep progress if the job times out
         time.sleep(0.2)
+    apply_overrides(store, out_dir)
     store["photos"] = dict(sorted(store["photos"].items()))
     store["checked"] = dict(sorted(store["checked"].items()))
     path.write_text(json.dumps(store, indent=1) + "\n")
     report = {k: v for k, v in sorted(report.items()) if k in live and k not in store["photos"]}
     report_path.write_text(json.dumps({"summary": dict(Counter(report.values()).most_common()), "misses": report}, indent=0) + "\n")
     print(stats, f"{len(store['photos'])} photos on file")
+
+
+def apply_overrides(store: dict, out_dir: Path) -> None:
+    """Swap in a better Commons photo a person chose for an already-verified candidate (data/photo_overrides.json)."""
+    path = ROOT / "data" / "photo_overrides.json"
+    overrides = json.loads(path.read_text()) if path.exists() else {}
+    for pid, o in overrides.items():
+        cur = store["photos"].get(pid)
+        if not cur or cur.get("wikidata") != o["wikidata"]:
+            continue  # only for a person whose identity the normal checks already verified
+        want = "File:" + o["file"].replace(" ", "_")
+        if cur["commons"].endswith(want):
+            continue
+        photo = commons_photo(o["file"])
+        if not photo:
+            print(f"override {pid}: {o['file']} missing or not freely licensed")
+            continue
+        with urllib.request.urlopen(urllib.request.Request(photo["thumb"], headers={"User-Agent": UA}), timeout=60) as r:
+            img = Image.open(io.BytesIO(r.read())).convert("RGB")
+        img.thumbnail((320, 320), Image.LANCZOS)
+        img.save(out_dir / f"{pid}.webp", "WEBP", quality=82)
+        cur.update({"commons": photo["page"], "license": photo["license"], "licenseUrl": photo["licenseUrl"], "artist": photo["artist"]})
+        print(f"override {pid}: now {o['file']}")
 
 
 if __name__ == "__main__":

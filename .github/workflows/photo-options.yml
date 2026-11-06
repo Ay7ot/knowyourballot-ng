@@ -1,0 +1,33 @@
+name: Photo options for review
+
+on:
+  workflow_dispatch:
+    inputs:
+      candidate:
+        description: "Candidate id, e.g. president--ndc"
+        required: true
+      category:
+        description: "Commons category name of the person, e.g. Peter Obi"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  options:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pillow==11.0.0
+      - run: python scripts/photo_options.py "${{ github.event.inputs.candidate }}" "${{ github.event.inputs.category }}"
+      - name: Push to the photo-review branch (never main)
+        run: |
+          git config user.name "ballot-data-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git checkout -B photo-review
+          git add review
+          git commit -m "review: photo options for ${{ github.event.inputs.candidate }}"
+          git push -f origin photo-review
