@@ -115,23 +115,21 @@ def main():
                            "documents": data["documents"] if data else []}
         if not data:
             continue
-        groups = collections.OrderedDict()
         for r in data["rows"]:
             st = find_state(r["state"]) if office == "governorship" else None
             if office == "governorship" and not st:
                 unmatched.append({"office": office, "reason": "unknown state", "row": r})
                 continue
-            key = (st["code"] if st else "NG", r["party"].strip().upper())
-            groups.setdefault(key, []).append(r)
-        for (sc, party), rs in groups.items():
-            principal = next((r for r in rs if not re.search(mate_re, r.get("position", ""), re.I)), rs[0])
-            mate = next((r for r in rs if r is not principal and re.search(mate_re, r.get("position", ""), re.I)), None)
+            mate = r.get("mate") or None
+            if mate and not mate.get("name"):
+                mate = None
+            if mate:
+                mate = {**mate, "party": r["party"]}
             if office == "presidential":
                 race = add_race("president", "president", "President of Nigeria")
             else:
-                st = next(s for s in STATES if s["code"] == sc)
-                race = add_race(f"gov--{st['slug']}", "governor", f"Governor of {st['short']}", state=sc)
-            add_candidate(race, principal, mate)
+                race = add_race(f"gov--{st['slug']}", "governor", f"Governor of {st['short']}", state=st["code"])
+            add_candidate(race, r, mate)
 
     # ---- Senate & Reps: match the constituency to the map ----
     for office, layer, prefix, label in (("senate", "senatorial", "sen", "Senate"),

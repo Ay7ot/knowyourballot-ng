@@ -26,8 +26,6 @@ jobs:
       - run: pip install pdfplumber==0.11.4
       - name: Download and parse INEC documents
         run: python scripts/ingest_inec.py
-      - name: Debug dump
-        run: python scripts/debug_dump.py || true
       - name: Join candidates to the electoral map
         run: python scripts/build_ballot.py
       - name: Keep the source PDFs for 30 days
