@@ -1,10 +1,16 @@
 import Link from "next/link";
+import { pageMeta } from "@/lib/seo";
 import type { Metadata } from "next";
 import { geo, lgasOf } from "@/lib/data";
 import { Crumbs } from "@/components/ui";
 import { gutter } from "@/lib/gutter";
 
-export const metadata: Metadata = { title: "States", description: "Browse 2027 candidates for all 36 states and the FCT." };
+export const metadata: Metadata = pageMeta({
+  title: "States",
+  description: "Browse 2027 candidates for all 36 states and the FCT.",
+  path: "/state",
+  og: { k: "Nigeria 2027", t: "Candidates in every state", s: "All 36 states and the FCT: governorship, Senate, House of Reps and State Assembly." },
+});
 
 export default function States() {
   const zones = Object.entries(

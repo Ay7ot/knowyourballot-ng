@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import Link from "next/link";
 import { ELECTIONS, OFFICE_INFO, OFFICE_LABEL } from "@/lib/data";
 import { GLOSSARY, ISSUES, LEVEL_NAME, OFFICE_POWER, type Level } from "@/lib/civics";
@@ -6,11 +7,13 @@ import type { Office } from "@/lib/types";
 import { Crumbs } from "@/components/ui";
 import { gutter } from "@/lib/gutter";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Who decides what",
   description:
     "Fuel prices, the naira, roads, schools, hospitals, security: which office in Nigeria actually controls each one, and what the people on your 2027 ballot can change.",
-};
+  path: "/who-decides",
+  og: { k: "Know your ballot · civics", t: "Who decides what", s: "The naira and petrol are federal. Roads, schools and hospitals are mostly your state's job." },
+});
 
 const LEVEL_SHORT: Record<Level, string> = { federal: "Federal", state: "State", local: "Local" };
 const LEVEL_STYLE: Record<Level, string> = {

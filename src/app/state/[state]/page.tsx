@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { pageMeta } from "@/lib/seo";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { ballot, geo, getState, getRace, candidatesOf, lgasOf, lgaHref, getLgaById, officeStatus, LEVEL_LABEL, toTray, quickEntries } from "@/lib/data";
@@ -15,7 +16,14 @@ export function generateStaticParams() {
 }
 export async function generateMetadata({ params }: { params: Promise<{ state: string }> }): Promise<Metadata> {
   const s = getState((await params).state);
-  return s ? { title: `${s.name} candidates`, description: `Every 2027 candidate in ${s.name}: governorship, Senate, House of Reps and State Assembly.` } : {};
+  return s
+    ? pageMeta({
+        title: `${s.name} candidates`,
+        description: `Every 2027 candidate in ${s.name}: governorship, Senate, House of Reps and State Assembly.`,
+        path: `/state/${s.slug}`,
+        og: { k: `${s.name} · 2027`, t: `Who's on the ballot in ${s.name}`, s: "Governorship, Senate, House of Reps and State Assembly candidates, from INEC's lists." },
+      })
+    : {};
 }
 
 function DistrictList({ title, items }: { title: string; items: { href: string; name: string; count?: number; lgas: string }[] }) {

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { pageMeta } from "@/lib/seo";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { ballot, candidatesOf, geo, getFederal, getLgaById, getRace, getSenatorial, getState, lgaHref, LEVEL_LABEL, OFFICE_INFO, OFFICE_LABEL, officeStatus, toTray } from "@/lib/data";
@@ -35,7 +36,17 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   if (!r) return {};
   const st = r.state ? getState(r.state) : null;
   const where = r.office === "president" || r.office === "governor" ? r.name : `${OFFICE_LABEL[r.office]}: ${r.name}${st ? `, ${st.short}` : ""}`;
-  return { title: `${where} candidates 2027`, description: `All ${r.candidates.length || ""} candidates for ${where} in Nigeria's 2027 election, from INEC's final list.` };
+  const n = r.candidates.length;
+  return pageMeta({
+    title: `${where} candidates 2027`,
+    description: `All ${n || ""} candidates for ${where} in Nigeria's 2027 election, from INEC's final list.`,
+    path: `/race/${r.id}`,
+    og: {
+      k: `${OFFICE_LABEL[r.office]} · 2027`,
+      t: r.office === "president" ? "Who's running for President" : `${r.name}${st && r.office !== "governor" ? `, ${st.short}` : ""}`,
+      s: n ? `${n} candidate${n === 1 ? "" : "s"} on the ballot, from INEC's final list.` : "Candidates appear here once INEC publishes the final list.",
+    },
+  });
 }
 
 const SUB: Partial<Record<Office, string>> = { senate: "Senatorial district", rep: "Federal constituency", assembly: "State constituency" };

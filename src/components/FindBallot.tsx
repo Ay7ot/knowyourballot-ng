@@ -218,7 +218,7 @@ export default function FindBallot({ autoFocus = false, quick = [] }: { autoFocu
           aria-controls="find-list"
           aria-activedescendant={showList && results[active] ? `opt-${active}` : undefined}
           placeholder="Your LGA, a name, a party or a question"
-          className="w-full h-14 rounded-md border-2 border-ink bg-sheet pl-12 pr-4 text-[1.05rem] outline-none placeholder:text-muted focus:border-green focus:ring-4 focus:ring-green/20"
+          className="control h-14 w-full rounded-lg border-2 border-ink bg-sheet pl-12 pr-12 text-[1.05rem] placeholder:text-muted"
           value={q}
           onFocus={() => {
             if (autoFocused.current) autoFocused.current = false;
@@ -236,6 +236,21 @@ export default function FindBallot({ autoFocus = false, quick = [] }: { autoFocu
           onKeyDown={onKey}
           onBlur={() => setTimeout(() => setOpen(false), 150)}
         />
+        {q && (
+          <button
+            type="button"
+            aria-label="Clear search"
+            onMouseDown={(e) => e.preventDefault()}
+            onClick={() => {
+              setQ("");
+              setMsg(null);
+              inputRef.current?.focus();
+            }}
+            className="absolute bottom-2 right-2 grid h-10 w-10 place-items-center rounded-md text-muted hover:bg-green-soft hover:text-ink"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M6 6l12 12M18 6 6 18" /></svg>
+          </button>
+        )}
         {showList && (
           <ul id="find-list" role="listbox" className="absolute z-20 mt-2 w-full overflow-hidden rounded-lg border border-rule bg-sheet shadow-xl">
             {pu ? (

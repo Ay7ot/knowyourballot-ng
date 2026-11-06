@@ -1,14 +1,17 @@
 import Link from "next/link";
+import { pageMeta } from "@/lib/seo";
 import type { Metadata } from "next";
 import { candidatesOf, getRace, PLATFORMS } from "@/lib/data";
 import RacePromises from "@/components/RacePromises";
 import { Crumbs } from "@/components/ui";
 import { gutter } from "@/lib/gutter";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "What the presidential candidates promise",
   description: "2027 presidential manifestos and campaign pledges, topic by topic, each linked to its source.",
-};
+  path: "/promises",
+  og: { k: "President · 2027", t: "What the candidates promise", s: "Manifestos and campaign pledges, topic by topic, each linked to its source." },
+});
 
 const day = (iso: string) => new Date(`${iso}T12:00:00Z`).toLocaleDateString("en-NG", { day: "numeric", month: "long", year: "numeric" });
 

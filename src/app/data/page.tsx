@@ -1,10 +1,16 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import { ALL_PARTIES, ballot, stats } from "@/lib/data";
 import { gutter } from "@/lib/gutter";
 import { Crumbs } from "@/components/ui";
 import { REPO } from "@/lib/site";
 
-export const metadata: Metadata = { title: "About the data", description: "Where every candidate and constituency on Know Your Ballot comes from, and what isn't covered yet." };
+export const metadata: Metadata = pageMeta({
+  title: "About the data",
+  description: "Where every candidate and constituency on Know Your Ballot comes from, and what isn't covered yet.",
+  path: "/data",
+  og: { k: "Sources", t: "Where our data comes from", s: "INEC's official candidate lists and constituency maps, and what isn't covered yet." },
+});
 
 const OFFICE_NAMES: Record<string, string> = {
   presidential: "President",

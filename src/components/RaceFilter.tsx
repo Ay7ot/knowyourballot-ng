@@ -1,10 +1,11 @@
 "use client";
 import { useState } from "react";
+import { Segmented } from "./controls";
 
 const LEVELS = [
-  ["", "Any qualification"],
-  ["degree+", "Degree or higher"],
-  ["diploma+", "Diploma or higher"],
+  ["", "Any schooling"],
+  ["diploma+", "Diploma+"],
+  ["degree+", "Degree+"],
 ] as const;
 const ORDER = ["primary", "secondary", "other", "diploma", "degree", "postgraduate", "doctorate"];
 
@@ -19,22 +20,11 @@ export default function RaceFilter({ scope }: { scope: string }) {
     const keep = ORDER.slice(min);
     hide.push(`[data-scope="${scope}"] [data-row]${keep.map((k) => `:not([data-level="${k}"])`).join("")}`);
   }
-  const sel = "h-9 rounded-md border border-rule bg-sheet px-2 text-sm";
   return (
     <div className="flex flex-wrap gap-2">
       {hide.length > 0 && <style>{`${hide.join(",")}{display:none}`}</style>}
-      <label className="sr-only" htmlFor={`${scope}-g`}>Gender</label>
-      <select id={`${scope}-g`} value={gender} onChange={(e) => setGender(e.target.value)} className={sel}>
-        <option value="">Anyone</option>
-        <option value="Female">Women</option>
-        <option value="Male">Men</option>
-      </select>
-      <label className="sr-only" htmlFor={`${scope}-l`}>Qualification</label>
-      <select id={`${scope}-l`} value={level} onChange={(e) => setLevel(e.target.value)} className={sel}>
-        {LEVELS.map(([v, l]) => (
-          <option key={v} value={v}>{l}</option>
-        ))}
-      </select>
+      <Segmented label="Gender" value={gender} onChange={setGender} options={[{ value: "", label: "Anyone" }, { value: "Female", label: "Women" }, { value: "Male", label: "Men" }]} />
+      <Segmented label="Qualification" value={level} onChange={setLevel} options={LEVELS.map(([value, label]) => ({ value, label }))} />
     </div>
   );
 }

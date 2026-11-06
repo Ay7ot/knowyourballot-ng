@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useSyncExternalStore } from "react";
+import { Check } from "./controls";
 
 /**
  * The voter's own marks, kept only in this browser. A pick is one candidate per race;
@@ -107,10 +108,9 @@ export function CompareToggle({ cand }: { cand: string }) {
   const { compare, toggleCompare } = useBallotState();
   const on = compare.includes(cand);
   return (
-    <label className="inline-flex cursor-pointer items-center gap-1.5 text-sm text-muted select-none">
-      <input type="checkbox" checked={on} onChange={() => toggleCompare(cand)} className="h-4 w-4 accent-[var(--green)]" />
+    <Check checked={on} onChange={() => toggleCompare(cand)}>
       Compare
-    </label>
+    </Check>
   );
 }
 

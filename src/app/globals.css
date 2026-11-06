@@ -70,7 +70,21 @@ body {
 }
 h1, h2, h3 { text-wrap: balance; }
 p { text-wrap: pretty; }
-:focus-visible { outline: 3px solid var(--green); outline-offset: 2px; border-radius: 4px; }
+@layer base {
+  :focus-visible { outline: 3px solid var(--green); outline-offset: 2px; border-radius: 4px; }
+}
+/* Text fields and dropdowns: one ring only. The border itself turns green and thickens. */
+input.control:not([type="checkbox"]):focus-visible,
+select.control:focus-visible,
+input.control:not([type="checkbox"]):focus {
+  outline: none;
+  border-color: var(--green);
+  box-shadow: 0 0 0 1px var(--green);
+}
+input[type="checkbox"].control:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; border-radius: 5px; }
+/* We draw our own clear button on the search box. */
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration { -webkit-appearance: none; appearance: none; }
 
 /* Display: Archivo, stretched wide like a ballot header. */
 .display { font-family: var(--font-display); font-stretch: 118%; font-weight: 800; letter-spacing: -0.015em; line-height: 1.02; }

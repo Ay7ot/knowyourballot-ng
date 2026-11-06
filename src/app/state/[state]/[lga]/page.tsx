@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { pageMeta } from "@/lib/seo";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -23,10 +24,12 @@ export async function generateMetadata({ params }: { params: Promise<{ state: st
   const p = await params;
   const f = getLga(p.state, p.lga);
   if (!f) return {};
-  return {
+  return pageMeta({
     title: `Your 2027 ballot in ${f.lga.name}, ${f.state.short}`,
     description: `Every candidate a voter in ${f.lga.name} LGA, ${f.state.name} can vote for in 2027: President, Senate, House of Reps, Governor and State Assembly.`,
-  };
+    path: `/state/${p.state}/${p.lga}`,
+    og: { k: `${f.state.name} · ${f.lga.name} LGA`, t: `Your 2027 ballot in ${f.lga.name}`, s: "President, Senate, House of Reps, Governor and State Assembly: every candidate, from INEC's lists." },
+  });
 }
 
 const longDay = (iso: string) => new Date(`${iso}T12:00:00Z`).toLocaleDateString("en-NG", { weekday: "long", day: "numeric", month: "long", year: "numeric" });

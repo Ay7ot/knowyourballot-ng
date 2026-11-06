@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { pageMeta } from "@/lib/seo";
 import Link from "next/link";
 import SiteHeader from "@/components/SiteHeader";
 import { archivo, atkinson, plexMono } from "./fonts";
@@ -10,11 +11,13 @@ export const metadata: Metadata = {
   title: { default: "Know Your Ballot · Nigeria 2027", template: "%s · Know Your Ballot" },
   description:
     "Every candidate on your 2027 ballot, from President to State Assembly, straight from INEC's lists. Find yours with your polling unit code, LGA or ward.",
-  openGraph: {
-    title: "Know Your Ballot · Nigeria 2027",
-    description: "Every candidate on your 2027 ballot, from INEC's official lists. Find yours in seconds.",
-    type: "website",
-  },
+  ...pageMeta({
+    description:
+      "Every candidate on your 2027 ballot, from President to State Assembly, straight from INEC's lists. Find yours with your polling unit code, LGA or ward.",
+    path: "/",
+  }),
+  applicationName: "Know Your Ballot",
+  formatDetection: { telephone: false },
 };
 
 export const viewport: Viewport = {

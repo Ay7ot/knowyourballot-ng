@@ -1,4 +1,5 @@
 "use client";
+import { Select } from "./controls";
 
 import { useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -43,19 +44,13 @@ export default function WardContext({ stateCode, lgaCode, wards, split }: { stat
       <label htmlFor="ward" className="text-sm font-semibold">
         Your ward {split ? <span className="text-amber-ink">(needed for this LGA)</span> : <span className="text-muted font-normal">(optional)</span>}
       </label>
-      <select
+      <Select
         id="ward"
+        className="mt-2"
         value={ward?.code ?? ""}
-        onChange={(e) => pick(e.target.value)}
-        className="mt-2 block h-12 w-full rounded-md border-2 border-ink bg-sheet px-3"
-      >
-        <option value="">Choose your ward…</option>
-        {wards.map((w) => (
-          <option key={w.code} value={w.code}>
-            {w.name}
-          </option>
-        ))}
-      </select>
+        onChange={pick}
+        options={[{ value: "", label: "Choose your ward…" }, ...wards.map((w) => ({ value: w.code, label: w.name }))]}
+      />
       </div>
       <div className="text-sm">
         {pu ? (

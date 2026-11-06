@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { pageMeta } from "@/lib/seo";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { ballot, getCandidate, getRace, getState, candidatePhoto, LEVEL_LABEL, OFFICE_INFO, OFFICE_LABEL, partyLogo, partyName, partyPlatform, platformFor } from "@/lib/data";
@@ -22,7 +23,13 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const c = getCandidate((await params).id);
   if (!c) return {};
   const r = getRace(c.race)!;
-  return { title: `${c.name} (${c.party}), ${r.name}`, description: `${c.name}, ${partyName(c.party) ?? c.party} candidate for ${OFFICE_LABEL[c.office]} (${r.name}) in 2027. Details as declared to INEC.` };
+  return pageMeta({
+    title: `${c.name} (${c.party}), ${r.name}`,
+    description: `${c.name}, ${partyName(c.party) ?? c.party} candidate for ${OFFICE_LABEL[c.office]} (${r.name}) in 2027. Details as declared to INEC.`,
+    path: `/candidate/${c.id}`,
+    type: "profile",
+    og: { k: `${c.party} · ${OFFICE_LABEL[c.office]}`, t: c.name, s: `${partyName(c.party) ?? c.party} candidate for ${OFFICE_LABEL[c.office]}, ${r.name}. Details as declared to INEC.` },
+  });
 }
 
 function Portrait({ photo, name }: { photo: Photo; name: string }) {

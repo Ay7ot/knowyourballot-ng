@@ -1,15 +1,18 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import Link from "next/link";
 import { ECONOMY_CHECKED, INDICATORS } from "@/lib/economy";
 import { ISSUES, LEVEL_NAME } from "@/lib/civics";
 import { Crumbs } from "@/components/ui";
 import { gutter } from "@/lib/gutter";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Nigeria's economy in eight numbers",
   description:
     "Inflation, the naira, petrol prices, jobs, the minimum wage, the budget, debt and state allocations, in plain words, with who controls each and what candidates promise.",
-};
+  path: "/economy",
+  og: { k: "Before you vote", t: "Nigeria's economy in eight numbers", s: "Inflation, the naira, petrol, jobs, wages, the budget, debt and state allocations." },
+});
 
 const day = (iso: string) => new Date(`${iso}T12:00:00Z`).toLocaleDateString("en-NG", { day: "numeric", month: "long", year: "numeric" });
 const topicHref = (t: string) => `/promises#topic-${t.toLowerCase().replace(/\W+/g, "-")}`;

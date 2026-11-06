@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { pageMeta } from "@/lib/seo";
 import type { Metadata } from "next";
 import VotingDay from "@/components/VotingDay";
 import { Thumbprint } from "@/components/picks";
@@ -6,10 +7,12 @@ import { ELECTIONS, OFFICE_INFO, OFFICE_LABEL } from "@/lib/data";
 import { Crumbs } from "@/components/ui";
 import { gutter } from "@/lib/gutter";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Voting-day guide",
   description: "What you vote for in 2027, what to bring, how voting works at your polling unit, and what candidates' qualifications mean.",
-};
+  path: "/guide",
+  og: { k: "Nigeria 2027", t: "Voting-day guide", s: "What to bring, how voting works at your polling unit, and what the qualifications mean." },
+});
 
 const QUALS: [string, string, string][] = [
   ["FSLC", "First School Leaving Certificate", "Primary school"],
