@@ -1,0 +1,6102 @@
+{
+ "https://www.inecnigeria.org/documents/uploads/2026/10/b5af9099-864c-4d5e-924d-e1a2c771c529-final-list-presidential.pdf": {
+  "pages": 4,
+  "tables": [
+   [
+    [
+     "SN",
+     "PARTY",
+     "STATE",
+     "POSITION",
+     "NAME OF CANDIDATE",
+     "PWD",
+     "AGE",
+     "GENDER",
+     "QUALIFICATION(S)",
+     "REMARKS"
+    ],
+    [
+     "1",
+     "A",
+     "NIGERIA\nNIGERIA",
+     "Presidential\nVice-\nPresidential",
+     "",
+     "",
+     "",
+     "",
+     "",
+     "COURT\nORDER\nCOURT\nORDER"
+    ],
+    [
+     "2",
+     "AA",
+     "NIGERIA\nNIGERIA",
+     "Presidential\nVice-\nPresidential",
+     "RUFAI ADEKUNLE OMO-AJE\nSHEHU HUSSAINI",
+     "E\nNone\nNone",
+     "71\n56",
+     "M\nM",
+     "FLSC WAEC\nFSLC G.S.S, Yabo F.C.E Zaria",
+     ""
+    ],
+    [
+     "3",
+     "AAC",
+     "NIGERIA\nNIGERIA",
+     "Presidential\nVice-\nPresidential",
+     "SOWORE OMOYELE\nMAGASHI HARUNA GARBA",
+     "None\nNone",
+     "55\n49",
+     "M\nM",
+     "FSLC WAEC MASTERS DEGREE\nFSLC WAEC LLB",
+     ""
+    ],
+    [
+     "4",
+     "ADC",
+     "NIGERIA\nNIGERIA",
+     "Presidential\nVice-\nPresidential",
+     "N\nABUBAKAR ATIKU\nAMAECHI CHIBUIKE ROTIMI",
+     "None\nNone",
+     "79\n61",
+     "M\nM",
+     "F.S.L.C. WASC MA. (INT. RELATIONS\nFSLC WAEC B.A. ENGLISH STUDIES",
+     ""
+    ]
+   ]
+  ],
+  "rows": [
+   [
+    [
+     40.57142857142857,
+     168.32902,
+     63.4525,
+     188.37901999999997
+    ],
+    [
+     63.4525,
+     168.32902,
+     104.2925,
+     188.37901999999997
+    ],
+    [
+     104.2925,
+     168.32902,
+     154.9625,
+     188.37901999999997
+    ],
+    [
+     154.9625,
+     168.32902,
+     226.743137,
+     188.37901999999997
+    ],
+    [
+     226.743137,
+     168.32902,
+     423.914097,
+     188.37901999999997
+    ],
+    [
+     423.914097,
+     168.32902,
+     457.914097,
+     188.37901999999997
+    ],
+    [
+     457.914097,
+     168.32902,
+     487.734097,
+     188.37901999999997
+    ],
+    [
+     487.734097,
+     168.32902,
+     539.514097,
+     188.37901999999997
+    ],
+    [
+     539.514097,
+     168.32902,
+     736.685057,
+     188.37901999999997
+    ],
+    [
+     736.685057,
+     168.32902,
+     801.39,
+     188.37901999999997
+    ]
+   ],
+   [
+    [
+     40.57142857142857,
+     188.37901999999997,
+     63.4525,
+     261.57902
+    ],
+    [
+     63.4525,
+     188.37901999999997,
+     104.2925,
+     261.57902
+    ],
+    [
+     104.2925,
+     188.37901999999997,
+     154.9625,
+     261.57902
+    ],
+    [
+     154.9625,
+     188.37901999999997,
+     226.743137,
+     261.57902
+    ],
+    [
+     226.743137,
+     188.37901999999997,
+     423.914097,
+     261.57902
+    ],
+    [
+     423.914097,
+     188.37901999999997,
+     457.914097,
+     261.57902
+    ],
+    [
+     457.914097,
+     188.37901999999997,
+     487.734097,
+     261.57902
+    ],
+    [
+     487.734097,
+     188.37901999999997,
+     539.514097,
+     261.57902
+    ],
+    [
+     539.514097,
+     188.37901999999997,
+     736.685057,
+     261.57902
+    ],
+    [
+     736.685057,
+     188.37901999999997,
+     801.39,
+     261.57902
+    ]
+   ],
+   [
+    [
+     40.57142857142857,
+     261.57902,
+     63.4525,
+     319.72902
+    ],
+    [
+     63.4525,
+     261.57902,
+     104.2925,
+     319.72902
+    ],
+    [
+     104.2925,
+     261.57902,
+     154.9625,
+     319.72902
+    ],
+    [
+     154.9625,
+     261.57902,
+     226.743137,
+     319.72902
+    ],
+    [
+     226.743137,
+     261.57902,
+     423.914097,
+     319.72902
+    ],
+    [
+     423.914097,
+     261.57902,
+     457.914097,
+     319.72902
+    ],
+    [
+     457.914097,
+     261.57902,
+     487.734097,
+     319.72902
+    ],
+    [
+     487.734097,
+     261.57902,
+     539.514097,
+     319.72902
+    ],
+    [
+     539.514097,
+     261.57902,
+     736.685057,
+     319.72902
+    ],
+    [
+     736.685057,
+     261.57902,
+     801.39,
+     319.72902
+    ]
+   ],
+   [
+    [
+     40.57142857142857,
+     319.72902,
+     63.4525,
+     378.12902
+    ],
+    [
+     63.4525,
+     319.72902,
+     104.2925,
+     378.12902
+    ],
+    [
+     104.2925,
+     319.72902,
+     154.9625,
+     378.12902
+    ],
+    [
+     154.9625,
+     319.72902,
+     226.743137,
+     378.12902
+    ],
+    [
+     226.743137,
+     319.72902,
+     423.914097,
+     378.12902
+    ],
+    [
+     423.914097,
+     319.72902,
+     457.914097,
+     378.12902
+    ],
+    [
+     457.914097,
+     319.72902,
+     487.734097,
+     378.12902
+    ],
+    [
+     487.734097,
+     319.72902,
+     539.514097,
+     378.12902
+    ],
+    [
+     539.514097,
+     319.72902,
+     736.685057,
+     378.12902
+    ],
+    [
+     736.685057,
+     319.72902,
+     801.39,
+     378.12902
+    ]
+   ]
+  ],
+  "words": [
+   {
+    "text": "C",
+    "x0": 602.9560827861449,
+    "top": -16.994601605846356,
+    "upright": true
+   },
+   {
+    "text": "E",
+    "x0": 441.99068078634286,
+    "top": 99.2224186380106,
+    "upright": true
+   },
+   {
+    "text": "PRESIDENTIAL",
+    "x0": 123.277,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "AND",
+    "x0": 231.791,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "NATIONAL",
+    "x0": 265.615,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "ASSEMBLY",
+    "x0": 342.671,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "ELECTIONS",
+    "x0": 421.897,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "FOR",
+    "x0": 507.087,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "JAN,",
+    "x0": 540.141,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "2027",
+    "x0": 573.937,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "-",
+    "x0": 605.437,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "PRESIDENTIAL",
+    "x0": 613.599,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "FINAL",
+    "x0": 323.015,
+    "top": 138.78902,
+    "upright": true
+   },
+   {
+    "text": "LIST",
+    "x0": 369.789,
+    "top": 138.78902,
+    "upright": true
+   },
+   {
+    "text": "OF",
+    "x0": 405.195,
+    "top": 138.78902,
+    "upright": true
+   },
+   {
+    "text": "CANDIDATES",
+    "x0": 428.141,
+    "top": 138.78902,
+    "upright": true
+   },
+   {
+    "text": "SN",
+    "x0": 45.0,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "PARTY",
+    "x0": 67.89,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "STATE",
+    "x0": 114.65,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "POSITION",
+    "x0": 166.895318,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "NAME",
+    "x0": 273.006117,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "OF",
+    "x0": 304.676117,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "CANDIDATE",
+    "x0": 321.346117,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "PWD",
+    "x0": 429.186597,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "AGE",
+    "x0": 462.351597,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "GENDER",
+    "x0": 492.171597,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "QUALIFICATION(S)",
+    "x0": 593.882077,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "REMARKS",
+    "x0": 744.281279,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "1",
+    "x0": 49.165,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "A",
+    "x0": 80.2,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "NIGERIA",
+    "x0": 108.73,
+    "top": 191.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "Presidential",
+    "x0": 162.445318,
+    "top": 191.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "COURT",
+    "x0": 751.331279,
+    "top": 191.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "N",
+    "x0": 286.7506129855222,
+    "top": 206.58634177187855,
+    "upright": true
+   },
+   {
+    "text": "ORDER",
+    "x0": 750.951279,
+    "top": 206.67901999999998,
+    "upright": true
+   },
+   {
+    "text": "NIGERIA",
+    "x0": 108.73,
+    "top": 211.67901999999998,
+    "upright": true
+   },
+   {
+    "text": "Vice-",
+    "x0": 178.840318,
+    "top": 211.67901999999998,
+    "upright": true
+   },
+   {
+    "text": "Presidential",
+    "x0": 162.445318,
+    "top": 226.47902,
+    "upright": true
+   },
+   {
+    "text": "COURT",
+    "x0": 751.331279,
+    "top": 226.47902,
+    "upright": true
+   },
+   {
+    "text": "ORDER",
+    "x0": 750.951279,
+    "top": 241.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "2",
+    "x0": 49.165,
+    "top": 263.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "AA",
+    "x0": 77.14,
+    "top": 263.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "NIGERIA",
+    "x0": 109.005,
+    "top": 265.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "Presidential",
+    "x0": 164.670318,
+    "top": 265.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "RUFAI",
+    "x0": 258.356117,
+    "top": 265.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "ADEKUNLE",
+    "x0": 289.936117,
+    "top": 265.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "OMO-AJE",
+    "x0": 346.616117,
+    "top": 265.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "None",
+    "x0": 428.901597,
+    "top": 265.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "71",
+    "x0": 467.201597,
+    "top": 265.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "M",
+    "x0": 509.396597,
+    "top": 265.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "FLSC",
+    "x0": 609.117077,
+    "top": 265.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "WAEC",
+    "x0": 637.457077,
+    "top": 265.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "NIGERIA",
+    "x0": 109.005,
+    "top": 284.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "Vice-",
+    "x0": 179.400318,
+    "top": 284.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "SHEHU",
+    "x0": 282.761117,
+    "top": 284.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "HUSSAINI",
+    "x0": 320.541117,
+    "top": 284.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "None",
+    "x0": 428.901597,
+    "top": 284.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "56",
+    "x0": 467.201597,
+    "top": 284.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "M",
+    "x0": 509.396597,
+    "top": 284.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "FSLC",
+    "x0": 570.847077,
+    "top": 284.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "G.S.S,",
+    "x0": 599.187077,
+    "top": 284.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "Yabo",
+    "x0": 631.027077,
+    "top": 284.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "F.C.E",
+    "x0": 655.757077,
+    "top": 284.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "Zaria",
+    "x0": 682.297077,
+    "top": 284.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "Presidential",
+    "x0": 164.670318,
+    "top": 299.67902,
+    "upright": true
+   },
+   {
+    "text": "3",
+    "x0": 49.165,
+    "top": 321.47902,
+    "upright": true
+   },
+   {
+    "text": "AAC",
+    "x0": 73.68,
+    "top": 321.47902,
+    "upright": true
+   },
+   {
+    "text": "NIGIERIA",
+    "x0": 109.005,
+    "top": 322.8033620157356,
+    "upright": true
+   },
+   {
+    "text": "Presidential",
+    "x0": 164.670318,
+    "top": 323.47902,
+    "upright": true
+   },
+   {
+    "text": "SOWORE",
+    "x0": 276.966117,
+    "top": 323.47902,
+    "upright": true
+   },
+   {
+    "text": "OMOYELE",
+    "x0": 324.806117,
+    "top": 323.47902,
+    "upright": true
+   },
+   {
+    "text": "None",
+    "x0": 428.901597,
+    "top": 323.47902,
+    "upright": true
+   },
+   {
+    "text": "55",
+    "x0": 467.201597,
+    "top": 323.47902,
+    "upright": true
+   },
+   {
+    "text": "M",
+    "x0": 509.396597,
+    "top": 323.47902,
+    "upright": true
+   },
+   {
+    "text": "FSLC",
+    "x0": 561.052077,
+    "top": 323.47902,
+    "upright": true
+   },
+   {
+    "text": "WAEC",
+    "x0": 589.392077,
+    "top": 323.47902,
+    "upright": true
+   },
+   {
+    "text": "MASTERS",
+    "x0": 621.672077,
+    "top": 323.47902,
+    "upright": true
+   },
+   {
+    "text": "DEGREE",
+    "x0": 672.792077,
+    "top": 323.47902,
+    "upright": true
+   },
+   {
+    "text": "NIGERIA",
+    "x0": 109.005,
+    "top": 343.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "Vice-",
+    "x0": 179.400318,
+    "top": 343.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "MAGASHI",
+    "x0": 259.771117,
+    "top": 343.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "HARUNA",
+    "x0": 311.151117,
+    "top": 343.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "GARBA",
+    "x0": 355.751117,
+    "top": 343.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "None",
+    "x0": 428.901597,
+    "top": 343.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "49",
+    "x0": 467.201597,
+    "top": 343.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "M",
+    "x0": 509.396597,
+    "top": 343.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "FSLC",
+    "x0": 598.832077,
+    "top": 343.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "WAEC",
+    "x0": 627.172077,
+    "top": 343.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "LLB",
+    "x0": 659.452077,
+    "top": 343.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "Presidential",
+    "x0": 164.670318,
+    "top": 358.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "4",
+    "x0": 49.165,
+    "top": 379.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "ADC",
+    "x0": 73.255,
+    "top": 379.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "NIGERIA",
+    "x0": 109.005,
+    "top": 381.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "Presidential",
+    "x0": 164.670318,
+    "top": 381.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "ABUBAKAR",
+    "x0": 282.571117,
+    "top": 381.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "ATIKU",
+    "x0": 339.711117,
+    "top": 381.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "None",
+    "x0": 428.901597,
+    "top": 381.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "79",
+    "x0": 467.201597,
+    "top": 381.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "M",
+    "x0": 509.396597,
+    "top": 381.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "F.S.L.C.",
+    "x0": 554.147077,
+    "top": 381.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "WASC",
+    "x0": 591.007077,
+    "top": 381.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "MA.",
+    "x0": 623.287077,
+    "top": 381.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "(INT.",
+    "x0": 643.247077,
+    "top": 381.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "RELATIONS",
+    "x0": 666.447077,
+    "top": 381.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "NIGERIA",
+    "x0": 109.005,
+    "top": 401.67902,
+    "upright": true
+   },
+   {
+    "text": "Vice-",
+    "x0": 179.400318,
+    "top": 401.67902,
+    "upright": true
+   },
+   {
+    "text": "AMAECHI",
+    "x0": 258.941117,
+    "top": 401.67902,
+    "upright": true
+   },
+   {
+    "text": "CHIBUIKE",
+    "x0": 307.281117,
+    "top": 401.67902,
+    "upright": true
+   },
+   {
+    "text": "ROTIMI",
+    "x0": 357.191117,
+    "top": 401.67902,
+    "upright": true
+   },
+   {
+    "text": "None",
+    "x0": 428.901597,
+    "top": 401.67902,
+    "upright": true
+   },
+   {
+    "text": "61",
+    "x0": 467.201597,
+    "top": 401.67902,
+    "upright": true
+   },
+   {
+    "text": "M",
+    "x0": 509.396597,
+    "top": 401.67902,
+    "upright": true
+   },
+   {
+    "text": "FSLC",
+    "x0": 552.277077,
+    "top": 401.67902,
+    "upright": true
+   },
+   {
+    "text": "WAEC",
+    "x0": 580.617077,
+    "top": 401.67902,
+    "upright": true
+   },
+   {
+    "text": "B.A.",
+    "x0": 612.897077,
+    "top": 401.67902,
+    "upright": true
+   },
+   {
+    "text": "ENGLISH",
+    "x0": 633.777077,
+    "top": 401.67902,
+    "upright": true
+   },
+   {
+    "text": "STUDIES",
+    "x0": 680.457077,
+    "top": 401.67902,
+    "upright": true
+   },
+   {
+    "text": "Presidential",
+    "x0": 164.670318,
+    "top": 416.47902,
+    "upright": true
+   },
+   {
+    "text": "5",
+    "x0": 49.165,
+    "top": 438.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "ADP",
+    "x0": 73.53,
+    "top": 438.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "NIGERIA",
+    "x0": 109.005,
+    "top": 440.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "Presidential",
+    "x0": 164.670318,
+    "top": 440.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "ABBAS-BIN",
+    "x0": 282.751117,
+    "top": 440.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "ALIYU",
+    "x0": 338.881117,
+    "top": 440.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "None",
+    "x0": 428.901597,
+    "top": 440.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "44",
+    "x0": 467.201597,
+    "top": 440.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "M",
+    "x0": 509.396597,
+    "top": 440.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "FSLC",
+    "x0": 598.582077,
+    "top": 440.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "SSCE",
+    "x0": 626.922077,
+    "top": 440.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "BSC",
+    "x0": 656.932077,
+    "top": 440.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "NIGERIA",
+    "x0": 109.005,
+    "top": 460.07902,
+    "upright": true
+   },
+   {
+    "text": "Vice-",
+    "x0": 179.400318,
+    "top": 460.07902,
+    "upright": true
+   },
+   {
+    "text": "IKE",
+    "x0": 289.706117,
+    "top": 460.07902,
+    "upright": true
+   },
+   {
+    "text": "CHINAZAM",
+    "x0": 308.606117,
+    "top": 460.07902,
+    "upright": true
+   },
+   {
+    "text": "None",
+    "x0": 428.901597,
+    "top": 460.07902,
+    "upright": true
+   },
+   {
+    "text": "50",
+    "x0": 467.201597,
+    "top": 460.07902,
+    "upright": true
+   },
+   {
+    "text": "M",
+    "x0": 509.396597,
+    "top": 460.07902,
+    "upright": true
+   },
+   {
+    "text": "FSLC",
+    "x0": 598.027077,
+    "top": 460.07902,
+    "upright": true
+   },
+   {
+    "text": "SSCE",
+    "x0": 626.367077,
+    "top": 460.07902,
+    "upright": true
+   },
+   {
+    "text": "BNG",
+    "x0": 656.377077,
+    "top": 460.07902,
+    "upright": true
+   },
+   {
+    "text": "Presidential",
+    "x0": 164.670318,
+    "top": 474.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "Signed:",
+    "x0": 586.89,
+    "top": 515.605,
+    "upright": true
+   },
+   {
+    "text": "Rose",
+    "x0": 656.688,
+    "top": 560.605,
+    "upright": true
+   },
+   {
+    "text": "Oriaran-Anthony",
+    "x0": 680.196,
+    "top": 560.605,
+    "upright": true
+   },
+   {
+    "text": "Secretary,",
+    "x0": 669.216,
+    "top": 573.925,
+    "upright": true
+   },
+   {
+    "text": "INEC",
+    "x0": 712.101,
+    "top": 573.925,
+    "upright": true
+   }
+  ],
+  "chars_nonupright": ""
+ },
+ "https://www.inecnigeria.org/documents/uploads/2026/10/6ee29a2b-0c92-480e-b469-a457351c499d-final-list-abia-governorship.pdf": {
+  "pages": 3,
+  "tables": [
+   [
+    [
+     "SN",
+     "STATE",
+     "POSITION",
+     "NAME OF CANDIDATE",
+     "PARTY",
+     "PWD",
+     "AGE",
+     "GENDER",
+     "QUALIFICATION(S)",
+     "REMARKS"
+    ],
+    [
+     "1",
+     "ABIA\nABIA",
+     "Governorship\nDeputy-\nGovernorship",
+     "UMEZURIKE DORIS\nUZUMMA\nCHIONYE NNABUGWU\nCHUKWUDI",
+     "AAC",
+     "None\nNone",
+     "39\n42",
+     "F\nM",
+     "FSLC SSCE\nFLSC SSCE",
+     ""
+    ],
+    [
+     "2",
+     "ABIA\nABIA",
+     "Governorship\nDeputy-\nGovernorship",
+     "KALU KALU AGU\nALOZIE OGADINMA\nDARLINGTON",
+     "ADC",
+     "None\nNone",
+     "53\n35",
+     "E\nM\nM",
+     "FSLC SSCE LL.B, BL\nFSLC WAEC",
+     ""
+    ],
+    [
+     "3",
+     "ABIA\nABIA",
+     "Governorship\nDeputy-\nGovernorship",
+     "IKECHUKWU GEORGE\nNWACHUKWU\nOBASI ROSSY EMMANUEL",
+     "ADP",
+     "None\nNone",
+     "43\n45",
+     "M\nF",
+     "",
+     ""
+    ],
+    [
+     "4",
+     "ABIA\nABIA",
+     "Governorship\nDeputy-\nGovernorship",
+     "N\nOPAH ERIC\nCHINEMEUCHEYA\nEGBE GODSWILL AGU",
+     "APC",
+     "None\nNone",
+     "55\n57",
+     "M\nM",
+     "FIRST SCHOOL LEAVING CERTIFICATE SSCE\nFIRST SCHOOL LEAVING CERTIFICATE SSCE",
+     ""
+    ]
+   ]
+  ],
+  "rows": [
+   [
+    [
+     40.5,
+     168.32902,
+     63.39,
+     188.12901999999997
+    ],
+    [
+     63.39,
+     168.32902,
+     102.22,
+     188.12901999999997
+    ],
+    [
+     102.22,
+     168.32902,
+     191.224702,
+     188.12901999999997
+    ],
+    [
+     191.224702,
+     168.32902,
+     339.475771,
+     188.12901999999997
+    ],
+    [
+     339.475771,
+     168.32902,
+     380.315771,
+     188.12901999999997
+    ],
+    [
+     380.315771,
+     168.32902,
+     413.215771,
+     188.12901999999997
+    ],
+    [
+     413.215771,
+     168.32902,
+     443.035771,
+     188.12901999999997
+    ],
+    [
+     443.035771,
+     168.32902,
+     494.8157709999999,
+     188.12901999999997
+    ],
+    [
+     494.8157709999999,
+     168.32902,
+     742.94,
+     188.12901999999997
+    ],
+    [
+     742.94,
+     168.32902,
+     801.39,
+     188.12901999999997
+    ]
+   ],
+   [
+    [
+     40.5,
+     188.12901999999997,
+     63.39,
+     261.32902
+    ],
+    [
+     63.39,
+     188.12901999999997,
+     102.22,
+     261.32902
+    ],
+    [
+     102.22,
+     188.12901999999997,
+     191.224702,
+     261.32902
+    ],
+    [
+     191.224702,
+     188.12901999999997,
+     339.475771,
+     261.32902
+    ],
+    [
+     339.475771,
+     188.12901999999997,
+     380.315771,
+     261.32902
+    ],
+    [
+     380.315771,
+     188.12901999999997,
+     413.215771,
+     261.32902
+    ],
+    [
+     413.215771,
+     188.12901999999997,
+     443.035771,
+     261.32902
+    ],
+    [
+     443.035771,
+     188.12901999999997,
+     494.8157709999999,
+     261.32902
+    ],
+    [
+     494.8157709999999,
+     188.12901999999997,
+     742.94,
+     261.32902
+    ],
+    [
+     742.94,
+     188.12901999999997,
+     801.39,
+     261.32902
+    ]
+   ],
+   [
+    [
+     40.5,
+     261.32902,
+     63.39,
+     319.72902
+    ],
+    [
+     63.39,
+     261.32902,
+     102.22,
+     319.72902
+    ],
+    [
+     102.22,
+     261.32902,
+     191.224702,
+     319.72902
+    ],
+    [
+     191.224702,
+     261.32902,
+     339.475771,
+     319.72902
+    ],
+    [
+     339.475771,
+     261.32902,
+     380.315771,
+     319.72902
+    ],
+    [
+     380.315771,
+     261.32902,
+     413.215771,
+     319.72902
+    ],
+    [
+     413.215771,
+     261.32902,
+     443.035771,
+     319.72902
+    ],
+    [
+     443.035771,
+     261.32902,
+     494.8157709999999,
+     319.72902
+    ],
+    [
+     494.8157709999999,
+     261.32902,
+     742.94,
+     319.72902
+    ],
+    [
+     742.94,
+     261.32902,
+     801.39,
+     319.72902
+    ]
+   ],
+   [
+    [
+     40.5,
+     319.72902,
+     63.39,
+     378.12902
+    ],
+    [
+     63.39,
+     319.72902,
+     102.22,
+     378.12902
+    ],
+    [
+     102.22,
+     319.72902,
+     191.224702,
+     378.12902
+    ],
+    [
+     191.224702,
+     319.72902,
+     339.475771,
+     378.12902
+    ],
+    [
+     339.475771,
+     319.72902,
+     380.315771,
+     378.12902
+    ],
+    [
+     380.315771,
+     319.72902,
+     413.215771,
+     378.12902
+    ],
+    [
+     413.215771,
+     319.72902,
+     443.035771,
+     378.12902
+    ],
+    [
+     443.035771,
+     319.72902,
+     494.8157709999999,
+     378.12902
+    ],
+    [
+     494.8157709999999,
+     319.72902,
+     742.94,
+     378.12902
+    ],
+    [
+     742.94,
+     319.72902,
+     801.39,
+     378.12902
+    ]
+   ]
+  ],
+  "words": [
+   {
+    "text": "C",
+    "x0": 602.9560827861449,
+    "top": -16.994601605846356,
+    "upright": true
+   },
+   {
+    "text": "E",
+    "x0": 441.99068078634286,
+    "top": 99.2224186380106,
+    "upright": true
+   },
+   {
+    "text": "GOVERNORSHIP",
+    "x0": 246.239,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "ELECTION",
+    "x0": 364.161,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "2027",
+    "x0": 441.567,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "-",
+    "x0": 473.067,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "GOVERNORSHIP",
+    "x0": 481.229,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "FINAL",
+    "x0": 323.015,
+    "top": 138.78902,
+    "upright": true
+   },
+   {
+    "text": "LIST",
+    "x0": 369.789,
+    "top": 138.78902,
+    "upright": true
+   },
+   {
+    "text": "OF",
+    "x0": 405.195,
+    "top": 138.78902,
+    "upright": true
+   },
+   {
+    "text": "CANDIDATES",
+    "x0": 428.141,
+    "top": 138.78902,
+    "upright": true
+   },
+   {
+    "text": "SN",
+    "x0": 45.0,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "STATE",
+    "x0": 67.89,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "POSITION",
+    "x0": 122.827351,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "NAME",
+    "x0": 213.090236,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "OF",
+    "x0": 244.760236,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "CANDIDATE",
+    "x0": 261.430236,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "PARTY",
+    "x0": 343.975771,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "PWD",
+    "x0": 385.100771,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "AGE",
+    "x0": 417.715771,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "GENDER",
+    "x0": 447.535771,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "QUALIFICATION(S)",
+    "x0": 574.722885,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "REMARKS",
+    "x0": 747.44,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "1",
+    "x0": 49.165,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "ABIA",
+    "x0": 71.41,
+    "top": 191.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "Governorship",
+    "x0": 116.787351,
+    "top": 191.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "UMEZURIKE",
+    "x0": 218.680236,
+    "top": 191.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "DORIS",
+    "x0": 280.350236,
+    "top": 191.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "AAC",
+    "x0": 349.765771,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "None",
+    "x0": 384.815771,
+    "top": 191.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "39",
+    "x0": 422.565771,
+    "top": 191.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "F",
+    "x0": 465.870771,
+    "top": 191.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "FSLC",
+    "x0": 589.702885,
+    "top": 191.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "SSCE",
+    "x0": 620.822885,
+    "top": 191.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "UZUMMAN",
+    "x0": 243.410236,
+    "top": 206.58634177187855,
+    "upright": true
+   },
+   {
+    "text": "ABIA",
+    "x0": 71.41,
+    "top": 211.67901999999998,
+    "upright": true
+   },
+   {
+    "text": "Deputy-",
+    "x0": 129.217351,
+    "top": 211.67901999999998,
+    "upright": true
+   },
+   {
+    "text": "None",
+    "x0": 384.815771,
+    "top": 211.67901999999998,
+    "upright": true
+   },
+   {
+    "text": "42",
+    "x0": 422.565771,
+    "top": 211.67901999999998,
+    "upright": true
+   },
+   {
+    "text": "M",
+    "x0": 464.760771,
+    "top": 211.67901999999998,
+    "upright": true
+   },
+   {
+    "text": "FLSC",
+    "x0": 589.702885,
+    "top": 211.67901999999998,
+    "upright": true
+   },
+   {
+    "text": "SSCE",
+    "x0": 620.822885,
+    "top": 211.67901999999998,
+    "upright": true
+   },
+   {
+    "text": "Governorship",
+    "x0": 116.787351,
+    "top": 226.47902,
+    "upright": true
+   },
+   {
+    "text": "CHIONYE",
+    "x0": 211.510236,
+    "top": 226.47902,
+    "upright": true
+   },
+   {
+    "text": "NNABUGWU",
+    "x0": 259.850236,
+    "top": 226.47902,
+    "upright": true
+   },
+   {
+    "text": "CHUKWUDI",
+    "x0": 237.855236,
+    "top": 241.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "2",
+    "x0": 49.165,
+    "top": 263.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "ABIA",
+    "x0": 71.41,
+    "top": 265.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "Governorship",
+    "x0": 116.787351,
+    "top": 265.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "KALU",
+    "x0": 225.765236,
+    "top": 265.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "KALU",
+    "x0": 254.665236,
+    "top": 265.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "AGU",
+    "x0": 283.565236,
+    "top": 265.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "ADC",
+    "x0": 349.340771,
+    "top": 263.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "None",
+    "x0": 384.815771,
+    "top": 265.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "53",
+    "x0": 422.565771,
+    "top": 265.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "M",
+    "x0": 464.760771,
+    "top": 265.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "FSLC",
+    "x0": 570.622885,
+    "top": 265.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "SSCE",
+    "x0": 598.962885,
+    "top": 265.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "LL.B,",
+    "x0": 628.972885,
+    "top": 265.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "BL",
+    "x0": 654.902885,
+    "top": 265.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "ABIA",
+    "x0": 71.41,
+    "top": 284.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "Deputy-",
+    "x0": 129.217351,
+    "top": 284.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "ALOZIE",
+    "x0": 218.950236,
+    "top": 284.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "OGADINMA",
+    "x0": 257.300236,
+    "top": 284.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "None",
+    "x0": 384.815771,
+    "top": 284.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "35",
+    "x0": 422.565771,
+    "top": 284.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "M",
+    "x0": 464.760771,
+    "top": 284.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "FSLC",
+    "x0": 589.957885,
+    "top": 284.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "WAEC",
+    "x0": 618.297885,
+    "top": 284.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "Governorship",
+    "x0": 116.787351,
+    "top": 299.67902,
+    "upright": true
+   },
+   {
+    "text": "DARLINGTON",
+    "x0": 232.970236,
+    "top": 299.67902,
+    "upright": true
+   },
+   {
+    "text": "3",
+    "x0": 49.165,
+    "top": 321.47902,
+    "upright": true
+   },
+   {
+    "text": "ABIA",
+    "x0": 71.41,
+    "top": 323.47902,
+    "upright": true
+   },
+   {
+    "text": "GoIvernorship",
+    "x0": 116.787351,
+    "top": 322.8033620157356,
+    "upright": true
+   },
+   {
+    "text": "IKECHUKWU",
+    "x0": 211.455236,
+    "top": 323.47902,
+    "upright": true
+   },
+   {
+    "text": "GEORGE",
+    "x0": 275.345236,
+    "top": 323.47902,
+    "upright": true
+   },
+   {
+    "text": "ADP",
+    "x0": 349.615771,
+    "top": 321.47902,
+    "upright": true
+   },
+   {
+    "text": "None",
+    "x0": 384.815771,
+    "top": 323.47902,
+    "upright": true
+   },
+   {
+    "text": "43",
+    "x0": 422.565771,
+    "top": 323.47902,
+    "upright": true
+   },
+   {
+    "text": "M",
+    "x0": 464.760771,
+    "top": 323.47902,
+    "upright": true
+   },
+   {
+    "text": "NWACHUKWU",
+    "x0": 231.590236,
+    "top": 338.27902,
+    "upright": true
+   },
+   {
+    "text": "ABIA",
+    "x0": 71.41,
+    "top": 343.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "Deputy-",
+    "x0": 129.217351,
+    "top": 343.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "None",
+    "x0": 384.815771,
+    "top": 343.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "45",
+    "x0": 422.565771,
+    "top": 343.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "F",
+    "x0": 465.870771,
+    "top": 343.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "Governorship",
+    "x0": 116.787351,
+    "top": 358.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "OBASI",
+    "x0": 201.545236,
+    "top": 358.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "ROSSY",
+    "x0": 234.895236,
+    "top": 358.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "EMMANUEL",
+    "x0": 272.485236,
+    "top": 358.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "4",
+    "x0": 49.165,
+    "top": 379.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "ABIA",
+    "x0": 71.41,
+    "top": 381.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "Governorship",
+    "x0": 116.787351,
+    "top": 381.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "OPAH",
+    "x0": 238.445236,
+    "top": 381.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "ERIC",
+    "x0": 268.365236,
+    "top": 381.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "APC",
+    "x0": 349.615771,
+    "top": 379.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "None",
+    "x0": 384.815771,
+    "top": 381.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "55",
+    "x0": 422.565771,
+    "top": 381.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "M",
+    "x0": 464.760771,
+    "top": 381.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "FIRST",
+    "x0": 510.787885,
+    "top": 381.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "SCHOOL",
+    "x0": 542.457885,
+    "top": 381.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "LEAVING",
+    "x0": 587.467885,
+    "top": 381.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "CERTIFICATE",
+    "x0": 632.897885,
+    "top": 381.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "SSCE",
+    "x0": 699.737885,
+    "top": 381.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "CHINEMEUCHEYA",
+    "x0": 222.010236,
+    "top": 396.67902,
+    "upright": true
+   },
+   {
+    "text": "ABIA",
+    "x0": 71.41,
+    "top": 401.67902,
+    "upright": true
+   },
+   {
+    "text": "Deputy-",
+    "x0": 129.217351,
+    "top": 401.67902,
+    "upright": true
+   },
+   {
+    "text": "None",
+    "x0": 384.815771,
+    "top": 401.67902,
+    "upright": true
+   },
+   {
+    "text": "57",
+    "x0": 422.565771,
+    "top": 401.67902,
+    "upright": true
+   },
+   {
+    "text": "M",
+    "x0": 464.760771,
+    "top": 401.67902,
+    "upright": true
+   },
+   {
+    "text": "FIRST",
+    "x0": 510.787885,
+    "top": 401.67902,
+    "upright": true
+   },
+   {
+    "text": "SCHOOL",
+    "x0": 542.457885,
+    "top": 401.67902,
+    "upright": true
+   },
+   {
+    "text": "LEAVING",
+    "x0": 587.467885,
+    "top": 401.67902,
+    "upright": true
+   },
+   {
+    "text": "CERTIFICATE",
+    "x0": 632.897885,
+    "top": 401.67902,
+    "upright": true
+   },
+   {
+    "text": "SSCE",
+    "x0": 699.737885,
+    "top": 401.67902,
+    "upright": true
+   },
+   {
+    "text": "Governorship",
+    "x0": 116.787351,
+    "top": 416.47902,
+    "upright": true
+   },
+   {
+    "text": "EGBE",
+    "x0": 211.595236,
+    "top": 416.47902,
+    "upright": true
+   },
+   {
+    "text": "GODSWILL",
+    "x0": 242.165236,
+    "top": 416.47902,
+    "upright": true
+   },
+   {
+    "text": "AGU",
+    "x0": 297.735236,
+    "top": 416.47902,
+    "upright": true
+   },
+   {
+    "text": "Signed:",
+    "x0": 586.89,
+    "top": 515.605,
+    "upright": true
+   },
+   {
+    "text": "Rose",
+    "x0": 656.688,
+    "top": 560.605,
+    "upright": true
+   },
+   {
+    "text": "Oriaran-Anthony",
+    "x0": 680.196,
+    "top": 560.605,
+    "upright": true
+   },
+   {
+    "text": "Secretary,",
+    "x0": 669.216,
+    "top": 573.925,
+    "upright": true
+   },
+   {
+    "text": "INEC",
+    "x0": 712.101,
+    "top": 573.925,
+    "upright": true
+   }
+  ],
+  "chars_nonupright": ""
+ },
+ "https://www.inecnigeria.org/documents/uploads/2026/10/36fbebd3-fe46-4b3e-bed1-8491e408ba7d-finallist-abia-senatorial-districts.pdf": {
+  "pages": 4,
+  "tables": [
+   [
+    [
+     "SN",
+     "STATE",
+     "CONSTITUENCY",
+     "NAME OF CANDIDATE",
+     "PARTY",
+     "PWD",
+     "AGE",
+     "GENDER",
+     "QUALIFICATION(S)",
+     "REMARKS"
+    ],
+    [
+     "1",
+     "ABIA",
+     "ABIA CENTRAL",
+     "EMERUWA IKENNA\nCHIGOZIE",
+     "A",
+     "None",
+     "48",
+     "M",
+     "FSLC (First leaving certificate) SSCE (secondary school\nleaving certificate)",
+     ""
+    ],
+    [
+     "2",
+     "ABIA",
+     "ABIA CENTRAL",
+     "AUSTINE OKWUDIRI\nAKOBUNDU",
+     "ADC",
+     "None",
+     "70",
+     "E\nM",
+     "PRIMARY SCHOOL CERTIFICATE WAEC NDA,\nDIPLOMA, NIGERIA ARMY SCHOOL OF SIGNAL,\nCOMMAND AND STAFF COLLEGE NIGERIA",
+     ""
+    ],
+    [
+     "3",
+     "ABIA",
+     "ABIA CENTRAL",
+     "ATUMA EMEKA",
+     "APC",
+     "None",
+     "57",
+     "M",
+     "FIRST SCHOOL LEAVING CERTIFICATE WEST\nAFRICAN EXAM COUNCIL ( WAEC) BSc, MSc",
+     ""
+    ],
+    [
+     "4",
+     "ABIA",
+     "ABIA CENTRAL",
+     "UMUNNAH FAVOUR\nUGOCHI",
+     "APM",
+     "None",
+     "41",
+     "F",
+     "FIRST SCHOOL LEAVING SSCE",
+     ""
+    ]
+   ]
+  ],
+  "rows": [
+   [
+    [
+     40.5,
+     168.32902,
+     63.39,
+     188.12901999999997
+    ],
+    [
+     63.39,
+     168.32902,
+     102.22,
+     188.12901999999997
+    ],
+    [
+     102.22,
+     168.32902,
+     190.11,
+     188.12901999999997
+    ],
+    [
+     190.11,
+     168.32902,
+     322.893428,
+     188.12901999999997
+    ],
+    [
+     322.893428,
+     168.32902,
+     363.733428,
+     188.12901999999997
+    ],
+    [
+     363.733428,
+     168.32902,
+     396.633428,
+     188.12901999999997
+    ],
+    [
+     396.633428,
+     168.32902,
+     426.453428,
+     188.12901999999997
+    ],
+    [
+     426.453428,
+     168.32902,
+     478.233428,
+     188.12901999999997
+    ],
+    [
+     478.233428,
+     168.32902,
+     742.94,
+     188.12901999999997
+    ],
+    [
+     742.94,
+     168.32902,
+     801.39,
+     188.12901999999997
+    ]
+   ],
+   [
+    [
+     40.5,
+     188.12901999999997,
+     63.39,
+     222.72902
+    ],
+    [
+     63.39,
+     188.12901999999997,
+     102.22,
+     222.72902
+    ],
+    [
+     102.22,
+     188.12901999999997,
+     190.11,
+     222.72902
+    ],
+    [
+     190.11,
+     188.12901999999997,
+     322.893428,
+     222.72902
+    ],
+    [
+     322.893428,
+     188.12901999999997,
+     363.733428,
+     222.72902
+    ],
+    [
+     363.733428,
+     188.12901999999997,
+     396.633428,
+     222.72902
+    ],
+    [
+     396.633428,
+     188.12901999999997,
+     426.453428,
+     222.72902
+    ],
+    [
+     426.453428,
+     188.12901999999997,
+     478.233428,
+     222.72902
+    ],
+    [
+     478.233428,
+     188.12901999999997,
+     742.94,
+     222.72902
+    ],
+    [
+     742.94,
+     188.12901999999997,
+     801.39,
+     222.72902
+    ]
+   ],
+   [
+    [
+     40.5,
+     222.72902,
+     63.39,
+     272.12902
+    ],
+    [
+     63.39,
+     222.72902,
+     102.22,
+     272.12902
+    ],
+    [
+     102.22,
+     222.72902,
+     190.11,
+     272.12902
+    ],
+    [
+     190.11,
+     222.72902,
+     322.893428,
+     272.12902
+    ],
+    [
+     322.893428,
+     222.72902,
+     363.733428,
+     272.12902
+    ],
+    [
+     363.733428,
+     222.72902,
+     396.633428,
+     272.12902
+    ],
+    [
+     396.633428,
+     222.72902,
+     426.453428,
+     272.12902
+    ],
+    [
+     426.453428,
+     222.72902,
+     478.233428,
+     272.12902
+    ],
+    [
+     478.233428,
+     222.72902,
+     742.94,
+     272.12902
+    ],
+    [
+     742.94,
+     222.72902,
+     801.39,
+     272.12902
+    ]
+   ],
+   [
+    [
+     40.5,
+     272.12902,
+     63.39,
+     306.72902
+    ],
+    [
+     63.39,
+     272.12902,
+     102.22,
+     306.72902
+    ],
+    [
+     102.22,
+     272.12902,
+     190.11,
+     306.72902
+    ],
+    [
+     190.11,
+     272.12902,
+     322.893428,
+     306.72902
+    ],
+    [
+     322.893428,
+     272.12902,
+     363.733428,
+     306.72902
+    ],
+    [
+     363.733428,
+     272.12902,
+     396.633428,
+     306.72902
+    ],
+    [
+     396.633428,
+     272.12902,
+     426.453428,
+     306.72902
+    ],
+    [
+     426.453428,
+     272.12902,
+     478.233428,
+     306.72902
+    ],
+    [
+     478.233428,
+     272.12902,
+     742.94,
+     306.72902
+    ],
+    [
+     742.94,
+     272.12902,
+     801.39,
+     306.72902
+    ]
+   ]
+  ],
+  "words": [
+   {
+    "text": "C",
+    "x0": 602.9560827861449,
+    "top": -16.994601605846356,
+    "upright": true
+   },
+   {
+    "text": "E",
+    "x0": 441.99068078634286,
+    "top": 99.2224186380106,
+    "upright": true
+   },
+   {
+    "text": "PRESIDENTIAL",
+    "x0": 94.843,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "AND",
+    "x0": 203.357,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "NATIONAL",
+    "x0": 237.181,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "ASSEMBLY",
+    "x0": 314.237,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "ELECTIONS",
+    "x0": 393.463,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "FOR",
+    "x0": 478.653,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "JAN,",
+    "x0": 511.707,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "2027",
+    "x0": 545.503,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "-",
+    "x0": 577.003,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "SENATORIAL",
+    "x0": 585.165,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "DISTRICT",
+    "x0": 679.371,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "FINAL",
+    "x0": 323.015,
+    "top": 138.78902,
+    "upright": true
+   },
+   {
+    "text": "LIST",
+    "x0": 369.789,
+    "top": 138.78902,
+    "upright": true
+   },
+   {
+    "text": "OF",
+    "x0": 405.195,
+    "top": 138.78902,
+    "upright": true
+   },
+   {
+    "text": "CANDIDATES",
+    "x0": 428.141,
+    "top": 138.78902,
+    "upright": true
+   },
+   {
+    "text": "SN",
+    "x0": 45.0,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "STATE",
+    "x0": 67.89,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "CONSTITUENCY",
+    "x0": 106.72,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "NAME",
+    "x0": 204.241714,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "OF",
+    "x0": 235.911714,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "CANDIDATE",
+    "x0": 252.581714,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "PARTY",
+    "x0": 327.393428,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "PWD",
+    "x0": 368.518428,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "AGE",
+    "x0": 401.133428,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "GENDER",
+    "x0": 430.953428,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "QUALIFICATION(S)",
+    "x0": 566.431714,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "REMARKS",
+    "x0": 747.44,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "1",
+    "x0": 49.165,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "ABIA",
+    "x0": 71.41,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "ABIA",
+    "x0": 110.045,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "CENTRAL",
+    "x0": 135.615,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "EMERUWA",
+    "x0": 210.836714,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "IKENNA",
+    "x0": 264.936714,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "A",
+    "x0": 339.978428,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "None",
+    "x0": 368.233428,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "48",
+    "x0": 405.983428,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "M",
+    "x0": 448.178428,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "FSLC",
+    "x0": 486.136714,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "(First",
+    "x0": 514.476714,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "leaving",
+    "x0": 540.026714,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "certificate)",
+    "x0": 574.286714,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "SSCE",
+    "x0": 623.586714,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "(secondary",
+    "x0": 653.596714,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "school",
+    "x0": 706.136714,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "CHIGOZIE",
+    "x0": 232.331714,
+    "top": 204.67901999999998,
+    "upright": true
+   },
+   {
+    "text": "N",
+    "x0": 286.7506129855222,
+    "top": 206.58634177187855,
+    "upright": true
+   },
+   {
+    "text": "leaving",
+    "x0": 570.196714,
+    "top": 204.67901999999998,
+    "upright": true
+   },
+   {
+    "text": "certificate)",
+    "x0": 604.456714,
+    "top": 204.67901999999998,
+    "upright": true
+   },
+   {
+    "text": "2",
+    "x0": 49.165,
+    "top": 224.47902,
+    "upright": true
+   },
+   {
+    "text": "ABIA",
+    "x0": 71.41,
+    "top": 224.47902,
+    "upright": true
+   },
+   {
+    "text": "ABIA",
+    "x0": 110.045,
+    "top": 224.47902,
+    "upright": true
+   },
+   {
+    "text": "CENTRAL",
+    "x0": 135.615,
+    "top": 224.47902,
+    "upright": true
+   },
+   {
+    "text": "AUSTINE",
+    "x0": 208.136714,
+    "top": 224.47902,
+    "upright": true
+   },
+   {
+    "text": "OKWUDIRI",
+    "x0": 253.756714,
+    "top": 224.47902,
+    "upright": true
+   },
+   {
+    "text": "ADC",
+    "x0": 332.758428,
+    "top": 224.47902,
+    "upright": true
+   },
+   {
+    "text": "None",
+    "x0": 368.233428,
+    "top": 224.47902,
+    "upright": true
+   },
+   {
+    "text": "70",
+    "x0": 405.983428,
+    "top": 224.47902,
+    "upright": true
+   },
+   {
+    "text": "M",
+    "x0": 448.178428,
+    "top": 224.47902,
+    "upright": true
+   },
+   {
+    "text": "PRIMARY",
+    "x0": 502.856714,
+    "top": 224.47902,
+    "upright": true
+   },
+   {
+    "text": "SCHOOL",
+    "x0": 550.696714,
+    "top": 224.47902,
+    "upright": true
+   },
+   {
+    "text": "CERTIFICATE",
+    "x0": 595.706714,
+    "top": 224.47902,
+    "upright": true
+   },
+   {
+    "text": "WAEC",
+    "x0": 662.546714,
+    "top": 224.47902,
+    "upright": true
+   },
+   {
+    "text": "NDA,",
+    "x0": 694.826714,
+    "top": 224.47902,
+    "upright": true
+   },
+   {
+    "text": "AKOBUNDU",
+    "x0": 228.466714,
+    "top": 239.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "DIPLOMA,",
+    "x0": 496.946714,
+    "top": 239.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "NIGERIA",
+    "x0": 547.516714,
+    "top": 239.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "ARMY",
+    "x0": 591.416714,
+    "top": 239.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "SCHOOL",
+    "x0": 623.086714,
+    "top": 239.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "OF",
+    "x0": 668.096714,
+    "top": 239.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "SIGNAL,",
+    "x0": 684.766714,
+    "top": 239.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "COMMAND",
+    "x0": 508.671714,
+    "top": 254.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "AND",
+    "x0": 564.221714,
+    "top": 254.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "STAFF",
+    "x0": 588.111714,
+    "top": 254.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "COLLEGE",
+    "x0": 621.361714,
+    "top": 254.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "NIGERIA",
+    "x0": 671.381714,
+    "top": 254.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "3",
+    "x0": 49.165,
+    "top": 273.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "ABIA",
+    "x0": 71.41,
+    "top": 273.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "ABIA",
+    "x0": 110.045,
+    "top": 273.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "CENTRAL",
+    "x0": 135.615,
+    "top": 273.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "ATUMA",
+    "x0": 219.316714,
+    "top": 273.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "EMEKA",
+    "x0": 258.676714,
+    "top": 273.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "APC",
+    "x0": 333.033428,
+    "top": 273.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "None",
+    "x0": 368.233428,
+    "top": 273.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "57",
+    "x0": 405.983428,
+    "top": 273.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "M",
+    "x0": 448.178428,
+    "top": 273.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "FIRST",
+    "x0": 501.666714,
+    "top": 273.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "SCHOOL",
+    "x0": 533.336714,
+    "top": 273.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "LEAVING",
+    "x0": 578.346714,
+    "top": 273.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "CERTIFICATE",
+    "x0": 623.776714,
+    "top": 273.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "WEST",
+    "x0": 690.616714,
+    "top": 273.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "AFRICAN",
+    "x0": 505.266714,
+    "top": 288.67902,
+    "upright": true
+   },
+   {
+    "text": "EXAM",
+    "x0": 551.936714,
+    "top": 288.67902,
+    "upright": true
+   },
+   {
+    "text": "COUNCIL",
+    "x0": 583.056714,
+    "top": 288.67902,
+    "upright": true
+   },
+   {
+    "text": "(",
+    "x0": 630.836714,
+    "top": 288.67902,
+    "upright": true
+   },
+   {
+    "text": "WAEC)",
+    "x0": 636.5467140000001,
+    "top": 288.67902,
+    "upright": true
+   },
+   {
+    "text": "BSc,",
+    "x0": 672.156714,
+    "top": 288.67902,
+    "upright": true
+   },
+   {
+    "text": "MSc",
+    "x0": 695.906714,
+    "top": 288.67902,
+    "upright": true
+   },
+   {
+    "text": "4",
+    "x0": 49.165,
+    "top": 308.47902,
+    "upright": true
+   },
+   {
+    "text": "ABIA",
+    "x0": 71.41,
+    "top": 308.47902,
+    "upright": true
+   },
+   {
+    "text": "ABIA",
+    "x0": 110.045,
+    "top": 308.47902,
+    "upright": true
+   },
+   {
+    "text": "CENTRAL",
+    "x0": 135.615,
+    "top": 308.47902,
+    "upright": true
+   },
+   {
+    "text": "UMUNNAH",
+    "x0": 209.676714,
+    "top": 308.47902,
+    "upright": true
+   },
+   {
+    "text": "FAVOUR",
+    "x0": 263.556714,
+    "top": 308.47902,
+    "upright": true
+   },
+   {
+    "text": "APM",
+    "x0": 332.478428,
+    "top": 308.47902,
+    "upright": true
+   },
+   {
+    "text": "None",
+    "x0": 368.233428,
+    "top": 308.47902,
+    "upright": true
+   },
+   {
+    "text": "41",
+    "x0": 405.983428,
+    "top": 308.47902,
+    "upright": true
+   },
+   {
+    "text": "F",
+    "x0": 449.288428,
+    "top": 308.47902,
+    "upright": true
+   },
+   {
+    "text": "FIRST",
+    "x0": 535.916714,
+    "top": 308.47902,
+    "upright": true
+   },
+   {
+    "text": "SCHOOL",
+    "x0": 567.586714,
+    "top": 308.47902,
+    "upright": true
+   },
+   {
+    "text": "LEAVING",
+    "x0": 612.596714,
+    "top": 308.47902,
+    "upright": true
+   },
+   {
+    "text": "SSCE",
+    "x0": 658.026714,
+    "top": 308.47902,
+    "upright": true
+   },
+   {
+    "text": "I",
+    "x0": 125.78521098572023,
+    "top": 322.8033620157356,
+    "upright": true
+   },
+   {
+    "text": "UGOCHI",
+    "x0": 236.501714,
+    "top": 323.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "5",
+    "x0": 49.165,
+    "top": 343.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "ABIA",
+    "x0": 71.41,
+    "top": 343.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "ABIA",
+    "x0": 110.045,
+    "top": 343.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "CENTRAL",
+    "x0": 135.615,
+    "top": 343.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "ONWUGHARA",
+    "x0": 222.891714,
+    "top": 343.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "APP",
+    "x0": 333.308428,
+    "top": 343.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "None",
+    "x0": 368.233428,
+    "top": 343.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "60",
+    "x0": 405.983428,
+    "top": 343.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "M",
+    "x0": 448.178428,
+    "top": 343.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "FIRST",
+    "x0": 483.121714,
+    "top": 343.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "SCHOOL",
+    "x0": 514.791714,
+    "top": 343.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "LEAVING",
+    "x0": 559.801714,
+    "top": 343.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "CERTIFICATE",
+    "x0": 605.231714,
+    "top": 343.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "WAEC",
+    "x0": 672.071714,
+    "top": 343.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "B.ENG,",
+    "x0": 704.351714,
+    "top": 343.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "IZUCHUKWU",
+    "x0": 204.481714,
+    "top": 357.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "JOSHUA",
+    "x0": 268.361714,
+    "top": 357.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "M.S.C",
+    "x0": 596.796714,
+    "top": 357.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "6",
+    "x0": 49.165,
+    "top": 377.67902,
+    "upright": true
+   },
+   {
+    "text": "ABIA",
+    "x0": 71.41,
+    "top": 377.67902,
+    "upright": true
+   },
+   {
+    "text": "ABIA",
+    "x0": 110.045,
+    "top": 377.67902,
+    "upright": true
+   },
+   {
+    "text": "CENTRAL",
+    "x0": 135.615,
+    "top": 377.67902,
+    "upright": true
+   },
+   {
+    "text": "NWOKOCHA",
+    "x0": 226.851714,
+    "top": 377.67902,
+    "upright": true
+   },
+   {
+    "text": "LP",
+    "x0": 337.198428,
+    "top": 377.67902,
+    "upright": true
+   },
+   {
+    "text": "None",
+    "x0": 368.233428,
+    "top": 377.67902,
+    "upright": true
+   },
+   {
+    "text": "59",
+    "x0": 405.983428,
+    "top": 377.67902,
+    "upright": true
+   },
+   {
+    "text": "M",
+    "x0": 448.178428,
+    "top": 377.67902,
+    "upright": true
+   },
+   {
+    "text": "FSLC",
+    "x0": 569.996714,
+    "top": 377.67902,
+    "upright": true
+   },
+   {
+    "text": "WAEC",
+    "x0": 598.336714,
+    "top": 377.67902,
+    "upright": true
+   },
+   {
+    "text": "BSC",
+    "x0": 630.616714,
+    "top": 377.67902,
+    "upright": true
+   },
+   {
+    "text": "DARLINGTON",
+    "x0": 203.006714,
+    "top": 392.47902,
+    "upright": true
+   },
+   {
+    "text": "GIDEON",
+    "x0": 270.546714,
+    "top": 392.47902,
+    "upright": true
+   },
+   {
+    "text": "7",
+    "x0": 49.165,
+    "top": 412.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "ABIA",
+    "x0": 71.41,
+    "top": 412.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "ABIA",
+    "x0": 110.045,
+    "top": 412.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "CENTRAL",
+    "x0": 135.615,
+    "top": 412.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "NKECHI",
+    "x0": 213.566714,
+    "top": 412.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "NWAOGU",
+    "x0": 254.126714,
+    "top": 412.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "NDC",
+    "x0": 332.483428,
+    "top": 412.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "None",
+    "x0": 368.233428,
+    "top": 412.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "61",
+    "x0": 405.983428,
+    "top": 412.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "F",
+    "x0": 449.288428,
+    "top": 412.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "FSLC",
+    "x0": 496.081714,
+    "top": 412.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "WAEC",
+    "x0": 524.421714,
+    "top": 412.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "PHD,",
+    "x0": 556.701714,
+    "top": 412.27901999999995,
+    "upright": true
+   }
+  ],
+  "chars_nonupright": ""
+ },
+ "https://www.inecnigeria.org/documents/uploads/2026/10/04fad3c4-9b95-41e3-8274-b0ee5af4af46-final-list-abia-house-of-representatives.pdf": {
+  "pages": 8,
+  "tables": [
+   [
+    [
+     "SN",
+     "STATE",
+     "CONSTITUENCY",
+     "NAME OF CANDIDATE",
+     "PARTY",
+     "PWD",
+     "AGE",
+     "GENDER",
+     "QUALIFICATION(S)",
+     "REMARKS"
+    ],
+    [
+     "1",
+     "ABIA",
+     "Aba North/Aba South",
+     "CHIWUBA KALU",
+     "A",
+     "None",
+     "44",
+     "M",
+     "FSLC SSCE",
+     ""
+    ],
+    [
+     "2",
+     "ABIA",
+     "Aba North/Aba South",
+     "EGEGE IZUAKOLAM\nAZU PRINCE",
+     "ADC",
+     "None",
+     "61",
+     "M",
+     "FSLC WAEC PGD",
+     ""
+    ],
+    [
+     "3",
+     "ABIA",
+     "Aba North/Aba South",
+     "GERALD A. ANYANWU",
+     "ADP",
+     "None",
+     "36",
+     "M",
+     "",
+     ""
+    ],
+    [
+     "4",
+     "ABIA",
+     "Aba North/Aba South",
+     "AZUBUIKE\nUZOCHUKWU\nCHARLES",
+     "APC",
+     "None",
+     "59",
+     "E\nM",
+     "FSLC WASC O/L LLB, BL",
+     ""
+    ]
+   ]
+  ],
+  "rows": [
+   [
+    [
+     40.541666666666664,
+     168.32902,
+     63.42846153846154,
+     188.12901999999997
+    ],
+    [
+     63.42846153846154,
+     168.32902,
+     102.25846153846153,
+     188.12901999999997
+    ],
+    [
+     102.25846153846153,
+     168.32902,
+     218.15125553846156,
+     188.12901999999997
+    ],
+    [
+     218.15125553846156,
+     168.32902,
+     337.57492561538464,
+     188.12901999999997
+    ],
+    [
+     337.57492561538464,
+     168.32902,
+     378.41492553846155,
+     188.12901999999997
+    ],
+    [
+     378.41492553846155,
+     168.32902,
+     412.41492553846155,
+     188.12901999999997
+    ],
+    [
+     412.41492553846155,
+     168.32902,
+     442.23492553846154,
+     188.12901999999997
+    ],
+    [
+     442.23492553846154,
+     168.32902,
+     494.01492553846157,
+     188.12901999999997
+    ],
+    [
+     494.01492553846157,
+     168.32902,
+     742.9784615384616,
+     188.12901999999997
+    ],
+    [
+     742.9784615384616,
+     168.32902,
+     801.39,
+     188.12901999999997
+    ]
+   ],
+   [
+    [
+     40.541666666666664,
+     188.12901999999997,
+     63.42846153846154,
+     208.17902000000004
+    ],
+    [
+     63.42846153846154,
+     188.12901999999997,
+     102.25846153846153,
+     208.17902000000004
+    ],
+    [
+     102.25846153846153,
+     188.12901999999997,
+     218.15125553846156,
+     208.17902000000004
+    ],
+    [
+     218.15125553846156,
+     188.12901999999997,
+     337.57492561538464,
+     208.17902000000004
+    ],
+    [
+     337.57492561538464,
+     188.12901999999997,
+     378.41492553846155,
+     208.17902000000004
+    ],
+    [
+     378.41492553846155,
+     188.12901999999997,
+     412.41492553846155,
+     208.17902000000004
+    ],
+    [
+     412.41492553846155,
+     188.12901999999997,
+     442.23492553846154,
+     208.17902000000004
+    ],
+    [
+     442.23492553846154,
+     188.12901999999997,
+     494.01492553846157,
+     208.17902000000004
+    ],
+    [
+     494.01492553846157,
+     188.12901999999997,
+     742.9784615384616,
+     208.17902000000004
+    ],
+    [
+     742.9784615384616,
+     188.12901999999997,
+     801.39,
+     208.17902000000004
+    ]
+   ],
+   [
+    [
+     40.541666666666664,
+     208.17902000000004,
+     63.42846153846154,
+     242.77902
+    ],
+    [
+     63.42846153846154,
+     208.17902000000004,
+     102.25846153846153,
+     242.77902
+    ],
+    [
+     102.25846153846153,
+     208.17902000000004,
+     218.15125553846156,
+     242.77902
+    ],
+    [
+     218.15125553846156,
+     208.17902000000004,
+     337.57492561538464,
+     242.77902
+    ],
+    [
+     337.57492561538464,
+     208.17902000000004,
+     378.41492553846155,
+     242.77902
+    ],
+    [
+     378.41492553846155,
+     208.17902000000004,
+     412.41492553846155,
+     242.77902
+    ],
+    [
+     412.41492553846155,
+     208.17902000000004,
+     442.23492553846154,
+     242.77902
+    ],
+    [
+     442.23492553846154,
+     208.17902000000004,
+     494.01492553846157,
+     242.77902
+    ],
+    [
+     494.01492553846157,
+     208.17902000000004,
+     742.9784615384616,
+     242.77902
+    ],
+    [
+     742.9784615384616,
+     208.17902000000004,
+     801.39,
+     242.77902
+    ]
+   ],
+   [
+    [
+     40.541666666666664,
+     242.77902,
+     63.42846153846154,
+     262.32902
+    ],
+    [
+     63.42846153846154,
+     242.77902,
+     102.25846153846153,
+     262.32902
+    ],
+    [
+     102.25846153846153,
+     242.77902,
+     218.15125553846156,
+     262.32902
+    ],
+    [
+     218.15125553846156,
+     242.77902,
+     337.57492561538464,
+     262.32902
+    ],
+    [
+     337.57492561538464,
+     242.77902,
+     378.41492553846155,
+     262.32902
+    ],
+    [
+     378.41492553846155,
+     242.77902,
+     412.41492553846155,
+     262.32902
+    ],
+    [
+     412.41492553846155,
+     242.77902,
+     442.23492553846154,
+     262.32902
+    ],
+    [
+     442.23492553846154,
+     242.77902,
+     494.01492553846157,
+     262.32902
+    ],
+    [
+     494.01492553846157,
+     242.77902,
+     742.9784615384616,
+     262.32902
+    ],
+    [
+     742.9784615384616,
+     242.77902,
+     801.39,
+     262.32902
+    ]
+   ]
+  ],
+  "words": [
+   {
+    "text": "C",
+    "x0": 602.9560827861449,
+    "top": -16.994601605846356,
+    "upright": true
+   },
+   {
+    "text": "E",
+    "x0": 441.99068078634286,
+    "top": 99.2224186380106,
+    "upright": true
+   },
+   {
+    "text": "PRESIDENTIAL",
+    "x0": 71.281,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "AND",
+    "x0": 179.795,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "NATIONAL",
+    "x0": 213.619,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "ASSEMBLY",
+    "x0": 290.675,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "ELECTIONS",
+    "x0": 369.901,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "FOR",
+    "x0": 455.091,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "JAN,",
+    "x0": 488.145,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "2027",
+    "x0": 521.941,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "-",
+    "x0": 553.441,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "HOUSE",
+    "x0": 561.603,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "OF",
+    "x0": 614.117,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "REPRESENTATIVES",
+    "x0": 637.063,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "FINAL",
+    "x0": 323.015,
+    "top": 138.78902,
+    "upright": true
+   },
+   {
+    "text": "LIST",
+    "x0": 369.789,
+    "top": 138.78902,
+    "upright": true
+   },
+   {
+    "text": "OF",
+    "x0": 405.195,
+    "top": 138.78902,
+    "upright": true
+   },
+   {
+    "text": "CANDIDATES",
+    "x0": 428.141,
+    "top": 138.78902,
+    "upright": true
+   },
+   {
+    "text": "SN",
+    "x0": 45.0,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "STATE",
+    "x0": 67.89,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "CONSTITUENCY",
+    "x0": 120.721397,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "NAME",
+    "x0": 225.564629,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "OF",
+    "x0": 257.234629,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "CANDIDATE",
+    "x0": 273.904629,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "PARTY",
+    "x0": 342.036464,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "PWD",
+    "x0": 383.711464,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "AGE",
+    "x0": 416.876464,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "GENDER",
+    "x0": 446.696464,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "QUALIFICATION(S)",
+    "x0": 574.303232,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "REMARKS",
+    "x0": 747.44,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "1",
+    "x0": 49.165,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "ABIA",
+    "x0": 71.41,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "Aba",
+    "x0": 112.716397,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "North/Aba",
+    "x0": 133.286397,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "South",
+    "x0": 181.486397,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "CHIWUBA",
+    "x0": 239.764629,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "KALU",
+    "x0": 289.764629,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "A",
+    "x0": 354.621464,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "None",
+    "x0": 383.426464,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "44",
+    "x0": 421.726464,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "M",
+    "x0": 463.921464,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "FSLC",
+    "x0": 590.673232,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "SSCE",
+    "x0": 619.013232,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "N",
+    "x0": 286.7506129855222,
+    "top": 206.58634177187855,
+    "upright": true
+   },
+   {
+    "text": "2",
+    "x0": 49.165,
+    "top": 209.67901999999998,
+    "upright": true
+   },
+   {
+    "text": "ABIA",
+    "x0": 70.585,
+    "top": 209.67901999999998,
+    "upright": true
+   },
+   {
+    "text": "Aba",
+    "x0": 109.511397,
+    "top": 209.67901999999998,
+    "upright": true
+   },
+   {
+    "text": "North/Aba",
+    "x0": 131.181397,
+    "top": 209.67901999999998,
+    "upright": true
+   },
+   {
+    "text": "South",
+    "x0": 182.491397,
+    "top": 209.67901999999998,
+    "upright": true
+   },
+   {
+    "text": "EGEGE",
+    "x0": 229.054629,
+    "top": 209.67901999999998,
+    "upright": true
+   },
+   {
+    "text": "IZUAKOLAM",
+    "x0": 267.404629,
+    "top": 209.67901999999998,
+    "upright": true
+   },
+   {
+    "text": "ADC",
+    "x0": 347.126464,
+    "top": 209.67901999999998,
+    "upright": true
+   },
+   {
+    "text": "None",
+    "x0": 382.876464,
+    "top": 209.67901999999998,
+    "upright": true
+   },
+   {
+    "text": "61",
+    "x0": 421.726464,
+    "top": 209.67901999999998,
+    "upright": true
+   },
+   {
+    "text": "M",
+    "x0": 463.921464,
+    "top": 209.67901999999998,
+    "upright": true
+   },
+   {
+    "text": "FSLC",
+    "x0": 576.813232,
+    "top": 209.67901999999998,
+    "upright": true
+   },
+   {
+    "text": "WAEC",
+    "x0": 605.703232,
+    "top": 209.67901999999998,
+    "upright": true
+   },
+   {
+    "text": "PGD",
+    "x0": 638.433232,
+    "top": 209.67901999999998,
+    "upright": true
+   },
+   {
+    "text": "AZU",
+    "x0": 247.269629,
+    "top": 224.47902,
+    "upright": true
+   },
+   {
+    "text": "PRINCE",
+    "x0": 270.599629,
+    "top": 224.47902,
+    "upright": true
+   },
+   {
+    "text": "3",
+    "x0": 49.165,
+    "top": 244.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "ABIA",
+    "x0": 71.41,
+    "top": 244.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "Aba",
+    "x0": 112.716397,
+    "top": 244.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "North/Aba",
+    "x0": 133.286397,
+    "top": 244.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "South",
+    "x0": 181.486397,
+    "top": 244.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "GERALD",
+    "x0": 225.054629,
+    "top": 244.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "A.",
+    "x0": 268.954629,
+    "top": 244.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "ANYANWU",
+    "x0": 280.584629,
+    "top": 244.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "ADP",
+    "x0": 347.676464,
+    "top": 244.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "None",
+    "x0": 383.426464,
+    "top": 244.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "36",
+    "x0": 421.726464,
+    "top": 244.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "M",
+    "x0": 463.921464,
+    "top": 244.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "4",
+    "x0": 49.165,
+    "top": 264.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "ABIA",
+    "x0": 71.41,
+    "top": 264.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "Aba",
+    "x0": 112.716397,
+    "top": 264.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "North/Aba",
+    "x0": 133.286397,
+    "top": 264.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "South",
+    "x0": 181.486397,
+    "top": 264.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "AZUBUIKE",
+    "x0": 252.869629,
+    "top": 264.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "APC",
+    "x0": 347.676464,
+    "top": 264.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "None",
+    "x0": 383.426464,
+    "top": 264.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "59",
+    "x0": 421.726464,
+    "top": 264.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "M",
+    "x0": 463.921464,
+    "top": 264.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "FSLC",
+    "x0": 561.008232,
+    "top": 264.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "WASC",
+    "x0": 589.348232,
+    "top": 264.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "O/L",
+    "x0": 621.628232,
+    "top": 264.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "LLB,",
+    "x0": 640.528232,
+    "top": 264.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "BL",
+    "x0": 663.678232,
+    "top": 264.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "UZOCHUKWU",
+    "x0": 244.774629,
+    "top": 278.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "CHARLES",
+    "x0": 254.209629,
+    "top": 293.67902,
+    "upright": true
+   },
+   {
+    "text": "5",
+    "x0": 49.165,
+    "top": 313.47902,
+    "upright": true
+   },
+   {
+    "text": "ABIA",
+    "x0": 71.41,
+    "top": 313.47902,
+    "upright": true
+   },
+   {
+    "text": "Aba",
+    "x0": 112.716397,
+    "top": 313.47902,
+    "upright": true
+   },
+   {
+    "text": "North/Aba",
+    "x0": 133.286397,
+    "top": 313.47902,
+    "upright": true
+   },
+   {
+    "text": "South",
+    "x0": 181.486397,
+    "top": 313.47902,
+    "upright": true
+   },
+   {
+    "text": "AHUKANNA",
+    "x0": 250.044629,
+    "top": 313.47902,
+    "upright": true
+   },
+   {
+    "text": "APGA",
+    "x0": 344.061464,
+    "top": 313.47902,
+    "upright": true
+   },
+   {
+    "text": "None",
+    "x0": 383.426464,
+    "top": 313.47902,
+    "upright": true
+   },
+   {
+    "text": "50",
+    "x0": 421.726464,
+    "top": 313.47902,
+    "upright": true
+   },
+   {
+    "text": "M",
+    "x0": 463.921464,
+    "top": 313.47902,
+    "upright": true
+   },
+   {
+    "text": "FSLC",
+    "x0": 594.008232,
+    "top": 313.47902,
+    "upright": true
+   },
+   {
+    "text": "SSC",
+    "x0": 622.348232,
+    "top": 313.47902,
+    "upright": true
+   },
+   {
+    "text": "I",
+    "x0": 125.78521098572023,
+    "top": 322.8033620157356,
+    "upright": true
+   },
+   {
+    "text": "MADUABUCHI",
+    "x0": 244.464629,
+    "top": 328.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "6",
+    "x0": 49.165,
+    "top": 348.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "ABIA",
+    "x0": 71.41,
+    "top": 348.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "Aba",
+    "x0": 112.716397,
+    "top": 348.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "North/Aba",
+    "x0": 133.286397,
+    "top": 348.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "South",
+    "x0": 181.486397,
+    "top": 348.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "CHIJIOKE",
+    "x0": 227.814629,
+    "top": 348.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "SOLOMON",
+    "x0": 276.714629,
+    "top": 348.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "APM",
+    "x0": 347.121464,
+    "top": 348.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "None",
+    "x0": 383.426464,
+    "top": 348.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "29",
+    "x0": 421.726464,
+    "top": 348.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "M",
+    "x0": 463.921464,
+    "top": 348.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "FSLC",
+    "x0": 577.688232,
+    "top": 348.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "WAEC",
+    "x0": 606.028232,
+    "top": 348.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "B.Sc",
+    "x0": 638.308232,
+    "top": 348.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "7",
+    "x0": 49.165,
+    "top": 367.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "ABIA",
+    "x0": 71.41,
+    "top": 367.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "Aba",
+    "x0": 112.716397,
+    "top": 367.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "North/Aba",
+    "x0": 133.286397,
+    "top": 367.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "South",
+    "x0": 181.486397,
+    "top": 367.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "IKWECHEGH",
+    "x0": 232.814629,
+    "top": 367.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "ALEX",
+    "x0": 297.264629,
+    "top": 367.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "LP",
+    "x0": 351.841464,
+    "top": 367.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "None",
+    "x0": 383.426464,
+    "top": 367.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "46",
+    "x0": 421.726464,
+    "top": 367.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "M",
+    "x0": 463.921464,
+    "top": 367.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "FIRST",
+    "x0": 507.843232,
+    "top": 367.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "SCHOOL",
+    "x0": 539.513232,
+    "top": 367.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "LEAVING",
+    "x0": 584.523232,
+    "top": 367.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "CERTIFICATE",
+    "x0": 629.953232,
+    "top": 367.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "WAEC",
+    "x0": 699.573232,
+    "top": 367.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "MASCOT",
+    "x0": 256.634629,
+    "top": 382.67902,
+    "upright": true
+   },
+   {
+    "text": "8",
+    "x0": 49.165,
+    "top": 402.47902,
+    "upright": true
+   },
+   {
+    "text": "ABIA",
+    "x0": 71.41,
+    "top": 402.47902,
+    "upright": true
+   },
+   {
+    "text": "Aba",
+    "x0": 112.716397,
+    "top": 402.47902,
+    "upright": true
+   },
+   {
+    "text": "North/Aba",
+    "x0": 133.286397,
+    "top": 402.47902,
+    "upright": true
+   },
+   {
+    "text": "South",
+    "x0": 181.486397,
+    "top": 402.47902,
+    "upright": true
+   },
+   {
+    "text": "SAMUEL",
+    "x0": 227.539629,
+    "top": 402.47902,
+    "upright": true
+   },
+   {
+    "text": "THANKGOD",
+    "x0": 271.439629,
+    "top": 402.47902,
+    "upright": true
+   },
+   {
+    "text": "NDC",
+    "x0": 347.126464,
+    "top": 402.47902,
+    "upright": true
+   },
+   {
+    "text": "None",
+    "x0": 383.426464,
+    "top": 402.47902,
+    "upright": true
+   },
+   {
+    "text": "34",
+    "x0": 421.726464,
+    "top": 402.47902,
+    "upright": true
+   },
+   {
+    "text": "M",
+    "x0": 463.921464,
+    "top": 402.47902,
+    "upright": true
+   },
+   {
+    "text": "FIRST",
+    "x0": 507.843232,
+    "top": 402.47902,
+    "upright": true
+   },
+   {
+    "text": "SCHOOL",
+    "x0": 539.513232,
+    "top": 402.47902,
+    "upright": true
+   },
+   {
+    "text": "LEAVING",
+    "x0": 584.523232,
+    "top": 402.47902,
+    "upright": true
+   },
+   {
+    "text": "CERTIFICATE",
+    "x0": 629.953232,
+    "top": 402.47902,
+    "upright": true
+   },
+   {
+    "text": "WAEC",
+    "x0": 699.573232,
+    "top": 402.47902,
+    "upright": true
+   },
+   {
+    "text": "UCHENNA",
+    "x0": 253.104629,
+    "top": 417.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "B.Sc",
+    "x0": 607.998232,
+    "top": 417.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "9",
+    "x0": 49.165,
+    "top": 437.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "ABIA",
+    "x0": 71.41,
+    "top": 437.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "Aba",
+    "x0": 112.716397,
+    "top": 437.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "North/Aba",
+    "x0": 133.286397,
+    "top": 437.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "South",
+    "x0": 181.486397,
+    "top": 437.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "EGWU",
+    "x0": 226.714629,
+    "top": 437.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "UDE",
+    "x0": 260.604629,
+    "top": 437.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "NDUKWE",
+    "x0": 284.494629,
+    "top": 437.07901999999996,
+    "upright": true
+   }
+  ],
+  "chars_nonupright": ""
+ },
+ "https://www.inecnigeria.org/documents/2027%20FINAL%20LIST%20-%20STATE%20HOUSES%20OF%20ASSEMBLY%20(1).pdf": {
+  "pages": 693,
+  "tables": [
+   [
+    [
+     "SN",
+     "STATE",
+     "CONSTITUENCY",
+     "NAME OF CANDIDATE",
+     "PARTY",
+     "PWD",
+     "AGE",
+     "GENDER",
+     "QUALIFICATION(S)",
+     "REMARKS"
+    ],
+    [
+     "1",
+     "ABIA",
+     "ABA NORTH",
+     "UKATA KALU",
+     "A",
+     "None",
+     "42",
+     "M",
+     "FSLC (First leaving certificate) SSCE (secondary\nschool leaving certificate)",
+     ""
+    ],
+    [
+     "2",
+     "ABIA",
+     "ABA NORTH",
+     "MATTHEW NGOZI JOSEPH",
+     "ADP",
+     "None",
+     "53",
+     "F",
+     "",
+     ""
+    ],
+    [
+     "3",
+     "ABIA",
+     "ABA NORTH",
+     "OKORIE RICHARD",
+     "APP",
+     "None",
+     "39",
+     "M",
+     "WAEC",
+     ""
+    ],
+    [
+     "4",
+     "ABIA",
+     "ABA NORTH",
+     "ONYEKWERE KINGSLEY\nNNAEMEKA",
+     "ADC",
+     "None",
+     "E\n45",
+     "M",
+     "FSLC WAEC B.Sc",
+     ""
+    ]
+   ]
+  ],
+  "rows": [
+   [
+    [
+     40.535714285714285,
+     168.32902,
+     66.21333333333334,
+     188.12901999999997
+    ],
+    [
+     66.21333333333334,
+     168.32902,
+     105.04333333333334,
+     188.12901999999997
+    ],
+    [
+     105.04333333333334,
+     168.32902,
+     199.44741333333334,
+     188.12901999999997
+    ],
+    [
+     199.44741333333334,
+     168.32902,
+     350.5840423333333,
+     188.12901999999997
+    ],
+    [
+     350.5840423333333,
+     168.32902,
+     391.4240423333333,
+     188.12901999999997
+    ],
+    [
+     391.4240423333333,
+     168.32902,
+     430.43404233333337,
+     188.12901999999997
+    ],
+    [
+     430.43404233333337,
+     168.32902,
+     460.2540423333333,
+     188.12901999999997
+    ],
+    [
+     460.2540423333333,
+     168.32902,
+     512.0340423333333,
+     188.12901999999997
+    ],
+    [
+     512.0340423333333,
+     168.32902,
+     742.9733333333334,
+     188.12901999999997
+    ],
+    [
+     742.9733333333334,
+     168.32902,
+     801.39,
+     188.12901999999997
+    ]
+   ],
+   [
+    [
+     40.535714285714285,
+     188.12901999999997,
+     66.21333333333334,
+     222.72902
+    ],
+    [
+     66.21333333333334,
+     188.12901999999997,
+     105.04333333333334,
+     222.72902
+    ],
+    [
+     105.04333333333334,
+     188.12901999999997,
+     199.44741333333334,
+     222.72902
+    ],
+    [
+     199.44741333333334,
+     188.12901999999997,
+     350.5840423333333,
+     222.72902
+    ],
+    [
+     350.5840423333333,
+     188.12901999999997,
+     391.4240423333333,
+     222.72902
+    ],
+    [
+     391.4240423333333,
+     188.12901999999997,
+     430.43404233333337,
+     222.72902
+    ],
+    [
+     430.43404233333337,
+     188.12901999999997,
+     460.2540423333333,
+     222.72902
+    ],
+    [
+     460.2540423333333,
+     188.12901999999997,
+     512.0340423333333,
+     222.72902
+    ],
+    [
+     512.0340423333333,
+     188.12901999999997,
+     742.9733333333334,
+     222.72902
+    ],
+    [
+     742.9733333333334,
+     188.12901999999997,
+     801.39,
+     222.72902
+    ]
+   ],
+   [
+    [
+     40.535714285714285,
+     222.72902,
+     66.21333333333334,
+     242.52902
+    ],
+    [
+     66.21333333333334,
+     222.72902,
+     105.04333333333334,
+     242.52902
+    ],
+    [
+     105.04333333333334,
+     222.72902,
+     199.44741333333334,
+     242.52902
+    ],
+    [
+     199.44741333333334,
+     222.72902,
+     350.5840423333333,
+     242.52902
+    ],
+    [
+     350.5840423333333,
+     222.72902,
+     391.4240423333333,
+     242.52902
+    ],
+    [
+     391.4240423333333,
+     222.72902,
+     430.43404233333337,
+     242.52902
+    ],
+    [
+     430.43404233333337,
+     222.72902,
+     460.2540423333333,
+     242.52902
+    ],
+    [
+     460.2540423333333,
+     222.72902,
+     512.0340423333333,
+     242.52902
+    ],
+    [
+     512.0340423333333,
+     222.72902,
+     742.9733333333334,
+     242.52902
+    ],
+    [
+     742.9733333333334,
+     222.72902,
+     801.39,
+     242.52902
+    ]
+   ],
+   [
+    [
+     40.535714285714285,
+     242.52902,
+     66.21333333333334,
+     262.57902
+    ],
+    [
+     66.21333333333334,
+     242.52902,
+     105.04333333333334,
+     262.57902
+    ],
+    [
+     105.04333333333334,
+     242.52902,
+     199.44741333333334,
+     262.57902
+    ],
+    [
+     199.44741333333334,
+     242.52902,
+     350.5840423333333,
+     262.57902
+    ],
+    [
+     350.5840423333333,
+     242.52902,
+     391.4240423333333,
+     262.57902
+    ],
+    [
+     391.4240423333333,
+     242.52902,
+     430.43404233333337,
+     262.57902
+    ],
+    [
+     430.43404233333337,
+     242.52902,
+     460.2540423333333,
+     262.57902
+    ],
+    [
+     460.2540423333333,
+     242.52902,
+     512.0340423333333,
+     262.57902
+    ],
+    [
+     512.0340423333333,
+     242.52902,
+     742.9733333333334,
+     262.57902
+    ],
+    [
+     742.9733333333334,
+     242.52902,
+     801.39,
+     262.57902
+    ]
+   ]
+  ],
+  "words": [
+   {
+    "text": "C",
+    "x0": 602.9560827861449,
+    "top": -16.994601605846356,
+    "upright": true
+   },
+   {
+    "text": "E",
+    "x0": 441.99068078634286,
+    "top": 99.2224186380106,
+    "upright": true
+   },
+   {
+    "text": "2027",
+    "x0": 126.294,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "STATE",
+    "x0": 157.794,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "HOUSE",
+    "x0": 204.61,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "OF",
+    "x0": 257.124,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "ASSEMBLY",
+    "x0": 280.07,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "GENERAL",
+    "x0": 359.296,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "ELECTION",
+    "x0": 432.026,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "-",
+    "x0": 509.432,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "STATE",
+    "x0": 517.594,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "HOUSE",
+    "x0": 564.41,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "OF",
+    "x0": 616.924,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "ASSEMBLY",
+    "x0": 639.87,
+    "top": 111.14902000000001,
+    "upright": true
+   },
+   {
+    "text": "FINAL",
+    "x0": 323.015,
+    "top": 138.78902,
+    "upright": true
+   },
+   {
+    "text": "LIST",
+    "x0": 369.789,
+    "top": 138.78902,
+    "upright": true
+   },
+   {
+    "text": "OF",
+    "x0": 405.195,
+    "top": 138.78902,
+    "upright": true
+   },
+   {
+    "text": "CANDIDATES",
+    "x0": 428.141,
+    "top": 138.78902,
+    "upright": true
+   },
+   {
+    "text": "SN",
+    "x0": 46.395,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "STATE",
+    "x0": 70.68,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "CONSTITUENCY",
+    "x0": 112.76704,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "NAME",
+    "x0": 222.722394,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "OF",
+    "x0": 254.392394,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "CANDIDATE",
+    "x0": 271.062394,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "PARTY",
+    "x0": 355.050709,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "PWD",
+    "x0": 399.230709,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "AGE",
+    "x0": 434.900709,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "GENDER",
+    "x0": 464.720709,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "QUALIFICATION(S)",
+    "x0": 583.315354,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "REMARKS",
+    "x0": 747.44,
+    "top": 170.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "1",
+    "x0": 50.56,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "ABIA",
+    "x0": 74.2,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "ABA",
+    "x0": 123.19204,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "NORTH",
+    "x0": 145.98204,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "UKATA",
+    "x0": 245.062394,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "KALU",
+    "x0": 278.782394,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "A",
+    "x0": 367.635709,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "None",
+    "x0": 398.945709,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "42",
+    "x0": 439.750709,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "M",
+    "x0": 481.945709,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "FSLC",
+    "x0": 518.860354,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "(First",
+    "x0": 547.200354,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "leaving",
+    "x0": 572.750354,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "certificate)",
+    "x0": 607.010354,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "SSCE",
+    "x0": 656.310354,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "(secondary",
+    "x0": 686.320354,
+    "top": 189.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "N",
+    "x0": 286.7506129855222,
+    "top": 206.58634177187855,
+    "upright": true
+   },
+   {
+    "text": "school",
+    "x0": 571.240354,
+    "top": 204.67901999999998,
+    "upright": true
+   },
+   {
+    "text": "leaving",
+    "x0": 602.920354,
+    "top": 204.67901999999998,
+    "upright": true
+   },
+   {
+    "text": "certificate)",
+    "x0": 637.180354,
+    "top": 204.67901999999998,
+    "upright": true
+   },
+   {
+    "text": "2",
+    "x0": 50.56,
+    "top": 224.47902,
+    "upright": true
+   },
+   {
+    "text": "ABIA",
+    "x0": 74.2,
+    "top": 224.47902,
+    "upright": true
+   },
+   {
+    "text": "ABA",
+    "x0": 123.19204,
+    "top": 224.47902,
+    "upright": true
+   },
+   {
+    "text": "NORTH",
+    "x0": 145.98204,
+    "top": 224.47902,
+    "upright": true
+   },
+   {
+    "text": "MATTHEW",
+    "x0": 211.687394,
+    "top": 224.47902,
+    "upright": true
+   },
+   {
+    "text": "NGOZI",
+    "x0": 263.817394,
+    "top": 224.47902,
+    "upright": true
+   },
+   {
+    "text": "JOSEPH",
+    "x0": 298.267394,
+    "top": 224.47902,
+    "upright": true
+   },
+   {
+    "text": "ADP",
+    "x0": 360.690709,
+    "top": 224.47902,
+    "upright": true
+   },
+   {
+    "text": "None",
+    "x0": 398.945709,
+    "top": 224.47902,
+    "upright": true
+   },
+   {
+    "text": "53",
+    "x0": 439.750709,
+    "top": 224.47902,
+    "upright": true
+   },
+   {
+    "text": "F",
+    "x0": 483.055709,
+    "top": 224.47902,
+    "upright": true
+   },
+   {
+    "text": "3",
+    "x0": 50.56,
+    "top": 244.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "ABIA",
+    "x0": 74.2,
+    "top": 244.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "ABA",
+    "x0": 123.19204,
+    "top": 244.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "NORTH",
+    "x0": 145.98204,
+    "top": 244.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "OKORIE",
+    "x0": 231.617394,
+    "top": 244.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "RICHARD",
+    "x0": 272.797394,
+    "top": 244.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "APP",
+    "x0": 360.965709,
+    "top": 244.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "None",
+    "x0": 398.945709,
+    "top": 244.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "39",
+    "x0": 439.750709,
+    "top": 244.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "M",
+    "x0": 481.945709,
+    "top": 244.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "WAEC",
+    "x0": 612.720354,
+    "top": 244.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "4",
+    "x0": 50.56,
+    "top": 264.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "ABIA",
+    "x0": 73.375,
+    "top": 264.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "ABA",
+    "x0": 122.46704,
+    "top": 264.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "NORTH",
+    "x0": 146.60704,
+    "top": 264.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "ONYEKWERE",
+    "x0": 213.862394,
+    "top": 264.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "KINGSLEY",
+    "x0": 284.982394,
+    "top": 264.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "ADC",
+    "x0": 360.140709,
+    "top": 264.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "None",
+    "x0": 398.395709,
+    "top": 264.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "45",
+    "x0": 439.750709,
+    "top": 264.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "M",
+    "x0": 481.945709,
+    "top": 264.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "FSLC",
+    "x0": 585.545354,
+    "top": 264.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "WAEC",
+    "x0": 614.435354,
+    "top": 264.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "B.Sc",
+    "x0": 647.165354,
+    "top": 264.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "NNAEMEKA",
+    "x0": 246.097394,
+    "top": 278.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "5",
+    "x0": 50.56,
+    "top": 298.67902,
+    "upright": true
+   },
+   {
+    "text": "ABIA",
+    "x0": 74.2,
+    "top": 298.67902,
+    "upright": true
+   },
+   {
+    "text": "ABA",
+    "x0": 123.19204,
+    "top": 298.67902,
+    "upright": true
+   },
+   {
+    "text": "NORTH",
+    "x0": 145.98204,
+    "top": 298.67902,
+    "upright": true
+   },
+   {
+    "text": "AARON",
+    "x0": 203.962394,
+    "top": 298.67902,
+    "upright": true
+   },
+   {
+    "text": "UZODIKE",
+    "x0": 242.102394,
+    "top": 298.67902,
+    "upright": true
+   },
+   {
+    "text": "EMMANUEL",
+    "x0": 289.332394,
+    "top": 298.67902,
+    "upright": true
+   },
+   {
+    "text": "APC",
+    "x0": 360.690709,
+    "top": 298.67902,
+    "upright": true
+   },
+   {
+    "text": "None",
+    "x0": 398.945709,
+    "top": 298.67902,
+    "upright": true
+   },
+   {
+    "text": "61",
+    "x0": 439.750709,
+    "top": 298.67902,
+    "upright": true
+   },
+   {
+    "text": "M",
+    "x0": 481.945709,
+    "top": 298.67902,
+    "upright": true
+   },
+   {
+    "text": "FSLC",
+    "x0": 599.685354,
+    "top": 298.67902,
+    "upright": true
+   },
+   {
+    "text": "SSCE",
+    "x0": 628.025354,
+    "top": 298.67902,
+    "upright": true
+   },
+   {
+    "text": "6",
+    "x0": 50.56,
+    "top": 318.47902,
+    "upright": true
+   },
+   {
+    "text": "ABIA",
+    "x0": 74.2,
+    "top": 318.47902,
+    "upright": true
+   },
+   {
+    "text": "ABA",
+    "x0": 123.19204,
+    "top": 318.47902,
+    "upright": true
+   },
+   {
+    "text": "NORTH",
+    "x0": 145.98204,
+    "top": 318.47902,
+    "upright": true
+   },
+   {
+    "text": "AKACHUKWU",
+    "x0": 221.162394,
+    "top": 318.47902,
+    "upright": true
+   },
+   {
+    "text": "JOSHUA",
+    "x0": 288.642394,
+    "top": 318.47902,
+    "upright": true
+   },
+   {
+    "text": "APM",
+    "x0": 360.135709,
+    "top": 318.47902,
+    "upright": true
+   },
+   {
+    "text": "None",
+    "x0": 398.945709,
+    "top": 318.47902,
+    "upright": true
+   },
+   {
+    "text": "39",
+    "x0": 439.750709,
+    "top": 318.47902,
+    "upright": true
+   },
+   {
+    "text": "M",
+    "x0": 481.945709,
+    "top": 318.47902,
+    "upright": true
+   },
+   {
+    "text": "FSLC",
+    "x0": 585.590354,
+    "top": 318.47902,
+    "upright": true
+   },
+   {
+    "text": "WAEC",
+    "x0": 613.930354,
+    "top": 318.47902,
+    "upright": true
+   },
+   {
+    "text": "B.SC",
+    "x0": 646.210354,
+    "top": 318.47902,
+    "upright": true
+   },
+   {
+    "text": "I",
+    "x0": 125.78521098572023,
+    "top": 322.8033620157356,
+    "upright": true
+   },
+   {
+    "text": "7",
+    "x0": 50.56,
+    "top": 338.27902,
+    "upright": true
+   },
+   {
+    "text": "ABIA",
+    "x0": 74.2,
+    "top": 338.27902,
+    "upright": true
+   },
+   {
+    "text": "ABA",
+    "x0": 123.19204,
+    "top": 338.27902,
+    "upright": true
+   },
+   {
+    "text": "NORTH",
+    "x0": 145.98204,
+    "top": 338.27902,
+    "upright": true
+   },
+   {
+    "text": "EHUCHIE",
+    "x0": 232.477394,
+    "top": 338.27902,
+    "upright": true
+   },
+   {
+    "text": "IJEOMA",
+    "x0": 280.257394,
+    "top": 338.27902,
+    "upright": true
+   },
+   {
+    "text": "LP",
+    "x0": 364.855709,
+    "top": 338.27902,
+    "upright": true
+   },
+   {
+    "text": "None",
+    "x0": 398.945709,
+    "top": 338.27902,
+    "upright": true
+   },
+   {
+    "text": "38",
+    "x0": 439.750709,
+    "top": 338.27902,
+    "upright": true
+   },
+   {
+    "text": "F",
+    "x0": 483.055709,
+    "top": 338.27902,
+    "upright": true
+   },
+   {
+    "text": "FSLC",
+    "x0": 588.015354,
+    "top": 338.27902,
+    "upright": true
+   },
+   {
+    "text": "SSCE",
+    "x0": 616.355354,
+    "top": 338.27902,
+    "upright": true
+   },
+   {
+    "text": "BSC",
+    "x0": 646.365354,
+    "top": 338.27902,
+    "upright": true
+   },
+   {
+    "text": "FLORENCE",
+    "x0": 247.757394,
+    "top": 353.07901999999996,
+    "upright": true
+   },
+   {
+    "text": "8",
+    "x0": 50.56,
+    "top": 372.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "ABIA",
+    "x0": 74.2,
+    "top": 372.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "ABA",
+    "x0": 123.19204,
+    "top": 372.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "NORTH",
+    "x0": 145.98204,
+    "top": 372.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "GBARATO",
+    "x0": 223.037394,
+    "top": 372.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "BATHLOME",
+    "x0": 273.117394,
+    "top": 372.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "NRM",
+    "x0": 359.585709,
+    "top": 372.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "None",
+    "x0": 398.945709,
+    "top": 372.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "31",
+    "x0": 439.750709,
+    "top": 372.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "M",
+    "x0": 481.945709,
+    "top": 372.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "FSLC",
+    "x0": 599.685354,
+    "top": 372.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "SSCE",
+    "x0": 628.025354,
+    "top": 372.87901999999997,
+    "upright": true
+   },
+   {
+    "text": "9",
+    "x0": 50.56,
+    "top": 392.67902,
+    "upright": true
+   },
+   {
+    "text": "ABIA",
+    "x0": 74.2,
+    "top": 392.67902,
+    "upright": true
+   },
+   {
+    "text": "ABA",
+    "x0": 123.19204,
+    "top": 392.67902,
+    "upright": true
+   },
+   {
+    "text": "NORTH",
+    "x0": 145.98204,
+    "top": 392.67902,
+    "upright": true
+   },
+   {
+    "text": "OKAFOR",
+    "x0": 228.027394,
+    "top": 392.67902,
+    "upright": true
+   },
+   {
+    "text": "UKAMAKA",
+    "x0": 273.037394,
+    "top": 392.67902,
+    "upright": true
+   },
+   {
+    "text": "NNPP",
+    "x0": 357.080709,
+    "top": 392.67902,
+    "upright": true
+   },
+   {
+    "text": "None",
+    "x0": 398.945709,
+    "top": 392.67902,
+    "upright": true
+   },
+   {
+    "text": "49",
+    "x0": 439.750709,
+    "top": 392.67902,
+    "upright": true
+   },
+   {
+    "text": "F",
+    "x0": 483.055709,
+    "top": 392.67902,
+    "upright": true
+   },
+   {
+    "text": "FSLC",
+    "x0": 574.400354,
+    "top": 392.67902,
+    "upright": true
+   },
+   {
+    "text": "SSCE,",
+    "x0": 602.740354,
+    "top": 392.67902,
+    "upright": true
+   },
+   {
+    "text": "GCE",
+    "x0": 635.530354,
+    "top": 392.67902,
+    "upright": true
+   },
+   {
+    "text": "BSC",
+    "x0": 659.980354,
+    "top": 392.67902,
+    "upright": true
+   },
+   {
+    "text": "BLESSING",
+    "x0": 249.972394,
+    "top": 407.47902,
+    "upright": true
+   },
+   {
+    "text": "10",
+    "x0": 47.78,
+    "top": 427.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "ABIA",
+    "x0": 74.2,
+    "top": 427.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "ABA",
+    "x0": 123.19204,
+    "top": 427.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "NORTH",
+    "x0": 145.98204,
+    "top": 427.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "GODFREY",
+    "x0": 211.417394,
+    "top": 427.27901999999995,
+    "upright": true
+   },
+   {
+    "text": "CHUKWUBUIKE",
+    "x0": 263.647394,
+    "top": 427.27901999999995,
+    "upright": true
+   }
+  ],
+  "chars_nonupright": ""
+ }
+}
