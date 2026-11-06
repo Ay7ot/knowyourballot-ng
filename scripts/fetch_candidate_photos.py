@@ -229,7 +229,12 @@ def main():
         if c.get("runningMate"):
             m = c["runningMate"]
             people.append((f"{c['id']}--mate", m["name"], m["age"], c["party"], sn))
-    live = {p[0]: p[1] for p in people}
+    # who holds each slot right now, across ALL offices (not just the ones this run looks up)
+    live = {}
+    for c in ballot["candidates"]:
+        live[c["id"]] = c["name"]
+        if c.get("runningMate"):
+            live[f"{c['id']}--mate"] = c["runningMate"]["name"]
     # drop photos whose slot left the ballot or now holds a different person (substitutions)
     for pid in [k for k, v in store["photos"].items() if live.get(k) != v["name"]]:
         (out_dir / f"{pid}.webp").unlink(missing_ok=True)
