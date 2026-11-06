@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Candidate, Office, Race } from "@/lib/types";
-import { candidatesOf, ELECTIONS, LEVEL_SHORT, OFFICE_INFO, OFFICE_LABEL, partyName } from "@/lib/data";
+import { candidatesOf, ELECTIONS, LEVEL_SHORT, OFFICE_INFO, OFFICE_LABEL, partyLogo, partyName } from "@/lib/data";
+import PartyMark from "./PartyMark";
 import { CompareToggle, PickButton } from "./picks";
 import RaceFilter from "./RaceFilter";
 
@@ -12,7 +13,7 @@ function CandidateLine({ c, raceId }: { c: Candidate; raceId: string }) {
   return (
     <li data-row data-gender={c.gender ?? ""} data-level={c.level ?? "none"} className="flex items-stretch">
       <div className="flex min-w-0 flex-1 items-center gap-3 py-3 pl-4 pr-3 sm:gap-4">
-        <span className="party-box" title={partyName(c.party) ?? c.party}>{c.party}</span>
+        <PartyMark code={c.party} logo={partyLogo(c.party)} name={partyName(c.party)} />
         <div className="min-w-0 flex-1">
           <Link href={`/candidate/${c.id}`} className="block font-semibold leading-snug hover:underline">
             {c.name}

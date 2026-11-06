@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useBallotState, Thumbprint } from "./picks";
 import type { TrayCandidate } from "./BallotTray";
+import PartyMark from "./PartyMark";
 
 /** On-page summary of the voter's marks, plus a jump list of races. */
 export function BallotToc({ races }: { races: { id: string; label: string; office: string; fed?: string }[] }) {
@@ -47,8 +48,8 @@ export default function MyBallot({ races, candidates }: { races: { id: string; l
                   {r.office} · {r.label} · <span className="mono">{r.date}</span>
                 </p>
                 {c ? (
-                  <p className="font-semibold">
-                    <span className="mono mr-2 rounded border border-ink px-1.5 py-0.5 text-xs">{c.party}</span>
+                  <p className="mt-1 flex items-center gap-3 font-semibold">
+                    <PartyMark code={c.party} logo={c.logo} name={c.partyName} size="sm" />
                     <Link href={`/candidate/${c.id}`} className="hover:underline">{c.name}</Link>
                   </p>
                 ) : (

@@ -1,6 +1,9 @@
 import "server-only";
 import geoJson from "@data/geo.json";
 import ballotJson from "@data/ballot.json";
+import partiesJson from "@data/parties.json";
+import photoJson from "@data/candidate_photos.json";
+import logoJson from "@data/party_logos.json";
 import type { Ballot, BallotSection, Candidate, Geo, Lga, Race, State, Office } from "./types";
 
 export const geo = geoJson as unknown as Geo;
@@ -108,30 +111,7 @@ export function partyName(code: string): string | undefined {
 }
 
 // INEC's register of 22 parties (inecnigeria.org/parties, checked 6 Nov 2026).
-const PARTIES: Record<string, string> = {
-  A: "Accord",
-  AA: "Action Alliance",
-  ADP: "Action Democratic Party",
-  APP: "Action Peoples Party",
-  AAC: "African Action Congress",
-  ADC: "African Democratic Congress",
-  APC: "All Progressives Congress",
-  APGA: "All Progressives Grand Alliance",
-  APM: "Allied Peoples Movement",
-  BP: "Boot Party",
-  DLA: "Democratic Leadership Alliance",
-  LP: "Labour Party",
-  NDP: "National Democratic Party",
-  NRM: "National Rescue Movement",
-  NNPP: "New Nigeria Peoples Party",
-  NDC: "Nigeria Democratic Congress",
-  PDP: "Peoples Democratic Party",
-  PRP: "Peoples Redemption Party",
-  SDP: "Social Democratic Party",
-  YPP: "Young Progressives Party",
-  YP: "Youth Party",
-  ZLP: "Zenith Labour Party",
-};
+const PARTIES = partiesJson as Record<string, string>;
 export const ALL_PARTIES = PARTIES;
 
 export const LEVEL_LABEL: Record<string, string> = {
@@ -201,6 +181,8 @@ export function toTray(c: Candidate, raceLabel: string) {
     name: c.name,
     party: c.party,
     partyName: PARTIES[c.party] ?? null,
+    logo: partyLogo(c.party),
+    photo: candidatePhoto(c.id, c.name)?.file ?? null,
     age: c.age,
     gender: c.gender,
     level: c.level,
@@ -209,4 +191,18 @@ export function toTray(c: Candidate, raceLabel: string) {
     race: c.race,
     raceLabel,
   };
+}
+
+const LOGOS = logoJson as Record<string, { file: string; source: string }>;
+/** INEC's logo for a party, downloaded by scripts/fetch_party_logos.py. Null when INEC shows none. */
+export function partyLogo(code: string): string | null {
+  return LOGOS[code]?.file ?? null;
+}
+
+export type Photo = { file: string; wikidata: string; wikidataLabel: string; evidence: string; commons: string; license: string; licenseUrl: string | null; artist: string };
+const PHOTOS = (photoJson as unknown as { photos: Record<string, Photo & { name: string }> }).photos;
+/** A verified, freely licensed photo (see scripts/fetch_candidate_photos.py), only while the same person holds the slot. */
+export function candidatePhoto(id: string, name: string): Photo | null {
+  const p = PHOTOS[id];
+  return p && p.name === name ? p : null;
 }

@@ -3,12 +3,15 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useBallotState, Thumbprint } from "./picks";
+import PartyMark from "./PartyMark";
 
 export type TrayCandidate = {
   id: string;
   name: string;
   party: string;
   partyName: string | null;
+  logo: string | null;
+  photo: string | null;
   age: number | null;
   gender: string | null;
   level: string | null;
@@ -101,7 +104,13 @@ export default function BallotTray({
                 <th className="w-24 px-4 py-4 sm:w-40 sm:px-5" />
                 {cmp.map((c) => (
                   <th key={c.id} className="px-3 py-4 font-normal sm:px-4">
-                    <span className="party-box">{c.party}</span>
+                    <div className="flex items-end gap-2">
+                      {c.photo && (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={c.photo} alt="" width={52} height={64} className="h-16 w-[3.25rem] rounded-sm object-cover" />
+                      )}
+                      <PartyMark code={c.party} logo={c.logo} name={c.partyName} />
+                    </div>
                     <Link href={`/candidate/${c.id}`} className="mt-2 block text-base font-semibold hover:underline">{c.name}</Link>
                     <button type="button" onClick={() => toggleCompare(c.id)} className="mt-1 text-xs text-muted underline">Remove</button>
                   </th>

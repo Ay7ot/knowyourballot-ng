@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { ballot, getCandidate, getRace, getState, LEVEL_LABEL, OFFICE_INFO, OFFICE_LABEL, partyName } from "@/lib/data";
+import { ballot, getCandidate, getRace, getState, candidatePhoto, LEVEL_LABEL, OFFICE_INFO, OFFICE_LABEL, partyLogo, partyName } from "@/lib/data";
+import type { Photo } from "@/lib/data";
+import PartyMark from "@/components/PartyMark";
 import type { Person } from "@/lib/types";
 import { Crumbs } from "@/components/ui";
 import { PickButton } from "@/components/picks";
@@ -20,6 +22,24 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   if (!c) return {};
   const r = getRace(c.race)!;
   return { title: `${c.name} (${c.party}), ${r.name}`, description: `${c.name}, ${partyName(c.party) ?? c.party} candidate for ${OFFICE_LABEL[c.office]} (${r.name}) in 2027. Details as declared to INEC.` };
+}
+
+function Portrait({ photo, name }: { photo: Photo; name: string }) {
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img src={photo.file} alt={`Photo of ${name}`} width={96} height={120} className="h-[7.5rem] w-24 shrink-0 rounded-sm border border-rule object-cover" />
+  );
+}
+
+function Credit({ photo, who }: { photo: Photo; who: string }) {
+  return (
+    <p className="text-xs text-muted">
+      Photo of {who}:{" "}
+      <a className="underline" href={photo.commons}>{photo.artist}</a>,{" "}
+      {photo.licenseUrl ? <a className="underline" href={photo.licenseUrl}>{photo.license}</a> : photo.license}, via Wikimedia Commons. Matched to{" "}
+      <a className="underline" href={`https://www.wikidata.org/wiki/${photo.wikidata}`}>{photo.wikidataLabel}</a> on Wikidata ({photo.evidence}).
+    </p>
+  );
 }
 
 function Facts({ p }: { p: Person }) {
@@ -60,6 +80,8 @@ export default async function CandidatePage({ params }: { params: Promise<{ id: 
   const day = new Date(`${e.date}T12:00:00Z`).toLocaleDateString("en-NG", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
   const raceTitle = c.office === "president" ? "President of Nigeria" : race.name;
   const full = partyName(c.party);
+  const photo = candidatePhoto(c.id, c.name);
+  const matePhoto = c.runningMate ? candidatePhoto(`${c.id}--mate`, c.runningMate.name) : null;
 
   return (
     <div className="mx-auto max-w-3xl py-8" style={gutter}>
@@ -67,12 +89,15 @@ export default async function CandidatePage({ params }: { params: Promise<{ id: 
 
       <header className="sheet mt-5 overflow-hidden">
         <div className="sheet-band flex items-stretch">
-          <div className="flex min-w-0 flex-1 items-center gap-4 px-5 py-5">
-            <span className="party-box shrink-0" title={full ?? c.party}>{c.party}</span>
+          <div className="flex min-w-0 flex-1 flex-col items-start gap-4 px-5 py-5 sm:flex-row sm:items-center">
+            {photo ? <Portrait photo={photo} name={c.name} /> : null}
             <div className="min-w-0">
               <p className="label text-green">{OFFICE_LABEL[c.office]}</p>
               <h1 className="display-tight mt-1 text-3xl sm:text-4xl">{c.name}</h1>
-              <p className="mt-1 text-sm text-muted">{full ?? c.party}</p>
+              <div className="mt-3 flex items-center gap-3">
+                <PartyMark code={c.party} logo={partyLogo(c.party)} name={full} size="sm" />
+                <p className="text-sm text-muted">{full ?? c.party}</p>
+              </div>
             </div>
           </div>
           <div className="thumb-cell grid w-20 shrink-0 place-items-center">
@@ -84,6 +109,7 @@ export default async function CandidatePage({ params }: { params: Promise<{ id: 
           {st && c.office !== "governor" ? `, ${st.short}` : ""} on <span className="mono">{day}</span>.{" "}
           <span className="text-muted">{OFFICE_INFO[c.office].what}</span>
         </p>
+        {photo && <div className="border-t border-rule px-5 py-2"><Credit photo={photo} who={c.name} /></div>}
       </header>
 
       <section className="sheet mt-6 overflow-hidden" aria-labelledby="facts-h">
@@ -99,11 +125,15 @@ export default async function CandidatePage({ params }: { params: Promise<{ id: 
 
       {c.runningMate && (
         <section className="sheet mt-6 overflow-hidden" aria-labelledby="mate-h">
-          <div className="sheet-band px-5 pb-3 pt-4">
+          <div className="sheet-band flex items-center gap-4 px-5 pb-3 pt-4">
+            {matePhoto && <Portrait photo={matePhoto} name={c.runningMate.name} />}
+            <div>
             <p className="label text-muted">{c.office === "president" ? "Vice-presidential candidate" : "Deputy governorship candidate"}</p>
             <h2 id="mate-h" className="mt-1 font-semibold">{c.runningMate.name}</h2>
+            </div>
           </div>
           <Facts p={c.runningMate} />
+          {matePhoto && <div className="border-t border-rule px-5 py-2"><Credit photo={matePhoto} who={c.runningMate.name} /></div>}
         </section>
       )}
 

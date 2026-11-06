@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Candidate, Person } from "@/lib/types";
-import { partyName } from "@/lib/data";
+import { partyLogo, partyName } from "@/lib/data";
+import PartyMark from "./PartyMark";
 
 export function Crumbs({ items }: { items: { href?: string; label: string }[] }) {
   return (
@@ -34,7 +35,7 @@ export function CandidateRow({ c }: { c: Candidate }) {
   return (
     <li>
       <Link href={`/candidate/${c.id}`} className="group flex items-center gap-3 px-4 py-3 hover:bg-green-soft/60">
-        <PartyBadge code={c.party} />
+        <PartyMark code={c.party} logo={partyLogo(c.party)} name={partyName(c.party)} size="sm" />
         <span className="min-w-0 flex-1">
           <span className="block truncate font-medium group-hover:underline">{c.name}</span>
           <span className="block truncate text-sm text-muted">

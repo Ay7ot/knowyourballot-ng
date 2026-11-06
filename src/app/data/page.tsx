@@ -105,6 +105,17 @@ export default function DataPage() {
         </p>
       </section>
 
+      <section id="photos" className="mt-10 space-y-2">
+        <h2 className="display-tight text-2xl">Party logos and candidate photos</h2>
+        <p className="text-muted">
+          Party logos come from each party&apos;s profile on INEC&apos;s website. INEC doesn&apos;t publish candidate photos, so we only show a
+          photo when it is freely licensed on Wikimedia Commons and the person on Wikidata is verifiably the same candidate: a Nigerian
+          whose name matches, whose date of birth agrees with the age INEC printed (or whose party matches when no birth date is recorded),
+          and with no other person passing the same checks. Every photo is credited to its author and licence. Candidates without a verified
+          photo show none rather than a guess.
+        </p>
+      </section>
+
       <section id="parties" className="mt-10">
         <h2 className="display-tight text-2xl">Registered parties</h2>
         <p className="mt-1 text-muted">INEC&apos;s register of {Object.keys(ALL_PARTIES).length} political parties, which is where the full names on this site come from.</p>

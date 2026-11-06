@@ -12,6 +12,7 @@
 */
 :root {
   --paper: #eef1ec;      /* page ground, a cool green-grey like INEC stationery */
+  --tile: #ffffff;       /* party logos sit on white, as on the printed ballot */
   --sheet: #ffffff;      /* ballot sheets and cards */
   --ink: #12171a;        /* body text */
   --muted: #56615c;      /* secondary text */
@@ -31,14 +32,14 @@
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --paper: #0d1311; --sheet: #151d1a; --ink: #e6ece8; --muted: #9aa7a0; --rule: #27322e;
+    --paper: #0d1311; --tile: #eef0ec; --sheet: #151d1a; --ink: #e6ece8; --muted: #9aa7a0; --rule: #27322e;
     --green: #47c08f; --green-ink: #06140e; --green-soft: #15302a;
     --violet: #b195f0; --violet-soft: #2a2140; --amber-soft: #33270f; --amber-ink: #f0c66e;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --paper: #0d1311; --sheet: #151d1a; --ink: #e6ece8; --muted: #9aa7a0; --rule: #27322e;
+  --paper: #0d1311; --tile: #eef0ec; --sheet: #151d1a; --ink: #e6ece8; --muted: #9aa7a0; --rule: #27322e;
   --green: #47c08f; --green-ink: #06140e; --green-soft: #15302a;
   --violet: #b195f0; --violet-soft: #2a2140; --amber-soft: #33270f; --amber-ink: #f0c66e;
   color-scheme: dark;
@@ -93,6 +94,8 @@ p { text-wrap: pretty; }
   display: inline-grid; place-items: center; width: 3.25rem; height: 3.25rem; flex: none;
   border: 1.5px solid var(--ink); border-radius: 3px; font-size: 0.8rem; background: var(--sheet);
 }
+.party-box-sm { width: 2.25rem; height: 2.25rem; font-size: 0.65rem; }
+.party-logo { object-fit: contain; padding: 3px; background: var(--tile); }
 .thumb-cell { border-left: 1px dashed var(--rule); }
 
 @media (prefers-reduced-motion: no-preference) {
