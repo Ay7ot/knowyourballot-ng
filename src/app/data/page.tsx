@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { ballot, stats } from "@/lib/data";
+import { ALL_PARTIES, ballot, stats } from "@/lib/data";
+import { gutter } from "@/lib/gutter";
 import { Crumbs } from "@/components/ui";
 import { REPO } from "@/lib/site";
 
@@ -21,30 +22,30 @@ export default function DataPage() {
   const updated = ballot.generatedAt ? new Date(ballot.generatedAt).toLocaleString("en-NG", { dateStyle: "medium", timeStyle: "short", timeZone: "Africa/Lagos" }) : null;
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-8">
+    <div className="mx-auto max-w-3xl py-8" style={gutter}>
       <Crumbs items={[{ href: "/", label: "Home" }, { label: "About the data" }]} />
-      <h1 className="mt-3 text-3xl font-bold tracking-tight">About the data</h1>
+      <h1 className="display mt-5 text-4xl sm:text-5xl">Where this comes from</h1>
       <p className="mt-3 text-muted">
         Know Your Ballot is independent and non-partisan. We only show what we can source, and every candidate links back to the INEC
         document it came from.
       </p>
 
       <section className="mt-8">
-        <h2 className="text-xl font-semibold">Coverage right now</h2>
+        <h2 className="display-tight text-2xl">Coverage right now</h2>
         {updated && <p className="mt-1 text-sm text-muted">Last checked against INEC: {updated} (Lagos time). We re-check daily.</p>}
-        <div className="mt-3 rounded-2xl border border-line bg-surface overflow-hidden">
+        <div className="mt-3 sheet overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="bg-bg text-left text-muted">
+            <thead className="sheet-band text-left text-muted">
               <tr><th className="px-4 py-2 font-medium">Office</th><th className="px-4 py-2 font-medium">Candidates</th><th className="px-4 py-2 font-medium">INEC documents</th></tr>
             </thead>
-            <tbody className="divide-y divide-line">
+            <tbody className="divide-y divide-rule">
               {Object.entries(OFFICE_NAMES).map(([k, label]) => {
                 const o = ballot.offices[k as keyof typeof ballot.offices];
                 const ok = o?.documents.filter((d) => !d.error).length ?? 0;
                 return (
                   <tr key={k}>
                     <td className="px-4 py-2">{label}</td>
-                    <td className="px-4 py-2 tabular">{o?.status === "loaded" ? byOffice[k].toLocaleString() : <span className="text-warn-ink">Importing</span>}</td>
+                    <td className="px-4 py-2 tabular">{o?.status === "loaded" ? byOffice[k].toLocaleString() : <span className="text-amber-ink">Importing</span>}</td>
                     <td className="px-4 py-2 tabular">{o?.status === "loaded" ? ok : "–"}</td>
                   </tr>
                 );
@@ -60,7 +61,7 @@ export default function DataPage() {
       </section>
 
       <section className="mt-10 space-y-4 text-[15px] leading-relaxed">
-        <h2 className="text-xl font-semibold">Where it comes from</h2>
+        <h2 className="display-tight text-2xl">Where it comes from</h2>
         <div>
           <h3 className="font-semibold">Candidates</h3>
           <p className="text-muted">
@@ -94,13 +95,36 @@ export default function DataPage() {
         </div>
       </section>
 
-      <section id="corrections" className="mt-10 rounded-2xl border border-line bg-surface p-5">
-        <h2 className="text-xl font-semibold">Corrections and additions</h2>
+      <section id="affidavits" className="mt-10 space-y-2">
+        <h2 className="display-tight text-2xl">Affidavits and personal particulars</h2>
+        <p className="text-muted">
+          Candidates submit a sworn affidavit and personal particulars to INEC with their nomination. As of November 2026, INEC has not put the
+          2027 forms online; it has published the summary lists we use. The Electoral Act requires INEC to display the particulars for public
+          inspection, usually at its office in each constituency. When INEC publishes them online, or a reader sends us a verified copy, we
+          will link them from each candidate&apos;s page.
+        </p>
+      </section>
+
+      <section id="parties" className="mt-10">
+        <h2 className="display-tight text-2xl">Registered parties</h2>
+        <p className="mt-1 text-muted">INEC&apos;s register of {Object.keys(ALL_PARTIES).length} political parties, which is where the full names on this site come from.</p>
+        <ul className="mt-4 grid gap-x-6 sm:grid-cols-2">
+          {Object.entries(ALL_PARTIES).sort(([a], [b]) => a.localeCompare(b)).map(([code, name]) => (
+            <li key={code} className="flex items-center gap-3 border-b border-rule py-2.5 text-sm">
+              <span className="mono w-14 shrink-0 rounded border-[1.5px] border-ink px-1.5 py-0.5 text-center text-xs font-medium">{code}</span>
+              <span>{name}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section id="corrections" className="mt-10 sheet p-5">
+        <h2 className="display-tight text-2xl">Corrections and additions</h2>
         <p className="mt-2 text-muted">
           Every page has a &quot;Report a correction&quot; link. Reports are public, need a source, and a person reviews each one before
           anything changes on the site.
         </p>
-        <a className="mt-3 inline-flex rounded-xl bg-brand px-4 h-10 items-center text-sm font-medium text-brand-ink" href={`${REPO}/issues/new?labels=correction&title=Correction`}>
+        <a className="mt-3 inline-flex h-11 items-center rounded-md bg-green px-4 text-sm font-semibold text-green-ink" href={`${REPO}/issues/new?labels=correction&title=Correction`}>
           Report a correction
         </a>
       </section>

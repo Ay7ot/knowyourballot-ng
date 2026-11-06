@@ -1,10 +1,14 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { ballot, candidatesOf, geo, getFederal, getLgaById, getRace, getSenatorial, getState, lgaHref, OFFICE_LABEL, partyName, officeStatus, ELECTIONS } from "@/lib/data";
+import { ballot, candidatesOf, geo, getFederal, getLgaById, getRace, getSenatorial, getState, lgaHref, LEVEL_LABEL, OFFICE_INFO, OFFICE_LABEL, officeStatus, toTray } from "@/lib/data";
 import type { District, Office, Race } from "@/lib/types";
-import { Crumbs, Pending, PartyBadge, personFacts } from "@/components/ui";
+import { Crumbs, Pending } from "@/components/ui";
+import RaceSheet from "@/components/RaceSheet";
+import BallotTray from "@/components/BallotTray";
+import { ResetCompareOnMount } from "@/components/picks";
 import { correctionUrl } from "@/lib/site";
+import { gutter } from "@/lib/gutter";
 
 export const dynamicParams = false;
 
@@ -33,6 +37,8 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   return { title: `${where} candidates 2027`, description: `All ${r.candidates.length || ""} candidates for ${where} in Nigeria's 2027 election, from INEC's final list.` };
 }
 
+const SUB: Partial<Record<Office, string>> = { senate: "Senatorial district", rep: "Federal constituency", assembly: "State constituency" };
+
 export default async function RacePage({ params }: { params: Promise<{ id: string }> }) {
   const race = findRace((await params).id);
   if (!race) notFound();
@@ -40,57 +46,57 @@ export default async function RacePage({ params }: { params: Promise<{ id: strin
   const cands = candidatesOf(race);
   const district: District | undefined =
     race.office === "senate" ? getSenatorial(race.district!) : race.office === "rep" ? getFederal(race.district!) : race.office === "assembly" ? ballot.assembly.find((a) => a.id === race.district) : undefined;
-  const date = ELECTIONS.find((e) => e.offices.includes(race.office))!;
-  const heading = race.office === "president" || race.office === "governor" ? race.name : race.name;
+  const info = OFFICE_INFO[race.office];
   const pending = officeStatus(race.office) === "pending";
+  const title = race.office === "president" ? "President of Nigeria" : race.name;
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-8">
-      <Crumbs items={[{ href: "/", label: "Home" }, ...(st ? [{ href: `/state/${st.slug}`, label: st.name }] : []), { label: heading }]} />
-      <p className="mt-4 text-sm font-semibold uppercase tracking-wider text-brand">{OFFICE_LABEL[race.office]}</p>
-      <h1 className="mt-1 text-3xl font-bold tracking-tight">{heading}</h1>
-      <p className="mt-1 text-muted">
-        {date.label} election · {new Date(`${date.date}T12:00:00Z`).toLocaleDateString("en-NG", { day: "numeric", month: "long", year: "numeric" })}
-        {cands.length > 0 && ` · ${cands.length} candidates`}
-      </p>
-      {district && district.lgas.length > 0 && (
-        <p className="mt-3 text-sm">
-          <span className="text-muted">Covers: </span>
-          {district.lgas.map((id, i) => {
-            const l = getLgaById(id)!;
-            return <span key={id}>{i > 0 && ", "}<Link className="hover:underline" href={lgaHref(l)}>{l.name}</Link></span>;
-          })}
-        </p>
-      )}
-
-      <section className="mt-6 rounded-2xl border border-line bg-surface overflow-hidden">
-        {pending ? <Pending what="these candidates" /> : cands.length === 0 ? (
-          <p className="px-4 py-4 text-sm text-muted">INEC&apos;s list has no candidates we could match to this seat yet.</p>
-        ) : (
-          <ul className="divide-y divide-line">
-            {cands.map((c) => (
-              <li key={c.id}>
-                <Link href={`/candidate/${c.id}`} className="group block px-4 py-4 hover:bg-brand-soft/60">
-                  <div className="flex items-center gap-3">
-                    <PartyBadge code={c.party} />
-                    <span className="font-semibold group-hover:underline">{c.name}</span>
-                  </div>
-                  <dl className="mt-2 grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 text-sm">
-                    {partyName(c.party) && (<><dt className="text-muted">Party</dt><dd>{partyName(c.party)}</dd></>)}
-                    {personFacts(c) && (<><dt className="text-muted">Age, gender</dt><dd>{personFacts(c)}</dd></>)}
-                    {c.qualifications && (<><dt className="text-muted">Qualifications</dt><dd className="line-clamp-2">{c.qualifications}</dd></>)}
-                    {c.runningMate && (<><dt className="text-muted">Running mate</dt><dd>{c.runningMate.name}</dd></>)}
-                  </dl>
-                </Link>
-              </li>
-            ))}
-          </ul>
+    <>
+      <ResetCompareOnMount />
+      <div className="mx-auto max-w-3xl py-8" style={gutter}>
+        <Crumbs items={[{ href: "/", label: "Home" }, ...(st ? [{ href: `/state/${st.slug}`, label: st.name }] : []), { label: title }]} />
+        <div className="mt-5">
+          {pending ? (
+            <div className="sheet overflow-hidden"><Pending what="these candidates" /></div>
+          ) : cands.length === 0 ? (
+            <div className="sheet px-5 py-5">
+              <p className="label text-green">{OFFICE_LABEL[race.office]}</p>
+              <h1 className="display-tight mt-1 text-2xl">{title}</h1>
+              <p className="mt-2 text-sm text-muted">INEC&apos;s list has no candidates we could match to this seat yet.</p>
+            </div>
+          ) : (
+            <RaceSheet race={race} title={title} sub={SUB[race.office]} main />
+          )}
+        </div>
+        <dl className="mt-6 grid grid-cols-2 gap-px overflow-hidden rounded-md border border-rule bg-rule text-sm sm:grid-cols-3">
+          {[["Term", info.term], ["Seats", info.seats], ["Candidates", cands.length ? String(cands.length) : "None yet"]].map(([k, v]) => (
+            <div key={k} className="bg-sheet px-4 py-3">
+              <dt className="label text-[0.65rem] text-muted">{k}</dt>
+              <dd className="mt-0.5 font-medium">{v}</dd>
+            </div>
+          ))}
+        </dl>
+        {district && district.lgas.length > 0 && (
+          <p className="mt-4 text-sm">
+            <span className="label mr-2 text-[0.65rem] text-muted">Covers</span>
+            {district.lgas.map((id, i) => {
+              const l = getLgaById(id)!;
+              return (
+                <span key={id}>
+                  {i > 0 && ", "}
+                  <Link className="underline decoration-rule underline-offset-2 hover:decoration-ink" href={lgaHref(l)}>{l.name}</Link>
+                </span>
+              );
+            })}
+          </p>
         )}
-      </section>
-      <p className="mt-4 text-sm text-muted">
-        Listed in INEC&apos;s order. Something wrong?{" "}
-        <a className="underline" href={correctionUrl(heading, `/race/${race.id}`)}>Report a correction</a>.
-      </p>
-    </div>
+
+        <p className="mt-4 text-sm text-muted">
+          Listed in INEC&apos;s order, which is also the order on the ballot paper. Something wrong?{" "}
+          <a className="underline" href={correctionUrl(title, `/race/${race.id}`)}>Report a correction</a>.
+        </p>
+      </div>
+      {cands.length > 0 && <BallotTray candidates={cands.map((c) => toTray(c, title))} races={[{ id: race.id, label: title }]} levelLabels={LEVEL_LABEL} />}
+    </>
   );
 }

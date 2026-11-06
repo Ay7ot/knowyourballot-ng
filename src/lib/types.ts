@@ -45,6 +45,7 @@ export interface Person {
   gender: "Male" | "Female" | null;
   pwd: string | null;
   qualifications: string | null;
+  level: string | null;
 }
 export interface Candidate extends Person {
   id: string;

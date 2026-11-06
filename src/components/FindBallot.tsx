@@ -150,10 +150,10 @@ export default function FindBallot({ autoFocus = false }: { autoFocus?: boolean 
   return (
     <div className="w-full">
       <div className="relative">
-        <label htmlFor="find" className="sr-only">
-          Search by LGA, ward, polling unit code, constituency or candidate
+        <label htmlFor="find" className="label mb-2 block text-ink">
+          Find your ballot
         </label>
-        <svg aria-hidden viewBox="0 0 24 24" className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted">
+        <svg aria-hidden viewBox="0 0 24 24" className="pointer-events-none absolute left-4 bottom-[18px] h-5 w-5 text-muted">
           <path fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" d="m21 21-4.3-4.3M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" />
         </svg>
         <input
@@ -166,8 +166,8 @@ export default function FindBallot({ autoFocus = false }: { autoFocus?: boolean 
           aria-expanded={showList}
           aria-controls="find-list"
           aria-activedescendant={showList && results[active] ? `opt-${active}` : undefined}
-          placeholder="Your LGA, ward, or polling unit code"
-          className="w-full h-14 rounded-2xl border border-line bg-surface pl-12 pr-4 text-base shadow-sm outline-none focus:border-brand focus:ring-4 focus:ring-brand/15"
+          placeholder="e.g. 24/14/05/012, Ikeja or a name"
+          className="w-full h-14 rounded-md border-2 border-ink bg-sheet pl-12 pr-4 text-[1.05rem] outline-none placeholder:text-muted focus:border-green focus:ring-4 focus:ring-green/20"
           value={q}
           onFocus={() => {
             warm();
@@ -184,10 +184,10 @@ export default function FindBallot({ autoFocus = false }: { autoFocus?: boolean 
           onBlur={() => setTimeout(() => setOpen(false), 150)}
         />
         {showList && (
-          <ul id="find-list" role="listbox" className="absolute z-20 mt-2 w-full overflow-hidden rounded-2xl border border-line bg-surface shadow-xl">
+          <ul id="find-list" role="listbox" className="absolute z-20 mt-2 w-full overflow-hidden rounded-lg border border-rule bg-sheet shadow-xl">
             {pu ? (
               <li>
-                <button type="button" onMouseDown={(e) => e.preventDefault()} onClick={() => lookupPu(pu)} className="w-full text-left px-4 py-3 bg-brand-soft">
+                <button type="button" onMouseDown={(e) => e.preventDefault()} onClick={() => lookupPu(pu)} className="w-full text-left px-4 py-3 bg-green-soft">
                   <div className="font-medium">Find polling unit {pu.slice(1).join("/")}</div>
                   <div className="text-sm text-muted">Open the ballot for this polling unit</div>
                 </button>
@@ -204,9 +204,9 @@ export default function FindBallot({ autoFocus = false }: { autoFocus?: boolean 
                     onMouseDown={(e) => e.preventDefault()}
                     onMouseEnter={() => setActive(i)}
                     onClick={() => go(r)}
-                    className={`w-full text-left px-4 py-3 flex items-center gap-3 ${i === active ? "bg-brand-soft" : ""}`}
+                    className={`w-full text-left px-4 py-3 flex items-center gap-3 ${i === active ? "bg-green-soft" : ""}`}
                   >
-                    <span className="shrink-0 w-20 text-[11px] font-semibold uppercase tracking-wide text-muted">{TYPE_LABEL[r.t]}</span>
+                    <span className="label shrink-0 w-20 text-[0.65rem] text-muted">{TYPE_LABEL[r.t]}</span>
                     <span className="min-w-0">
                       <span className="block truncate font-medium">{r.n}</span>
                       <span className="block truncate text-sm text-muted">{r.x}</span>
@@ -220,27 +220,27 @@ export default function FindBallot({ autoFocus = false }: { autoFocus?: boolean 
       </div>
 
       <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
-        <button type="button" onClick={locate} className="inline-flex items-center gap-1.5 font-medium text-brand hover:underline disabled:opacity-60" disabled={locating}>
+        <button type="button" onClick={locate} className="inline-flex items-center gap-1.5 font-medium text-green hover:underline disabled:opacity-60" disabled={locating}>
           <svg aria-hidden viewBox="0 0 24 24" className="h-4 w-4">
             <path fill="none" stroke="currentColor" strokeWidth="2" d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21Z M12 12.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
           </svg>
           {locating ? "Finding you…" : "Use my location"}
         </button>
         <span className="text-muted">
-          Tip: the polling unit code on your voter&apos;s card, like <span className="tabular">24/14/05/012</span>, finds your exact ballot.
+          Have your voter&apos;s card? Its code, like <span className="mono">24/14/05/012</span>, finds your exact ballot.
         </span>
       </div>
 
-      {msg && <p role="status" className="mt-3 text-sm rounded-xl bg-warn-soft text-warn-ink px-3 py-2">{msg}</p>}
+      {msg && <p role="status" className="mt-3 text-sm rounded-md bg-amber-soft text-amber-ink px-3 py-2">{msg}</p>}
 
       {near && (
-        <div className="mt-4 rounded-2xl border border-line bg-surface p-4">
+        <div className="mt-4 rounded-lg border border-rule bg-sheet p-4">
           <p className="text-sm text-muted">
             Your location is closest to these LGAs. Pick the one you <strong>registered to vote in</strong>, which may not be where you are now.
           </p>
           <div className="mt-3 flex flex-wrap gap-2">
             {near.map((p) => (
-              <button key={p.id} type="button" onClick={() => router.push(p.h)} className="rounded-full border border-line px-3 py-1.5 text-sm hover:border-brand hover:bg-brand-soft">
+              <button key={p.id} type="button" onClick={() => router.push(p.h)} className="rounded-md border border-rule bg-sheet px-3 py-1.5 text-sm hover:border-green hover:bg-green-soft">
                 {p.n}, <span className="text-muted">{p.s}</span>
               </button>
             ))}

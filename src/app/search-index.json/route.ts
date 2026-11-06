@@ -23,7 +23,7 @@ export function GET() {
     out.push({
       t: "c",
       n: c.name,
-      x: `${partyName(c.party) ? c.party : c.party} · ${OFFICE_LABEL[c.office]}, ${race.name}`,
+      x: `${c.party} (${partyName(c.party) ?? c.party}) · ${OFFICE_LABEL[c.office]}, ${race.name}`,
       h: `/candidate/${c.id}`,
     });
   }

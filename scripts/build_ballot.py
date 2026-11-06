@@ -149,6 +149,27 @@ def slug(s):
     return re.sub(r"[^a-z0-9]+", "-", s.lower()).strip("-")
 
 
+# Highest qualification, read from INEC's free-text column. Order matters: highest first.
+LEVELS = [
+    ("doctorate", r"\bph\.? ?d\b|\bdoctor(ate)? of\b|\bd\.? ?phil\b"),
+    ("postgraduate", r"\bm\.? ?sc\b|\bm\.? ?a\b\.?|\bmba\b|\bm\.? ?ed\b|\bmpa\b|\bll\.? ?m\b|\bmaster|\bpgd\b|\bpost ?graduate|\bm\.? ?phil\b|\bm\.? ?eng\b|\bm\.? ?tech\b"),
+    ("degree", r"\bb\.? ?sc\b|\bbs\.? ?c\b|\bb\.? ?a\b\.?|\bll\.? ?b\b|\bb\.? ?l\b|\bb\.? ?ed\b|\bb\.? ?eng\b|\bb\.? ?tech\b|\bmbbs\b|\bb\.? ?pharm\b|\bdegree\b|\bbachelor|\bfirst degree\b|\bb\.? ?agric\b"),
+    ("diploma", r"\bh\.? ?n\.? ?d\b|\bo\.? ?n\.? ?d\b|\bn\.? ?c\.? ?e\b|\bdiploma\b|\bn\.? ?d\b|\bpolytechnic\b|\bcertificate in\b"),
+    ("secondary", r"\bs\.? ?s\.? ?c\.? ?e\b|\bwaec\b|\bweac\b|\bw\.? ?a\.? ?s\.? ?c\b|\bg\.? ?c\.? ?e\b|\bneco\b|\bssc\b|\bsecondary\b|\bo/ ?l\b|\bgrade ii\b|\btc ?ii\b|\bnabteb\b|\btestimonial\b"),
+    ("primary", r"\bf\.? ?s\.? ?l\.? ?c\b|\bf\.? ?l\.? ?s\.? ?c\b|\bprimary\b|\bfirst school\b|\bschool leaving\b"),
+]
+
+
+def level(q):
+    q = (q or "").lower()
+    if not re.sub(r"\b(nil|none|n/a)\b|[^a-z]", "", q):
+        return None
+    for name, pat in LEVELS:
+        if re.search(pat, q):
+            return name
+    return "other"
+
+
 def person(r):
     age = re.sub(r"[^0-9]", "", r.get("age", ""))
     g = r.get("gender", "").strip().upper()[:1]
@@ -159,6 +180,7 @@ def person(r):
         "gender": {"M": "Male", "F": "Female"}.get(g),
         "pwd": None if pwd.lower() in {"", "none", "nil", "no", "n/a", "-"} else pwd,
         "qualifications": clean_name(r.get("qualification", "")) or None,
+        "level": level(r.get("qualification", "")),
     }
 
 

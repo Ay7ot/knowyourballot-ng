@@ -107,27 +107,79 @@ export function partyName(code: string): string | undefined {
   return PARTIES[code];
 }
 
-// Only parties whose full names we're sure of. Others show the abbreviation INEC uses.
+// INEC's register of 22 parties (inecnigeria.org/parties, checked 6 Nov 2026).
 const PARTIES: Record<string, string> = {
   A: "Accord",
   AA: "Action Alliance",
+  ADP: "Action Democratic Party",
+  APP: "Action Peoples Party",
   AAC: "African Action Congress",
   ADC: "African Democratic Congress",
-  ADP: "Action Democratic Party",
   APC: "All Progressives Congress",
   APGA: "All Progressives Grand Alliance",
   APM: "Allied Peoples Movement",
-  APP: "Action Peoples Party",
   BP: "Boot Party",
+  DLA: "Democratic Leadership Alliance",
   LP: "Labour Party",
-  NNPP: "New Nigeria Peoples Party",
+  NDP: "National Democratic Party",
   NRM: "National Rescue Movement",
+  NNPP: "New Nigeria Peoples Party",
+  NDC: "Nigeria Democratic Congress",
   PDP: "Peoples Democratic Party",
   PRP: "Peoples Redemption Party",
   SDP: "Social Democratic Party",
   YPP: "Young Progressives Party",
-  ZLP: "Zenith Labour Party",
   YP: "Youth Party",
+  ZLP: "Zenith Labour Party",
+};
+export const ALL_PARTIES = PARTIES;
+
+export const LEVEL_LABEL: Record<string, string> = {
+  doctorate: "Doctorate",
+  postgraduate: "Postgraduate",
+  degree: "University degree",
+  diploma: "Diploma (OND, HND, NCE)",
+  secondary: "Secondary school",
+  primary: "Primary school",
+  other: "Schools listed, level unclear",
+};
+export const LEVEL_SHORT: Record<string, string> = {
+  doctorate: "PhD",
+  postgraduate: "Postgrad",
+  degree: "Degree",
+  diploma: "Diploma",
+  secondary: "Secondary",
+  primary: "Primary",
+  other: "Unclear",
+};
+
+/** What each seat does, in one or two sentences a first-time voter can use. */
+export const OFFICE_INFO: Record<Office, { what: string; term: string; seats: string }> = {
+  president: {
+    what: "Leads the federal government and the armed forces, appoints ministers, and proposes the national budget.",
+    term: "4-year term, two terms at most",
+    seats: "1 seat for the whole country",
+  },
+  senate: {
+    what: "Makes federal laws, approves the national budget, and confirms ministers and other top appointments.",
+    term: "4-year term",
+    seats: "109 seats: 3 per state, 1 for the FCT",
+  },
+  rep: {
+    what: "Makes federal laws, approves the national budget, and represents your federal constituency in Abuja.",
+    term: "4-year term",
+    seats: "360 seats, shared by population",
+  },
+  governor: {
+    what: "Runs your state government and its budget: state roads, schools, hospitals and security support.",
+    term: "4-year term, two terms at most",
+    seats: "1 per state",
+  },
+  assembly: {
+    what: "Makes your state's laws, approves the state budget, and checks the governor's spending.",
+    term: "4-year term",
+    seats: "1 seat for your state constituency",
+  },
 };
 
 export function stats() {
@@ -139,5 +191,22 @@ export function stats() {
     federal: geo.federal.length,
     candidates: ballot.candidates.length,
     races: ballot.races.length,
+  };
+}
+
+/** Slim candidate record for client components (picks, compare). */
+export function toTray(c: Candidate, raceLabel: string) {
+  return {
+    id: c.id,
+    name: c.name,
+    party: c.party,
+    partyName: PARTIES[c.party] ?? null,
+    age: c.age,
+    gender: c.gender,
+    level: c.level,
+    qualifications: c.qualifications,
+    mate: c.runningMate?.name ?? null,
+    race: c.race,
+    raceLabel,
   };
 }

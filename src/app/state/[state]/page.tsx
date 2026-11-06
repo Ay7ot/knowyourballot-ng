@@ -1,9 +1,13 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { ballot, geo, getState, getRace, candidatesOf, lgasOf, lgaHref, getLgaById, officeStatus } from "@/lib/data";
-import { CandidateRow, Crumbs, Pending } from "@/components/ui";
+import { ballot, geo, getState, getRace, candidatesOf, lgasOf, lgaHref, getLgaById, officeStatus, LEVEL_LABEL, toTray } from "@/lib/data";
+import { Crumbs, Pending } from "@/components/ui";
 import FindBallot from "@/components/FindBallot";
+import RaceSheet from "@/components/RaceSheet";
+import BallotTray from "@/components/BallotTray";
+import { ResetCompareOnMount } from "@/components/picks";
+import { gutter } from "@/lib/gutter";
 
 export const dynamicParams = false;
 export function generateStaticParams() {
@@ -12,6 +16,25 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ state: string }> }): Promise<Metadata> {
   const s = getState((await params).state);
   return s ? { title: `${s.name} candidates`, description: `Every 2027 candidate in ${s.name}: governorship, Senate, House of Reps and State Assembly.` } : {};
+}
+
+function DistrictList({ title, items }: { title: string; items: { href: string; name: string; count?: number; lgas: string }[] }) {
+  return (
+    <section className="min-w-0">
+      <h2 className="label border-b-2 border-ink pb-2 text-ink">{title}</h2>
+      <ul className="divide-y divide-rule">
+        {items.map((d) => (
+          <li key={d.href}>
+            <Link href={d.href} className="group grid grid-cols-[1fr_auto] gap-x-3 py-3">
+              <span className="font-semibold group-hover:underline">{d.name}</span>
+              <span className="mono text-sm text-muted">{d.count ?? "–"}</span>
+              <span className="col-span-2 line-clamp-2 text-sm text-muted">{d.lgas}</span>
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
 }
 
 export default async function StatePage({ params }: { params: Promise<{ state: string }> }) {
@@ -23,88 +46,89 @@ export default async function StatePage({ params }: { params: Promise<{ state: s
   const gov = getRace(`gov--${st.slug}`);
   const count = (id: string) => getRace(id)?.candidates.length;
   const lgaNames = (ids: string[]) => ids.map((i) => getLgaById(i)!.name).join(", ");
+  const lgas = lgasOf(st.code);
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-8">
-      <Crumbs items={[{ href: "/", label: "Home" }, { href: "/state", label: "States" }, { label: st.name }]} />
-      <h1 className="mt-3 text-3xl font-bold tracking-tight">{st.name}</h1>
-      <p className="mt-1 text-muted">{st.zone} · {lgasOf(st.code).length} LGAs · {sen.length} Senate districts · {fed.length} federal constituencies{sha.length ? ` · ${sha.length} state constituencies` : ""}</p>
-
-      <div className="mt-6 max-w-2xl"><FindBallot /></div>
-
-      <section className="mt-10">
-        <h2 className="text-xl font-semibold">Find your LGA</h2>
-        <ul className="mt-3 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-1">
-          {lgasOf(st.code).map((l) => (
-            <li key={l.id}><Link href={lgaHref(l)} className="block rounded-lg px-2 py-1.5 hover:bg-brand-soft">{l.name}</Link></li>
-          ))}
-        </ul>
+    <>
+      <ResetCompareOnMount />
+      <section className="border-b border-rule bg-sheet">
+        <div className="mx-auto max-w-5xl pb-8 pt-6" style={gutter}>
+          <Crumbs items={[{ href: "/", label: "Home" }, { href: "/state", label: "States" }, { label: st.name }]} />
+          <p className="label mt-5 text-green">{st.zone}</p>
+          <h1 className="display mt-2 text-4xl sm:text-5xl">{st.name}</h1>
+          <p className="mono mt-2 text-sm text-muted">
+            {lgas.length} LGAs · {sen.length} Senate districts · {fed.length} federal constituencies{sha.length ? ` · ${sha.length} state constituencies` : ""}
+          </p>
+          <div className="mt-6 max-w-2xl">
+            <FindBallot />
+          </div>
+        </div>
       </section>
 
-      {st.governorship ? (
-        <section className="mt-10 rounded-2xl border border-line bg-surface overflow-hidden">
-          <h2 className="px-4 pt-4 pb-3 border-b border-line text-lg font-semibold">Governor of {st.short}</h2>
-          {officeStatus("governor") === "pending" ? <Pending what="governorship candidates" /> : gov ? (
-            <ul className="divide-y divide-line">{candidatesOf(gov).map((c) => <CandidateRow key={c.id} c={c} />)}</ul>
-          ) : <p className="px-4 py-3 text-sm text-muted">No governorship candidates found in INEC&apos;s list for this state.</p>}
-        </section>
-      ) : (
-        <p className="mt-10 rounded-2xl bg-brand-soft p-4 text-sm">
-          {st.slug === "fct" ? "The FCT doesn't elect a governor or state assembly. Its area councils vote on a separate timetable." : `${st.short}'s governorship election is off-cycle, so it isn't on the February 2027 ballot.`}
-        </p>
-      )}
-
-      <div className="mt-10 grid gap-6 lg:grid-cols-2">
+      <div className="mx-auto max-w-5xl space-y-12 py-10" style={gutter}>
         <section>
-          <h2 className="text-xl font-semibold">Senate districts</h2>
-          <ul className="mt-3 space-y-2">
-            {sen.map((d) => (
-              <li key={d.id}>
-                <Link href={`/race/sen--${d.id}`} className="block rounded-2xl border border-line bg-surface p-4 hover:border-brand">
-                  <div className="flex justify-between gap-3"><span className="font-medium">{d.name}</span><span className="text-sm text-muted tabular">{count(`sen--${d.id}`) ?? "–"}</span></div>
-                  <div className="text-sm text-muted line-clamp-2">{lgaNames(d.lgas)}</div>
+          <h2 className="display-tight text-2xl">Pick your LGA to see your whole ballot</h2>
+          <p className="mt-1 text-muted">Your LGA decides your Senate, House of Reps and State Assembly races.</p>
+          <ul className="mt-4 grid grid-cols-2 gap-x-6 sm:grid-cols-3 lg:grid-cols-4">
+            {lgas.map((l) => (
+              <li key={l.id} className="border-b border-rule">
+                <Link href={lgaHref(l)} className="flex items-center justify-between gap-2 py-2.5 hover:text-green">
+                  <span className="truncate">{l.name}</span>
+                  <span aria-hidden className="text-muted">→</span>
                 </Link>
               </li>
             ))}
           </ul>
         </section>
-        <section>
-          <h2 className="text-xl font-semibold">Federal constituencies</h2>
-          <ul className="mt-3 space-y-2">
-            {fed.map((d) => (
-              <li key={d.id}>
-                <Link href={`/race/rep--${d.id}`} className="block rounded-2xl border border-line bg-surface p-4 hover:border-brand">
-                  <div className="flex justify-between gap-3"><span className="font-medium">{getRace(`rep--${d.id}`)?.name ?? d.name}</span><span className="text-sm text-muted tabular">{count(`rep--${d.id}`) ?? "–"}</span></div>
-                  <div className="text-sm text-muted line-clamp-2">{lgaNames(d.lgas)}</div>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </section>
-      </div>
 
-      {st.assembly && (
-        <section id="all-assembly" className="mt-10">
-          <h2 className="text-xl font-semibold">State House of Assembly constituencies</h2>
-          {sha.length === 0 ? (
-            officeStatus("assembly") === "loaded" ? (
-              <p className="mt-3 rounded-2xl bg-warn-soft text-warn-ink p-4 text-sm">INEC&apos;s published State Assembly list has no entries for {st.short} yet. We&apos;ll add them as soon as INEC publishes them.</p>
-            ) : (
-              <div className="mt-3 rounded-2xl overflow-hidden border border-line"><Pending what="State Assembly candidates" /></div>
-            )
+        {st.governorship ? (
+          officeStatus("governor") === "pending" ? (
+            <div className="sheet overflow-hidden"><Pending what="governorship candidates" /></div>
+          ) : gov ? (
+            <RaceSheet race={gov} title={`Governor of ${st.short}`} />
           ) : (
-            <ul className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-              {sha.map((a) => (
-                <li key={a.id}>
-                  <Link href={`/race/sha--${a.id}`} className="flex justify-between gap-3 rounded-xl border border-line bg-surface px-4 py-3 hover:border-brand">
-                    <span className="font-medium">{a.name}</span><span className="text-sm text-muted tabular">{count(`sha--${a.id}`)}</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          )}
-        </section>
-      )}
-    </div>
+            <p className="sheet px-5 py-4 text-sm text-muted">No governorship candidates found in INEC&apos;s list for this state.</p>
+          )
+        ) : (
+          <p className="rounded-md bg-green-soft px-5 py-4 text-sm">
+            {st.slug === "fct"
+              ? "The FCT doesn't elect a governor or state assembly. Its area councils vote on a separate timetable."
+              : `${st.short}'s governorship election is off-cycle, so it isn't on the February 2027 ballot.`}
+          </p>
+        )}
+
+        <div className="grid gap-10 lg:grid-cols-2">
+          <DistrictList title="Senate districts" items={sen.map((d) => ({ href: `/race/sen--${d.id}`, name: d.name, count: count(`sen--${d.id}`), lgas: lgaNames(d.lgas) }))} />
+          <DistrictList title="Federal constituencies" items={fed.map((d) => ({ href: `/race/rep--${d.id}`, name: getRace(`rep--${d.id}`)?.name ?? d.name, count: count(`rep--${d.id}`), lgas: lgaNames(d.lgas) }))} />
+        </div>
+
+        {st.assembly && (
+          <section id="all-assembly" className="scroll-mt-24">
+            <h2 className="label border-b-2 border-ink pb-2 text-ink">State House of Assembly constituencies</h2>
+            {sha.length === 0 ? (
+              officeStatus("assembly") === "loaded" ? (
+                <p className="mt-3 rounded-md bg-amber-soft px-5 py-4 text-sm text-amber-ink">
+                  INEC&apos;s published State Assembly list has no entries for {st.short} yet. We&apos;ll add them as soon as INEC publishes them.
+                </p>
+              ) : (
+                <div className="sheet mt-3 overflow-hidden"><Pending what="State Assembly candidates" /></div>
+              )
+            ) : (
+              <ul className="grid gap-x-6 sm:grid-cols-2 lg:grid-cols-3">
+                {sha.map((a) => (
+                  <li key={a.id} className="border-b border-rule">
+                    <Link href={`/race/sha--${a.id}`} className="flex justify-between gap-3 py-2.5 hover:text-green">
+                      <span className="min-w-0 truncate">{a.name}</span>
+                      <span className="mono text-sm text-muted">{count(`sha--${a.id}`)}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </section>
+        )}
+      </div>
+      {gov && <BallotTray candidates={candidatesOf(gov).map((c) => toTray(c, `Governor of ${st.short}`))} races={[{ id: gov.id, label: `Governor of ${st.short}` }]} levelLabels={LEVEL_LABEL} />}
+    </>
   );
 }
