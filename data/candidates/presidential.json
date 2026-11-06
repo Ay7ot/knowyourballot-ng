@@ -1,0 +1,318 @@
+{
+ "office": "presidential",
+ "documents": [
+  {
+   "url": "https://www.inecnigeria.org/documents/uploads/2026/10/b5af9099-864c-4d5e-924d-e1a2c771c529-final-list-presidential.pdf",
+   "sha256": "89760a49c14ff64a94d2b5d21f649aa82a878305613c76ee7dd99f974f0eb915",
+   "rows": 18
+  }
+ ],
+ "rows": [
+  {
+   "sn": "2",
+   "state": "NIGERIA NIGERIA",
+   "constituency": "",
+   "position": "Presidential Vice- Presidential",
+   "name": "RUFAI ADEKUNLE OMO-AJE SHEHU HUSSAINI",
+   "party": "AA",
+   "pwd": "E None None",
+   "age": "71 56",
+   "gender": "M M",
+   "qualification": "FLSC WAEC FSLC G.S.S, Yabo F.C.E Zaria",
+   "remarks": "",
+   "source": {
+    "url": "https://www.inecnigeria.org/documents/uploads/2026/10/b5af9099-864c-4d5e-924d-e1a2c771c529-final-list-presidential.pdf",
+    "page": 1
+   }
+  },
+  {
+   "sn": "3",
+   "state": "NIGERIA NIGERIA",
+   "constituency": "",
+   "position": "Presidential Vice- Presidential",
+   "name": "SOWORE OMOYELE MAGASHI HARUNA GARBA",
+   "party": "AAC",
+   "pwd": "None None",
+   "age": "55 49",
+   "gender": "M M",
+   "qualification": "FSLC WAEC MASTERS DEGREE FSLC WAEC LLB",
+   "remarks": "",
+   "source": {
+    "url": "https://www.inecnigeria.org/documents/uploads/2026/10/b5af9099-864c-4d5e-924d-e1a2c771c529-final-list-presidential.pdf",
+    "page": 1
+   }
+  },
+  {
+   "sn": "4",
+   "state": "NIGERIA NIGERIA",
+   "constituency": "",
+   "position": "Presidential Vice- Presidential",
+   "name": "N ABUBAKAR ATIKU AMAECHI CHIBUIKE ROTIMI",
+   "party": "ADC",
+   "pwd": "None None",
+   "age": "79 61",
+   "gender": "M M",
+   "qualification": "F.S.L.C. WASC MA. (INT. RELATIONS FSLC WAEC B.A. ENGLISH STUDIES",
+   "remarks": "",
+   "source": {
+    "url": "https://www.inecnigeria.org/documents/uploads/2026/10/b5af9099-864c-4d5e-924d-e1a2c771c529-final-list-presidential.pdf",
+    "page": 1
+   }
+  },
+  {
+   "sn": "5",
+   "state": "NIGERIA NIGERIA",
+   "constituency": "",
+   "position": "I Presidential Vice- Presidential",
+   "name": "ABBAS-BIN ALIYU IKE CHINAZAM",
+   "party": "ADP",
+   "pwd": "None None",
+   "age": "44 50",
+   "gender": "M M",
+   "qualification": "FSLC SSCE BSC FSLC SSCE BNG",
+   "remarks": "",
+   "source": {
+    "url": "https://www.inecnigeria.org/documents/uploads/2026/10/b5af9099-864c-4d5e-924d-e1a2c771c529-final-list-presidential.pdf",
+    "page": 1
+   }
+  },
+  {
+   "sn": "6",
+   "state": "NIGERIA NIGERIA",
+   "constituency": "",
+   "position": "Presidential Vice- Presidential",
+   "name": "TINUBU BOLA AHMED SHETTIMA KASHIM",
+   "party": "APC",
+   "pwd": "None None",
+   "age": "74 59",
+   "gender": "M M",
+   "qualification": "B.Sc FSLC GENERAL CERTIFICATE OF EDUCATION B.Sc",
+   "remarks": "",
+   "source": {
+    "url": "https://www.inecnigeria.org/documents/uploads/2026/10/b5af9099-864c-4d5e-924d-e1a2c771c529-final-list-presidential.pdf",
+    "page": 2
+   }
+  },
+  {
+   "sn": "7",
+   "state": "NIGERIA NIGERIA",
+   "constituency": "",
+   "position": "Presidential Vice- Presidential",
+   "name": "MAKINDE OLUSEYI ABIODUN MUSA LAWAL DAURA",
+   "party": "APM",
+   "pwd": "None None",
+   "age": "58 73",
+   "gender": "M M",
+   "qualification": "C BISHOP PHILIPS ACADEMY IBADAN UNIVERSITY OF LAGOS, AKOKA FSLC GCE B.A (HONS) ABU ZARIA",
+   "remarks": "",
+   "source": {
+    "url": "https://www.inecnigeria.org/documents/uploads/2026/10/b5af9099-864c-4d5e-924d-e1a2c771c529-final-list-presidential.pdf",
+    "page": 2
+   }
+  },
+  {
+   "sn": "8",
+   "state": "NIGERIA NIGERIA",
+   "constituency": "",
+   "position": "Presidential Vice- Presidential",
+   "name": "YUSUF KABIRU OFORDILE PEACE EGOBIA",
+   "party": "APP",
+   "pwd": "None None",
+   "age": "54 47",
+   "gender": "M F",
+   "qualification": "FSLC SSCE NATIONAL DIPLOMA SSCE",
+   "remarks": "",
+   "source": {
+    "url": "https://www.inecnigeria.org/documents/uploads/2026/10/b5af9099-864c-4d5e-924d-e1a2c771c529-final-list-presidential.pdf",
+    "page": 2
+   }
+  },
+  {
+   "sn": "9",
+   "state": "NIGERIA NIGERIA",
+   "constituency": "",
+   "position": "Presidential Vice- Presidential",
+   "name": "ADENUGA SUNDAY MUSTAPHA USMAN TURAKI",
+   "party": "BP",
+   "pwd": "E None None",
+   "age": "52 40",
+   "gender": "M M",
+   "qualification": "FSLC SSCE Masters FSLC NABTEB DIPLOMA",
+   "remarks": "",
+   "source": {
+    "url": "https://www.inecnigeria.org/documents/uploads/2026/10/b5af9099-864c-4d5e-924d-e1a2c771c529-final-list-presidential.pdf",
+    "page": 2
+   }
+  },
+  {
+   "sn": "10",
+   "state": "NIGERIA NIGERIA",
+   "constituency": "",
+   "position": "Presidential Vice- Presidential",
+   "name": "ADEBISI MOSES OLUSOJI ABUBAKAR NAFISAT USAKU",
+   "party": "DLA",
+   "pwd": "None None",
+   "age": "35 35",
+   "gender": "M F",
+   "qualification": "FSLC SSCE BSc FSLC SSCE BSc",
+   "remarks": "",
+   "source": {
+    "url": "https://www.inecnigeria.org/documents/uploads/2026/10/b5af9099-864c-4d5e-924d-e1a2c771c529-final-list-presidential.pdf",
+    "page": 2
+   }
+  },
+  {
+   "sn": "11",
+   "state": "NIGERIA NIGERIA",
+   "constituency": "",
+   "position": "Presidential Vice- Presidential",
+   "name": "N OKEREKE SUNDAY CHIBUZO KONTO HAJJA BINTU",
+   "party": "LP",
+   "pwd": "None None",
+   "age": "43 54",
+   "gender": "M F",
+   "qualification": "FSLC NABTEC Ph.D., MLS (Distinction), MSC (Distinction) & BSC (Hons) (Nig) FSLC WAEC MPH; BSC (Hons) Health Education & Certificate in General Nursing",
+   "remarks": "",
+   "source": {
+    "url": "https://www.inecnigeria.org/documents/uploads/2026/10/b5af9099-864c-4d5e-924d-e1a2c771c529-final-list-presidential.pdf",
+    "page": 2
+   }
+  },
+  {
+   "sn": "12",
+   "state": "NIGERIA NIGERIA",
+   "constituency": "",
+   "position": "Presidential Vice- Presidential",
+   "name": "OBI PETER GREGORY MUSA MOHAMMED RABIU KWANKWASO",
+   "party": "NDC",
+   "pwd": "None None",
+   "age": "65 69",
+   "gender": "M M",
+   "qualification": "ST. AUGUSTINES PRIMARY SCHOOL ANAMBRA CHRIST THE KING COLLEGE (C.K.C) WASC UNN B.A. FSLC TTC CRAFT TRAINING CERT., OND, HND, PGD, M.SC, PH.D",
+   "remarks": "",
+   "source": {
+    "url": "https://www.inecnigeria.org/documents/uploads/2026/10/b5af9099-864c-4d5e-924d-e1a2c771c529-final-list-presidential.pdf",
+    "page": 3
+   }
+  },
+  {
+   "sn": "13",
+   "state": "NIGERIA NIGERIA",
+   "constituency": "",
+   "position": "Presidential Vice- Presidential",
+   "name": "OKWORI ADA ELIZABETH FREDRICK CHUKWUEMEKA UCHENNA ANTHONY",
+   "party": "NDP",
+   "pwd": "None None",
+   "age": "48 48",
+   "gender": "F M",
+   "qualification": "C FSLC SSCE HND ACCOUNTANCY FSLC SSCE L.L.B",
+   "remarks": "",
+   "source": {
+    "url": "https://www.inecnigeria.org/documents/uploads/2026/10/b5af9099-864c-4d5e-924d-e1a2c771c529-final-list-presidential.pdf",
+    "page": 3
+   }
+  },
+  {
+   "sn": "14",
+   "state": "NIGERIA NIGERIA",
+   "constituency": "",
+   "position": "Presidential Vice- Presidential",
+   "name": "OKEREKE NKEM ESTHER SULAIMAN NASIR MUHAMMED",
+   "party": "NRM",
+   "pwd": "None None",
+   "age": "43 35",
+   "gender": "F M",
+   "qualification": "FSLC SSCE Bsc, MSC, Phd FSLC SSCE",
+   "remarks": "",
+   "source": {
+    "url": "https://www.inecnigeria.org/documents/uploads/2026/10/b5af9099-864c-4d5e-924d-e1a2c771c529-final-list-presidential.pdf",
+    "page": 3
+   }
+  },
+  {
+   "sn": "15",
+   "state": "NIGERIA NIGERIA",
+   "constituency": "",
+   "position": "Presidential Vice- Presidential",
+   "name": "ONOR SANDY OJANG UMARU BABANGIDA",
+   "party": "PDP",
+   "pwd": "E None None",
+   "age": "60 61",
+   "gender": "M M",
+   "qualification": "FSLC W.A.S.C. PH.D FSLC W.A.S.C. DIPLOMA",
+   "remarks": "",
+   "source": {
+    "url": "https://www.inecnigeria.org/documents/uploads/2026/10/b5af9099-864c-4d5e-924d-e1a2c771c529-final-list-presidential.pdf",
+    "page": 3
+   }
+  },
+  {
+   "sn": "16",
+   "state": "NIGERIA NIGERIA",
+   "constituency": "",
+   "position": "Presidential Vice- Presidential",
+   "name": "N DUKE DONALD MOHAMMED SULE",
+   "party": "PRP",
+   "pwd": "None None",
+   "age": "64 70",
+   "gender": "M M",
+   "qualification": "FSLC WASC LLB WASC, BSC",
+   "remarks": "C",
+   "source": {
+    "url": "https://www.inecnigeria.org/documents/uploads/2026/10/b5af9099-864c-4d5e-924d-e1a2c771c529-final-list-presidential.pdf",
+    "page": 3
+   }
+  },
+  {
+   "sn": "17",
+   "state": "NIGERIA NIGERIA",
+   "constituency": "",
+   "position": "Presidential Vice- Presidential",
+   "name": "ADEBAYO ADEWOLE EBENEZER BUGAJE USMAN MUHAMMED",
+   "party": "SDP",
+   "pwd": "None None",
+   "age": "54 74",
+   "gender": "M M",
+   "qualification": "FSLC WASCE LLB FSLC SSCE PHD",
+   "remarks": "",
+   "source": {
+    "url": "https://www.inecnigeria.org/documents/uploads/2026/10/b5af9099-864c-4d5e-924d-e1a2c771c529-final-list-presidential.pdf",
+    "page": 3
+   }
+  },
+  {
+   "sn": "18",
+   "state": "NIGERIA NIGERIA",
+   "constituency": "",
+   "position": "I Presidential Vice- Presidential",
+   "name": "AGADA PETER ADA KEY PATIENCE NDIDI",
+   "party": "YPP",
+   "pwd": "None None",
+   "age": "54 52",
+   "gender": "M F",
+   "qualification": "WAEC BSc, & MBA WAEC BSc. & MBA",
+   "remarks": "",
+   "source": {
+    "url": "https://www.inecnigeria.org/documents/uploads/2026/10/b5af9099-864c-4d5e-924d-e1a2c771c529-final-list-presidential.pdf",
+    "page": 3
+   }
+  },
+  {
+   "sn": "19",
+   "state": "NIGERIA NIGERIA",
+   "constituency": "",
+   "position": "Presidential Vice- Presidential",
+   "name": "NWANYANWU DANIEL DABERECHUKWU HASSAN KHALID",
+   "party": "ZLP",
+   "pwd": "None None",
+   "age": "66 37",
+   "gender": "M M",
+   "qualification": "FSLC WAEC LLB, LLM FSLC SSCE PGD",
+   "remarks": "",
+   "source": {
+    "url": "https://www.inecnigeria.org/documents/uploads/2026/10/b5af9099-864c-4d5e-924d-e1a2c771c529-final-list-presidential.pdf",
+    "page": 4
+   }
+  }
+ ]
+}
