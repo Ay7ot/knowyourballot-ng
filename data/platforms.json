@@ -89,6 +89,48 @@
    "date": "2026-11-05",
    "title": "Akwa Ibom 2027: ADC governorship candidate unveils eight-point manifesto",
    "url": "https://thesun.ng/akwa-ibom-2027-adc-governorship-candidate-unveils-eight-point-manifesto/"
+  },
+  "von-oyo-apc": {
+   "outlet": "Voice of Nigeria",
+   "date": "2026-11-04",
+   "title": "2027: Oyo APC governorship candidate unveils development blueprint",
+   "url": "https://von.gov.ng/2027-oyo-apc-governorship-candidate-unveils-development-blueprint/"
+  },
+  "von-oyo-apm": {
+   "outlet": "Voice of Nigeria",
+   "date": "2026-11-02",
+   "title": "Oyo election: APM governorship candidate unveils manifesto website",
+   "url": "https://von.gov.ng/oyo-election-apm-governorship-candidate-unveils-manifesto-website/"
+  },
+  "bd-kwara-pdp": {
+   "outlet": "BusinessDay",
+   "date": "2026-11-03",
+   "title": "2027: PDP governorship candidate to unveil 'My Covenant with Kwara' manifesto November 12",
+   "url": "https://businessday.ng/politics/article/2027-pdp-governorship-candidate-to-unveil-my-covenant-with-kwara-manifesto-november-12/"
+  },
+  "ld-kaduna-prp": {
+   "outlet": "Leadership",
+   "date": "2026-06",
+   "title": "Kaduna 2027: PRP candidate Abdulfatah unveils vision for security, education, others",
+   "url": "https://leadership.ng/kaduna-2027-prp-candidate-abdulfatah-unveils-vision-for-security-education-others/"
+  },
+  "arise-rivers-adp": {
+   "outlet": "Arise News",
+   "date": "2026-09-10",
+   "title": "2027: Rivers ADP targets 500,000 jobs",
+   "url": "https://www.arise.tv/2027-rivers-adp-targets-500000-jobs-rejects-wike-linked-rainbow-coalition/"
+  },
+  "bp-benue-pdp": {
+   "outlet": "Blueprint",
+   "date": "2026-09-07",
+   "title": "Benue: PDP governorship candidate Aondoakaa vows to prioritise security",
+   "url": "https://blueprint.ng/benue-pdp-governorship-candidate-aondoakaa-vows-to-prioritise-security/"
+  },
+  "bp-niger-pdp": {
+   "outlet": "Blueprint",
+   "date": "2026-10-01",
+   "title": "Niger 2027: Nami unveils 10-point agenda",
+   "url": "https://blueprint.ng/niger-2027-nami-unveils-10-point-agenda/"
   }
  },
  "candidates": {
@@ -462,6 +504,220 @@
      "text": "Education support for up to four children of each state worker, from nursery to university.",
      "src": [
       "sun-udoedehe"
+     ]
+    }
+   ]
+  },
+  "gov--oyo--apc": {
+   "status": "manifesto",
+   "title": "Oyo AHEAD",
+   "unveiled": "2026-11-04",
+   "document": null,
+   "note": "A seven-pillar blueprint unveiled in Ibadan.",
+   "pledges": [
+    {
+     "topic": "Governance",
+     "text": "Local government autonomy from his first day in office.",
+     "src": [
+      "von-oyo-apc"
+     ]
+    },
+    {
+     "topic": "Economy",
+     "text": "Raise the state's internally generated revenue to ₦150 billion without new burdens on residents and businesses.",
+     "src": [
+      "von-oyo-apc"
+     ]
+    },
+    {
+     "topic": "Jobs",
+     "text": "A youth fund starting with ₦10 billion.",
+     "src": [
+      "von-oyo-apc"
+     ]
+    },
+    {
+     "topic": "Infrastructure",
+     "text": "Finish ongoing roads, with a 20-year warranty on every new road.",
+     "src": [
+      "von-oyo-apc"
+     ]
+    },
+    {
+     "topic": "Health",
+     "text": "Free health insurance for infants, pregnant women and over-70s, raising enrolment from 271,000 to 500,000 in two years; general hospitals in the six LGAs without one.",
+     "src": [
+      "von-oyo-apc"
+     ]
+    },
+    {
+     "topic": "Education",
+     "text": "Class sizes of 30, and skills centres in every zone.",
+     "src": [
+      "von-oyo-apc"
+     ]
+    },
+    {
+     "topic": "Agriculture",
+     "text": "Insurance for 10,000 farmers and a produce board through an Oyo Export Council.",
+     "src": [
+      "von-oyo-apc"
+     ]
+    },
+    {
+     "topic": "Fuel and power",
+     "text": "A state electricity regulator and replacement of faulty transformers every six months.",
+     "src": [
+      "von-oyo-apc"
+     ]
+    }
+   ]
+  },
+  "gov--oyo--apm": {
+   "status": "manifesto",
+   "title": "Omituntun 3.0: Continuity, Competence and Community",
+   "unveiled": "2026-11-02",
+   "document": "https://bimbo-adekanmbi.com",
+   "note": "An abridged manifesto is on the campaign website; the campaign says the full version is coming. The launch report lists no specific pledges.",
+   "noteSrc": [
+    "von-oyo-apm"
+   ],
+   "pledges": []
+  },
+  "gov--kwara--pdp": {
+   "status": "pledges",
+   "title": null,
+   "unveiled": null,
+   "document": null,
+   "note": "The campaign says its manifesto, 'My Covenant with Kwara', will be unveiled in Ilorin on 12 November 2026.",
+   "noteSrc": [
+    "bd-kwara-pdp"
+   ],
+   "pledges": []
+  },
+  "gov--kaduna--prp": {
+   "status": "pledges",
+   "title": null,
+   "unveiled": null,
+   "document": null,
+   "note": "We haven't found a published manifesto. These are pledges from his campaign vision statement.",
+   "pledges": [
+    {
+     "topic": "Security",
+     "text": "Closer work between security agencies and communities, and economic opportunities to reduce the causes of conflict.",
+     "src": [
+      "ld-kaduna-prp"
+     ]
+    },
+    {
+     "topic": "Education",
+     "text": "Better school buildings and teacher training, wider access in rural areas, and curricula matched to jobs.",
+     "src": [
+      "ld-kaduna-prp"
+     ]
+    },
+    {
+     "topic": "Health",
+     "text": "Revive primary health centres and strengthen maternal and child health in underserved areas.",
+     "src": [
+      "ld-kaduna-prp"
+     ]
+    },
+    {
+     "topic": "Agriculture",
+     "text": "Better access to fertiliser and other inputs, and youth jobs in farming.",
+     "src": [
+      "ld-kaduna-prp"
+     ]
+    }
+   ]
+  },
+  "gov--rivers--adp": {
+   "status": "pledges",
+   "title": null,
+   "unveiled": null,
+   "document": null,
+   "note": "We haven't found a published manifesto. This pledge is from a campaign statement.",
+   "pledges": [
+    {
+     "topic": "Jobs",
+     "text": "Create 500,000 direct and indirect jobs and empowerment opportunities in the first 365 days.",
+     "src": [
+      "arise-rivers-adp"
+     ]
+    }
+   ]
+  },
+  "gov--benue--pdp": {
+   "status": "pledges",
+   "title": null,
+   "unveiled": null,
+   "document": null,
+   "note": "We haven't found a published manifesto. These are pledges reported from his campaign.",
+   "pledges": [
+    {
+     "topic": "Security",
+     "text": "Make security the top priority, and repair rural roads and bridges that slow security response.",
+     "src": [
+      "bp-benue-pdp"
+     ]
+    },
+    {
+     "topic": "Education",
+     "text": "A ₦2 billion interest-free revolving student loan scheme, prioritising young people from areas hit by insecurity.",
+     "src": [
+      "bp-benue-pdp"
+     ]
+    },
+    {
+     "topic": "Governance",
+     "text": "Let local governments manage their own statutory funds, and cut leakages and unnecessary spending.",
+     "src": [
+      "bp-benue-pdp"
+     ]
+    },
+    {
+     "topic": "Agriculture",
+     "text": "Allow ranching businesses that comply with state and federal land, environment and quarantine laws.",
+     "src": [
+      "bp-benue-pdp"
+     ]
+    }
+   ]
+  },
+  "gov--niger--pdp": {
+   "status": "pledges",
+   "title": "10-point development agenda",
+   "unveiled": "2026-10-01",
+   "document": null,
+   "note": "The launch report names the agenda's areas but not all ten points, and gives no figures.",
+   "pledges": [
+    {
+     "topic": "Security",
+     "text": "Act decisively against banditry and kidnapping.",
+     "src": [
+      "bp-niger-pdp"
+     ]
+    },
+    {
+     "topic": "Agriculture",
+     "text": "Strengthen agriculture.",
+     "src": [
+      "bp-niger-pdp"
+     ]
+    },
+    {
+     "topic": "Infrastructure",
+     "text": "Improve water supply.",
+     "src": [
+      "bp-niger-pdp"
+     ]
+    },
+    {
+     "topic": "Health",
+     "text": "Improve healthcare, and pensioners' welfare.",
+     "src": [
+      "bp-niger-pdp"
      ]
     }
    ]
