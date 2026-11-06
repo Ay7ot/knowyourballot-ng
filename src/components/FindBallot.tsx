@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import type Fuse from "fuse.js";
 import type { SearchEntry } from "@/lib/types";
+import type { QuickEntry } from "@/lib/data";
 
 type LgaPoint = { id: string; n: string; s: string; h: string; lat: number | null; lon: number | null };
 
@@ -37,10 +38,33 @@ function loadIndex() {
   }));
   return indexPromise;
 }
+// Words that carry no meaning for matching ("who is running for president" -> "running president").
+const STOP = new Set("a an and are be can do does for from how i in is it me my of on or the to what which who will with nigeria nigerian 2027 about tell show find see party parties".split(" "));
+type Row = { n: string; x: string; h: string; label: string };
+function matchQuick(quick: QuickEntry[], q: string): Row[] {
+  const words = fold(q).split(" ").filter((w) => w.length > 1 && !STOP.has(w));
+  if (!words.length) return [];
+  const scored = quick.map((e) => {
+    const name = fold(e.n).split(" ");
+    const keys = fold(`${e.n} ${e.k}`).split(" ");
+    let score = 0;
+    for (const w of words) {
+      const hit = (k: string) => (w.length < 3 ? k === w : k.startsWith(w) || (k.length >= 4 && w.startsWith(k)));
+      if (name.some(hit)) score += 2;
+      else if (keys.some(hit)) score += 1;
+    }
+    return { e, score: score / words.length };
+  });
+  return scored
+    .filter((r) => r.score >= 0.5)
+    .sort((a, b) => b.score - a.score)
+    .map(({ e }) => ({ n: e.n, x: e.x, h: e.h, label: e.g }));
+}
+
 let pointsPromise: Promise<LgaPoint[]> | null = null;
 const loadPoints = (): Promise<LgaPoint[]> => (pointsPromise ??= fetch("/lga-points.json").then((r) => r.json() as Promise<LgaPoint[]>));
 
-export default function FindBallot({ autoFocus = false }: { autoFocus?: boolean }) {
+export default function FindBallot({ autoFocus = false, quick = [] }: { autoFocus?: boolean; quick?: QuickEntry[] }) {
   const router = useRouter();
   const [q, setQ] = useState("");
   const [fuse, setFuse] = useState<Index | null>(null);
@@ -71,7 +95,8 @@ export default function FindBallot({ autoFocus = false }: { autoFocus?: boolean 
   }, [autoFocus]);
 
   const pu = PU_RE.exec(q);
-  const results = useMemo(() => {
+  const answers = useMemo(() => (q.trim().length < 2 || pu ? [] : matchQuick(quick, q)), [quick, q, pu]);
+  const found = useMemo(() => {
     if (!fuse || q.trim().length < 2 || pu) return [];
     const order: Record<SearchEntry["t"], number> = { l: 0, s: 1, w: 2, c: 3, f: 4, d: 5, a: 6 };
     // Every typed word appears in the name, in any order ("peter obi" finds "OBI PETER GREGORY").
@@ -89,6 +114,11 @@ export default function FindBallot({ autoFocus = false }: { autoFocus?: boolean 
     const seen = new Set<string>();
     return [...exact, ...fuzzy].filter((e) => !seen.has(e.h) && seen.add(e.h)).slice(0, 8);
   }, [fuse, q, pu]);
+  const results: Row[] = useMemo(() => {
+    const places = found.map((e) => ({ n: e.n, x: e.x, h: e.h, label: TYPE_LABEL[e.t] }));
+    const top = answers.slice(0, places.length ? 3 : 6);
+    return [...top, ...places].slice(0, 9);
+  }, [answers, found]);
 
   async function lookupPu(m: RegExpExecArray) {
     const [s, l, w, p] = m.slice(1).map((x, i) => x.padStart(i === 3 ? 3 : 2, "0"));
@@ -131,7 +161,7 @@ export default function FindBallot({ autoFocus = false }: { autoFocus?: boolean 
     );
   }
 
-  function go(e: SearchEntry) {
+  function go(e: Row) {
     setOpen(false);
     router.push(e.h);
   }
@@ -171,7 +201,7 @@ export default function FindBallot({ autoFocus = false }: { autoFocus?: boolean 
           aria-expanded={showList}
           aria-controls="find-list"
           aria-activedescendant={showList && results[active] ? `opt-${active}` : undefined}
-          placeholder="e.g. 24/14/05/012, Ikeja or a name"
+          placeholder="Your LGA, a name, a party or a question"
           className="w-full h-14 rounded-md border-2 border-ink bg-sheet pl-12 pr-4 text-[1.05rem] outline-none placeholder:text-muted focus:border-green focus:ring-4 focus:ring-green/20"
           value={q}
           onFocus={() => {
@@ -199,10 +229,12 @@ export default function FindBallot({ autoFocus = false }: { autoFocus?: boolean 
                   <div className="text-sm text-muted">Open the ballot for this polling unit</div>
                 </button>
               </li>
-            ) : loading && !fuse ? (
+            ) : results.length === 0 && loading && !fuse ? (
               <li className="px-4 py-3 text-sm text-muted">Loading places and candidates…</li>
             ) : results.length === 0 ? (
-              <li className="px-4 py-3 text-sm text-muted">No matches. Try your LGA name, or the polling unit code on your voter&apos;s card.</li>
+              <li className="px-4 py-3 text-sm text-muted">
+                Nothing matched &ldquo;{q.trim()}&rdquo;. Try your LGA or ward (like <em>Ikeja</em>), a candidate&apos;s name, a party (like <em>APC</em>), an office (like <em>Senate</em>), or a question like <em>when is the election</em>.
+              </li>
             ) : (
               results.map((r, i) => (
                 <li key={r.h + i} id={`opt-${i}`} role="option" aria-selected={i === active}>
@@ -213,10 +245,10 @@ export default function FindBallot({ autoFocus = false }: { autoFocus?: boolean 
                     onClick={() => go(r)}
                     className={`w-full text-left px-4 py-3 flex items-center gap-3 ${i === active ? "bg-green-soft" : ""}`}
                   >
-                    <span className="label shrink-0 w-20 text-[0.65rem] text-muted">{TYPE_LABEL[r.t]}</span>
+                    <span className="label w-16 shrink-0 text-[0.62rem] text-muted sm:w-20">{r.label}</span>
                     <span className="min-w-0">
                       <span className="block truncate font-medium">{r.n}</span>
-                      <span className="block truncate text-sm text-muted">{r.x}</span>
+                      <span className="line-clamp-2 block text-sm text-muted">{r.x}</span>
                     </span>
                   </button>
                 </li>
@@ -225,6 +257,29 @@ export default function FindBallot({ autoFocus = false }: { autoFocus?: boolean 
           </ul>
         )}
       </div>
+
+      {quick.length > 0 && (
+        <div className="mt-3 flex flex-wrap items-center gap-2 text-sm">
+          <span className="text-muted">Try</span>
+          {["When is the election?", "Presidential", "APC", "Fuel and power"].map((ex) => (
+            <button
+              key={ex}
+              type="button"
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={() => {
+                setQ(ex);
+                setActive(0);
+                setOpen(true);
+                warm();
+                inputRef.current?.focus();
+              }}
+              className="min-h-9 rounded-full border border-rule bg-sheet px-3 font-medium hover:border-green hover:bg-green-soft"
+            >
+              {ex}
+            </button>
+          ))}
+        </div>
+      )}
 
       <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
         <button type="button" onClick={locate} className="inline-flex items-center gap-1.5 font-medium text-green hover:underline disabled:opacity-60" disabled={locating}>

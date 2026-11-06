@@ -214,3 +214,53 @@ export type Platform = { status: "manifesto" | "pledges"; title: string | null; 
 export const PLATFORMS = platformJson as unknown as { checked: string; topics: string[]; sources: Record<string, PlatformSource>; candidates: Record<string, Platform> };
 export const platformFor = (id: string): Platform | null => (PLATFORMS.candidates as Record<string, Platform>)[id] ?? null;
 export const partyPlatform = (code: string): Platform | null => ((PLATFORMS as unknown as { parties?: Record<string, Platform> }).parties ?? {})[code] ?? null;
+
+/**
+ * Plain-language answers for the search box: offices, parties, election dates, how to
+ * vote and promise topics. Small enough to ship with the page, so they show instantly
+ * while the big place/candidate index is still loading. `k` holds the words people type.
+ */
+export type QuickEntry = { n: string; x: string; h: string; k: string; g: "Office" | "Party" | "Topic" | "Help" };
+export function quickEntries(): QuickEntry[] {
+  const pres = getRace("president");
+  const presCands = pres ? candidatesOf(pres) : [];
+  const day = (iso: string) => new Date(`${iso}T12:00:00Z`).toLocaleDateString("en-NG", { weekday: "short", day: "numeric", month: "short", year: "numeric" });
+  const [fed, state] = ELECTIONS;
+  const out: QuickEntry[] = [
+    { g: "Office", n: "President of Nigeria", x: `${presCands.length} candidates · ${day(fed.date)}`, h: "/race/president", k: "president presidential presidency head of state commander in chief aso rock vice vp running mate national" },
+    { g: "Office", n: "Senate", x: "Your senator depends on your LGA: type it to see your race", h: "/guide#offices", k: "senate senator senators senatorial district national assembly nass red chamber upper" },
+    { g: "Office", n: "House of Representatives", x: "Your rep depends on your LGA or ward: type it to see your race", h: "/guide#offices", k: "house representatives reps rep honourable federal constituency national assembly nass green chamber lower" },
+    { g: "Office", n: "Governor", x: `Pick your state to see its governorship race · ${day(state.date)}`, h: "/state", k: "governor governorship gubernatorial deputy governor state government" },
+    { g: "Office", n: "State House of Assembly", x: "Your state lawmaker depends on your LGA: type it to see your race", h: "/guide#offices", k: "state house assembly sha state constituency lawmaker legislator house of assembly" },
+    { g: "Help", n: "When is the election?", x: `President & National Assembly: ${day(fed.date)} · Governor & State Assembly: ${day(state.date)}`, h: "/guide#offices", k: "when date dates day election day timetable schedule january february 2027 countdown how long vote date" },
+    { g: "Help", n: "How to vote on election day", x: "PVC, accreditation with BVAS, and casting your ballot", h: "/guide#day", k: "how vote voting process polling unit pvc voter card permanent bvas accreditation queue thumbprint ballot paper what to bring id register registration cvr" },
+    { g: "Help", n: "Find your polling unit code", x: "It's on your voter's card: four numbers like 24/14/05/012", h: "/guide#day", k: "polling unit code pu number where do i vote voting centre location card" },
+    { g: "Help", n: "What the qualifications mean", x: "FSLC, WASC, OND, HND, B.Sc and more, in plain words", h: "/guide#qualifications", k: "qualification qualifications education certificate degree school fslc wasc ssce ond hnd bsc phd masters educated" },
+    { g: "Help", n: "Where the data comes from", x: "INEC's published lists, checked daily, and how to send a correction", h: "/data", k: "inec source sources data official list correction mistake wrong error report affidavit" },
+    { g: "Topic", n: "What the presidential candidates promise", x: "Manifestos and reported pledges, topic by topic, with sources", h: "/promises", k: "promise promises manifesto manifestos pledge pledges plan plans agenda policy policies campaign" },
+  ];
+  const TOPIC_WORDS: Record<string, string> = {
+    Economy: "economy economic inflation naira dollar exchange rate prices cost of living tax taxes debt budget gdp poverty money business investment",
+    Jobs: "jobs job employment unemployment youth work wages salary minimum wage",
+    "Fuel and power": "fuel petrol subsidy electricity power light nepa energy oil gas refinery",
+    Security: "security insecurity bandits banditry kidnapping terrorism boko haram police army crime",
+    Education: "education schools school university universities asuu teachers students fees",
+    Health: "health hospital hospitals doctors healthcare medicine insurance",
+    Infrastructure: "infrastructure roads road rail railway bridges transport housing",
+    Agriculture: "agriculture farming farmers food prices food security herders",
+    Governance: "governance corruption restructuring federalism power devolution justice courts",
+  };
+  for (const t of PLATFORMS.topics)
+    out.push({ g: "Topic", n: `Promises on ${t.toLowerCase()}`, x: "What the presidential candidates say, with sources", h: `/promises#topic-${t.toLowerCase().replace(/\W+/g, "-")}`, k: `${t.toLowerCase()} ${TOPIC_WORDS[t] ?? ""}` });
+  for (const [code, name] of Object.entries(ALL_PARTIES)) {
+    const c = presCands.find((p) => p.party === code);
+    out.push({
+      g: "Party",
+      n: `${name} (${code})`,
+      x: c ? `Presidential candidate: ${c.name}. Type your LGA to see their local candidates` : "No presidential candidate. Type your LGA to see their local candidates",
+      h: c ? `/candidate/${c.id}` : "/race/president",
+      k: `${code.toLowerCase()} ${name.toLowerCase()} party`,
+    });
+  }
+  return out;
+}

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import FindBallot from "@/components/FindBallot";
 import Countdown from "@/components/Countdown";
-import { ELECTIONS, OFFICE_INFO, OFFICE_LABEL, geo, stats } from "@/lib/data";
+import { ELECTIONS, OFFICE_INFO, OFFICE_LABEL, geo, stats, quickEntries } from "@/lib/data";
 import { gutter } from "@/lib/gutter";
 import { Thumbprint } from "@/components/picks";
 
@@ -52,7 +52,7 @@ export default function Home() {
               Every candidate you can vote for, from President to your State Assembly seat, taken from INEC&apos;s official lists for all 36 states and the FCT.
             </p>
             <div className="mt-8">
-              <FindBallot autoFocus />
+              <FindBallot autoFocus quick={quickEntries()} />
             </div>
           </div>
           <div className="min-w-0">

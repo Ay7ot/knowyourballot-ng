@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { ballot, geo, getState, getRace, candidatesOf, lgasOf, lgaHref, getLgaById, officeStatus, LEVEL_LABEL, toTray } from "@/lib/data";
+import { ballot, geo, getState, getRace, candidatesOf, lgasOf, lgaHref, getLgaById, officeStatus, LEVEL_LABEL, toTray, quickEntries } from "@/lib/data";
 import { Crumbs, Pending } from "@/components/ui";
 import FindBallot from "@/components/FindBallot";
 import RaceSheet from "@/components/RaceSheet";
@@ -60,7 +60,7 @@ export default async function StatePage({ params }: { params: Promise<{ state: s
             {lgas.length} LGAs · {sen.length} Senate districts · {fed.length} federal constituencies{sha.length ? ` · ${sha.length} state constituencies` : ""}
           </p>
           <div className="mt-6 max-w-2xl">
-            <FindBallot />
+            <FindBallot quick={quickEntries()} />
           </div>
         </div>
       </section>
