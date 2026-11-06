@@ -114,6 +114,22 @@ export default function FindBallot({ autoFocus = false, quick = [] }: { autoFocu
     const seen = new Set<string>();
     return [...exact, ...fuzzy].filter((e) => !seen.has(e.h) && seen.add(e.h)).slice(0, 8);
   }, [fuse, q, pu]);
+  // Tell us (words only) when a finished search finds nothing, once per query.
+  const reported = useRef(new Set<string>());
+  useEffect(() => {
+    const term = q.trim().toLowerCase();
+    if (!fuse || pu || term.length < 3 || answers.length || found.length || reported.current.has(term) || reported.current.size >= 20) return;
+    const t = setTimeout(() => {
+      reported.current.add(term);
+      const body = JSON.stringify({ q: term });
+      try {
+        if (!navigator.sendBeacon?.("/api/search-miss", new Blob([body], { type: "application/json" })))
+          fetch("/api/search-miss", { method: "POST", body, keepalive: true, headers: { "Content-Type": "application/json" } }).catch(() => {});
+      } catch {}
+    }, 1500);
+    return () => clearTimeout(t);
+  }, [q, fuse, pu, answers.length, found.length]);
+
   const results: Row[] = useMemo(() => {
     const places = found.map((e) => ({ n: e.n, x: e.x, h: e.h, label: TYPE_LABEL[e.t] }));
     const top = answers.slice(0, places.length ? 3 : 6);

@@ -1,5 +1,6 @@
 import "server-only";
 import { GLOSSARY, ISSUES } from "./civics";
+import { INDICATORS } from "./economy";
 import geoJson from "@data/geo.json";
 import ballotJson from "@data/ballot.json";
 import partiesJson from "@data/parties.json";
@@ -254,6 +255,19 @@ export function quickEntries(): QuickEntry[] {
   for (const t of PLATFORMS.topics)
     out.push({ g: "Topic", n: `Promises on ${t.toLowerCase()}`, x: "What the presidential candidates say, with sources", h: `/promises#topic-${t.toLowerCase().replace(/\W+/g, "-")}`, k: `${t.toLowerCase()} ${TOPIC_WORDS[t] ?? ""}` });
   out.push({ g: "Help", n: "Who decides what", x: "Which office controls fuel, the naira, roads, schools, hospitals and security", h: "/who-decides", k: "who decides controls responsible power powers federal state local government lga chairman job duties role constitution blame" });
+  out.unshift({ g: "Topic", n: "The economy in eight numbers", x: "Inflation, the naira, petrol, jobs, minimum wage, budget, debt and state allocations", h: "/economy", k: "economy economic numbers statistics data cost of living nbs cbn" });
+  const EWORDS: Record<string, string> = {
+    inflation: "inflation prices cost of living expensive food prices cpi",
+    naira: "naira dollar exchange rate forex fx usd black market parallel",
+    petrol: "petrol fuel pms pump price litre",
+    jobs: "unemployment jobs jobless work employment",
+    wage: "minimum wage salary pay workers",
+    budget: "budget spending appropriation federal budget",
+    debt: "debt borrowing loans owe",
+    faac: "faac allocation allocations federation account states money",
+  };
+  for (const e of INDICATORS)
+    out.push({ g: "Topic", n: `${e.title}: ${e.value}`, x: `${e.asOf}. ${e.plain}`, h: `/economy#${e.id}`, k: `${EWORDS[e.id] ?? ""} economy now today current latest how much rate` });
   for (const i of ISSUES)
     out.push({ g: "Help", n: `Who controls ${i.issue.toLowerCase()}?`, x: `${i.who}.`, h: `/who-decides#issue-${i.id}`, k: `${i.words} who controls responsible decide` });
   for (const t of GLOSSARY)

@@ -120,7 +120,8 @@ export default function WhoDecides() {
       </section>
 
       <p className="mt-10 text-sm text-muted">
-        Ready? <Link prefetch={false} href="/" className="font-medium text-green underline">Find who&apos;s on your ballot</Link> or read the{" "}
+        Ready? <Link prefetch={false} href="/" className="font-medium text-green underline">Find who&apos;s on your ballot</Link>, see{" "}
+        <Link prefetch={false} href="/economy" className="font-medium text-green underline">the economy in eight numbers</Link>, or read the{" "}
         <Link prefetch={false} href="/guide" className="font-medium text-green underline">voting-day guide</Link>.
       </p>
     </div>

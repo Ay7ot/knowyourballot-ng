@@ -8,6 +8,7 @@ import { gutter } from "@/lib/gutter";
 const NAV = [
   { href: "/", label: "Find my ballot", note: "Search by polling unit, LGA, ward or name" },
   { href: "/who-decides", label: "Who decides", note: "Fuel, naira, roads, schools: which office controls what" },
+  { href: "/economy", label: "Economy", note: "Prices, the naira, jobs and debt, in plain words" },
   { href: "/guide", label: "Voting day", note: "What to bring and how voting works" },
   { href: "/state", label: "States", note: "Browse all 36 states and the FCT" },
   { href: "/data", label: "Sources", note: "Where the data comes from, and corrections" },
@@ -53,7 +54,7 @@ export default function SiteHeader() {
         btnRef.current?.focus();
       }
     };
-    const mq = window.matchMedia("(min-width: 640px)");
+    const mq = window.matchMedia("(min-width: 768px)");
     const onMq = () => mq.matches && setOpen(false);
     document.addEventListener("keydown", onKey);
     mq.addEventListener("change", onMq);
@@ -68,11 +69,11 @@ export default function SiteHeader() {
 
   return (
     <header className="no-print sticky top-0 z-40 border-b border-rule bg-paper" style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}>
-      <div className="mx-auto flex h-14 max-w-5xl items-center justify-between gap-4 sm:h-16" style={gutter}>
+      <div className="mx-auto flex h-14 max-w-5xl items-center justify-between gap-4 md:h-16" style={gutter}>
         <Wordmark />
 
         {/* Tablet and desktop: inline links */}
-        <nav aria-label="Main" className="-mr-2 hidden items-center gap-0.5 text-[0.95rem] sm:flex">
+        <nav aria-label="Main" className="-mr-2 hidden items-center gap-0.5 text-[0.95rem] md:flex">
           {NAV.slice(1).map(({ href, label }) => {
             const active = isActive(path, href);
             return (
@@ -92,7 +93,7 @@ export default function SiteHeader() {
         <button
           ref={btnRef}
           type="button"
-          className="-mr-2 inline-flex min-h-11 items-center gap-2 rounded-md px-3 font-medium text-ink hover:bg-green-soft sm:hidden"
+          className="-mr-2 inline-flex min-h-11 items-center gap-2 rounded-md px-3 font-medium text-ink hover:bg-green-soft md:hidden"
           aria-expanded={open}
           aria-controls={panelId}
           onClick={() => setOpen((o) => !o)}
@@ -108,7 +109,7 @@ export default function SiteHeader() {
       <div
         id={panelId}
         hidden={!open}
-        className="fixed inset-x-0 bottom-0 z-40 overflow-y-auto border-t border-rule bg-paper sm:hidden"
+        className="fixed inset-x-0 bottom-0 z-40 overflow-y-auto border-t border-rule bg-paper md:hidden"
         style={{ top: "calc(3.5rem + env(safe-area-inset-top, 0px))" }}
       >
         <nav aria-label="Main" style={gutter} className="pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-2">

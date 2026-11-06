@@ -139,6 +139,14 @@ export default function DataPage() {
           Report a correction
         </a>
       </section>
+
+      <section id="privacy" className="mt-10 space-y-2">
+        <h2 className="display-tight text-2xl">What we record about you</h2>
+        <p className="text-muted">
+          Nothing that identifies you. Your picks are saved only in your own browser. When a search finds nothing, we keep the words you typed and the day, so we
+          can add what people look for. No IP address, account, cookie or device details go with it.
+        </p>
+      </section>
     </div>
   );
 }

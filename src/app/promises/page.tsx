@@ -23,6 +23,9 @@ export default function PromisesPage() {
         manifesto we say so; where they haven&apos;t, we use pledges reported from their campaign. Checked {day(PLATFORMS.checked)}.
       </p>
 
+      <p className="mt-3 text-sm">
+        <Link prefetch={false} href="/economy" className="font-medium text-green underline">See where the economy stands now</Link>, in eight numbers, before you weigh these promises.
+      </p>
       <h2 className="sr-only">Pledges by topic</h2>
       <div className="mt-8"><RacePromises cands={cands} /></div>
     </div>
