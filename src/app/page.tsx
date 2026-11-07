@@ -74,7 +74,7 @@ export default function Home() {
               paths={mapPaths}
               viewBox={nationalMapViewBox}
               title="37 states. One ballot."
-              description="Each shape is a state or the FCT. Hover to see it, click to open its candidates."
+              description="Each shape is a state or the FCT. Tap to open one; on desktop, hover to see its name."
             />
           </div>
         </div>

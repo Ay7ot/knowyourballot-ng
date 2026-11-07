@@ -138,7 +138,7 @@ The boundaries are simplified for display, not survey-grade. Credit geoBoundarie
 ## Adding or correcting data
 
 - **A candidate fact:** find the INEC document in `data/sources.json`, correct the source or the parser, rerun ingest and build, then run the tests. Do not type a fact in by hand.
-- **A manifesto or pledge:** add it to `data/platforms.json` with a public source. A person reviews each one.
+- **A manifesto or pledge:** add it to `data/platforms.json` with a public source. When a note asserts a fact, add `noteSrc` too; the compare view only shows sourced notes.
 - **A photo:** add a rejection to `data/photo_rejects.json` if a match is wrong. For a verified Commons choice, add it to `data/photo_overrides.json` or use the photo review workflow.
 - **A party:** update `data/parties.json` only from INEC's register.
 

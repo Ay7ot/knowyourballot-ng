@@ -202,7 +202,7 @@ export default async function LgaBallot({ params }: { params: Promise<{ state: s
               title={`${lga.name} in ${state.short}`}
               description={
                 selectedOnMap
-                  ? "Your LGA is highlighted. Hover another dot to compare."
+                  ? "Your LGA is highlighted. Tap another dot to open it; on desktop, hover to compare."
                   : "This LGA has no centroid yet, so it is not shown as a dot. Use the list below."
               }
               compact

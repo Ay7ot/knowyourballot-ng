@@ -150,7 +150,7 @@ export default function SiteHeader() {
               setSearchOpen(true);
             }}
             className="hidden min-h-10 items-center gap-2 rounded-full border border-rule bg-sheet px-3 text-sm text-muted transition-colors hover:border-green hover:text-ink lg:inline-flex"
-            aria-label="Search your ballot (Command K)"
+            aria-label="Search your ballot (Command K or Control K)"
           >
             <SearchIcon />
             <span>Search</span>

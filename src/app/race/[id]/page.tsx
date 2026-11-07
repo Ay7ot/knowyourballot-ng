@@ -180,7 +180,7 @@ export default async function RacePage({ params }: { params: Promise<{ id: strin
               Compare what the candidates promise, topic by topic <span aria-hidden>→</span>
             </Link>
           )}
-          <p className="mt-4 text-sm text-muted">
+          <p className="mt-4 max-w-[75ch] text-sm text-muted">
             Listed in INEC&apos;s order, which is also the order on the ballot paper. Something wrong?{" "}
             <a className="underline" href={correctionUrl(title, `/race/${race.id}`)}>
               Report a correction

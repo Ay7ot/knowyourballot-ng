@@ -190,7 +190,7 @@ export default async function CandidatePage({ params }: { params: Promise<{ id: 
               </span>
             </div>
           </div>
-          <p className="px-5 py-3 text-sm">
+          <p className="max-w-[75ch] px-5 py-3 text-sm">
             Running for{" "}
             <Link prefetch={false} href={`/race/${race.id}`} className="font-medium underline">
               {raceTitle}

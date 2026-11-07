@@ -234,17 +234,12 @@ export default function BallotTray({
                           : "No manifesto or pledges yet."}
                   </p>
                   {c.policy.title && <p className="mt-0.5 line-clamp-2 text-xs text-muted">{c.policy.title}</p>}
-                  {c.policy.note && (
+                  {c.policy.kind !== "none" && c.policy.note && c.policy.noteSource && (
                     <p className="mt-1 text-xs text-muted">
-                      {c.policy.note}
-                      {c.policy.noteSource && (
-                        <>
-                          {" "}
-                          <a className="underline" href={c.policy.noteSource.url} target="_blank" rel="noreferrer">
-                            {c.policy.noteSource.label}
-                          </a>
-                        </>
-                      )}
+                      {c.policy.note}{" "}
+                      <a className="underline" href={c.policy.noteSource.url} target="_blank" rel="noreferrer">
+                        {c.policy.noteSource.label}
+                      </a>
                     </p>
                   )}
                 </div>
