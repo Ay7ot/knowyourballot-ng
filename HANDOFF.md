@@ -21,13 +21,13 @@ You're taking over **Know Your Ballot · Nigeria 2027**, a civic site where any 
 ## Stack
 
 - Next.js 15 (App Router) + React 19 + TypeScript, Tailwind CSS v4 (via `@tailwindcss/postcss`).
-- Almost entirely static: about 15k pages prerendered at build time with `generateStaticParams` (candidates, 1,489 races, 37 states, 774 LGAs). A full `npm run build` takes several minutes locally.
+- Static-first: `npm run build` generates 2,777 static pages (37 states, 774 LGAs, 1,489 races and the President/Governor candidate pages). The other ~14,700 candidate pages render on first request and are cached with `revalidate = 86400`. A full build takes about a minute locally.
 - Data lives as JSON in `data/` and is imported at build time through `src/lib/data.ts` (server-only). `data/ballot.json` (~6.5 MB) is the single file the site reads for candidates and races.
 - Client search: Fuse.js over `/search-index.json` (generated route). Search understands offices, parties, topics and plain questions.
 - Self-hosted, subsetted fonts in `src/fonts` (Archivo, Atkinson Hyperlegible Next, IBM Plex Mono). Rebuild with `scripts/subset_fonts.py` if fonts change.
 - Share images: `src/app/og/route.tsx` (edge runtime, TTFs sit beside it). Page metadata all goes through `pageMeta()` in `src/lib/seo.ts`.
 - One API route: `src/app/api/search-miss/route.ts`, which logs searches that found nothing to a Vercel Blob store.
-- Python 3.12 data scripts in `scripts/`, run by GitHub Actions. The Mac has Python 3.9 by default, so install 3.12 (e.g. `brew install python@3.12`) before running scripts locally.
+- Python 3.12 data scripts in `scripts/`, run by GitHub Actions. Locally, use `uv venv --python 3.12 && uv pip install -r requirements-dev.txt`; the system Python is 3.9 and does not have the pipeline packages.
 
 Key directories:
 
@@ -47,15 +47,15 @@ public/             data/pu/*.json (polling units per state), parties/*.webp, ca
 
 ## Data sources
 
-| What | Source |
-| --- | --- |
-| Candidates | INEC's published final/updated lists (press pages in `data/sources.json`) |
+| What                                                           | Source                                                                                                       |
+| -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| Candidates                                                     | INEC's published final/updated lists (press pages in `data/sources.json`)                                    |
 | Polling unit, ward, LGA, Senate district, federal constituency | INEC IReV polling-unit register, compiled by github.com/Emeka-Onwuepe/Polling_Units_in_Nigeria (`data/raw/`) |
-| LGA centroids for "use my location" | Open Admin Data (openadmindata.org/ng, CC BY 4.0) |
-| Party logos | Each party's INEC profile page |
-| Candidate photos (free licence) | Wikidata + Wikimedia Commons, strict matching |
-| Candidate photos (official) | The candidate's own X account, only when tied to them (`data/official_handles.json`) |
-| Manifestos, pledges, party platforms | Published documents and news reports, each linked (`data/platforms.json` and related) |
+| LGA centroids for "use my location"                            | Open Admin Data (openadmindata.org/ng, CC BY 4.0)                                                            |
+| Party logos                                                    | Each party's INEC profile page                                                                               |
+| Candidate photos (free licence)                                | Wikidata + Wikimedia Commons, strict matching                                                                |
+| Candidate photos (official)                                    | The candidate's own X account, only when tied to them (`data/official_handles.json`)                         |
+| Manifestos, pledges, party platforms                           | Published documents and news reports, each linked (`data/platforms.json` and related)                        |
 
 Current numbers: 15,137 candidates, 1,489 races, 0 unmatched rows. Known gap: some lists INEC hasn't published (e.g. Borno State Assembly at last check). The `/data` page shows coverage and anything that couldn't be placed.
 
@@ -92,11 +92,17 @@ Official X photos (currently only Peter Obi, `president--ndc`) are shown ahead o
 cd /Users/ayomideathome/Documents/knowyourballot-ng
 npm ci
 npm run dev          # http://localhost:3000 (3100 is used by another local app)
+npm run check        # Biome formatting and lint
 npm run typecheck
-npm run build && npx next start -p 3210
+npm test             # data contract and ID snapshot
+npm run build && npm run smoke
+
+uv venv --python 3.12
+uv pip install -r requirements-dev.txt
+uv run pytest -q
 ```
 
-Verified on 7 Nov 2026: `npm ci`, `npm run typecheck` and `npm run build` all pass on this Mac, and the production server returned 200 for `/`, `/race/president`, `/candidate/president--ndc`, `/state/lagos`, `/economy`, `/search-index.json` and `/og`.
+Verified on 7 Nov 2026: `npm ci`, `npm run check`, `npm run typecheck`, `npm test`, `npm run build` and `npm run smoke` pass on this Mac. The build generated 2,777 static pages and the smoke test returned 200 for `/`, `/race/president`, `/candidate/president--ndc`, `/state/lagos`, `/economy`, `/promises`, `/data`, `/search-index.json`, `/lga-points.json` and `/og`.
 
 Environment variables (none needed for local dev):
 
@@ -106,7 +112,14 @@ Environment variables (none needed for local dev):
 
 ## Deploy flow
 
-Vercel is connected to the GitHub repo. Push to `main` and Vercel builds and deploys to production; other branches get preview URLs. There's no `vercel.json`. Before pushing: `npm run typecheck && npm run build`. After pushing, check the live page. Lighthouse is 100 on desktop and 96 to 98 for mobile performance, limited by Next/React's ~110 KB of shared JS; keep new client JS small.
+Vercel is connected to the GitHub repo. Push to `main` and Vercel builds and deploys to production; other branches get preview URLs. There's no `vercel.json`. Before pushing: `npm run audit && npm run check && npm run typecheck && npm test && npm run build && npm run smoke`. CI in `.github/workflows/ci.yml` runs the same checks on every pull request and push to `main`. After pushing, check the live page. Lighthouse is 100 on desktop and 96 to 98 for mobile performance, limited by Next/React's ~110 KB of shared JS; keep new client JS small.
+
+## Security and limits
+
+- `next.config.ts` sets `X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options`, `Permissions-Policy`, HSTS and, in production, a CSP. The CSP allows inline scripts and styles because Next injects both; everything else is locked to self.
+- `/api/search-miss` rejects cross-origin requests (403), non-JSON (415), bodies over 512 characters (413) and more than 30 requests per 10 minutes per instance (429). The report requires `SEARCH_REPORT_KEY` and uses a timing-safe comparison. The limiter is in memory per serverless instance, not a global quota.
+- `npm audit` is clean. `postcss` and `zod` are pinned through `overrides` in `package.json`; review those pins when Next or `@vercel/blob` changes.
+- There are `error`, `global-error` and `loading` boundaries under `src/app/`.
 
 ## Recent changes (5 to 7 Nov 2026)
 
@@ -119,16 +132,31 @@ Vercel is connected to the GitHub repo. Push to `main` and Vercel builds and dep
 - `/who-decides` (who controls what) with election terms defined in place; `/economy` (eight numbers, hand-checked: bump `ECONOMY_CHECKED` in `src/lib/economy.ts` whenever a figure changes).
 - Single focus ring, custom pill toggles, dropdown and checkbox, full meta tags and per-page share images.
 
+### Hardening (7 Nov 2026)
+
+- `npm audit` is clean. `postcss` and `zod` are pinned through `overrides` to patched versions.
+- Biome replaces `next lint` for lint and format. `npm run check` is the gate.
+- Data contract tests, Python unit tests and a production smoke test now exist.
+- CI runs audit, check, typecheck, tests, build and smoke on every pull request and push to `main`.
+- Security headers and a production CSP are set in `next.config.ts`; `/api/search-miss` has origin, content-type, size and rate guards.
+- `error`, `global-error` and `loading` boundaries were added.
+- Party codes are normalised at build time. One candidate changed from `S D P` to `SDP`, with a permanent redirect from the old URL.
+
 ## Open decisions (need Ayomide)
 
-1. **Official X photos for other candidates.** Options: (a) President, Governor and Senate first, then report coverage (recommended: that's where voters look and where accounts can be verified); (b) everyone verifiable, including Reps and Assembly (slow, most have no verifiable account); (c) Obi only, add others when campaigns send photos. Tradeoffs: these images aren't freely licensed (low but non-zero copyright risk, handled by credit plus honouring removal requests); an X blue check is now just a paid subscription, so only accept accounts Wikidata lists (P2002) or that news reports tie to the person.
-2. **Set `SEARCH_REPORT_KEY`** in Vercel so failed searches can be reviewed.
-3. **Campaign outreach** for photos and manifestos: the reliable way to cover the ~13,000 candidates with no public record. A short message to parties and campaigns could be drafted.
+1. **Licence.** The repository has no `LICENSE`. Choose MIT (recommended for a civic codebase and data), Apache-2.0 (patent grant), AGPL-3.0 (copyleft for network use) or proprietary. The choice affects whether others can reuse the code and data.
+2. **Official X photos for other candidates.** Options: (a) President, Governor and Senate first, then report coverage (recommended: that's where voters look and where accounts can be verified); (b) everyone verifiable, including Reps and Assembly (slow, most have no verifiable account); (c) Obi only, add others when campaigns send photos. These images are not freely licensed; credit and removal requests are the mitigation.
+3. **Large JSON in Git.** `data/ballot.json` is about 6.5 MB, `data/candidates/assembly.json` about 3.9 MB and `public/data/pu` about 7.2 MB. Options: keep committing JSON, move generated data to Git LFS, or publish it as a build artifact. Rewriting history is destructive and needs explicit approval.
+4. **Data workflow gate.** The workflows validate with `npm run test:data` before committing, but they still commit to `main` and deploy automatically. A branch plus pull request gate would add human review, but needs a token or GitHub App so CI runs on the branch.
+5. **Set `SEARCH_REPORT_KEY`** in Vercel so failed searches can be reviewed.
+6. **Campaign outreach** for photos and manifestos: the reliable way to cover the ~13,000 candidates with no public record.
 
 ## Suggested next steps
 
-1. Get a decision on item 1 above, then add handles to `data/official_handles.json` with a `why` for each, and let `official-photos.yml` run.
-2. Review the failed-search log weekly once the key is set, and fix search gaps it shows.
-3. Keep adding sourced governorship manifestos as campaigns publish them.
-4. Watch the daily ingest for INEC substitutions and parser failures (`data/candidates/_report.json`, the `/data` page). Re-check the Borno State Assembly list.
-5. Add automated tests: there are none yet. Start with the Python matchers (photo matching, `build_ballot` constituency joins) and a smoke test that builds and hits the key routes.
+1. Choose a licence and add `LICENSE`.
+2. Decide the large-JSON storage approach before the repository grows further.
+3. Decide the data workflow gate, then implement the branch and PR path if approved.
+4. Get a decision on X photos, then add handles to `data/official_handles.json` with a `why` and let `official-photos.yml` run.
+5. Review the failed-search log weekly once `SEARCH_REPORT_KEY` is set.
+6. Extend tests: browser end-to-end for search, picks and compare; unit tests for the photo matcher; `pip-audit` for Python dependencies.
+7. Watch the daily ingest for INEC substitutions and parser failures (`data/candidates/_report.json`, the `/data` page). Re-check the Borno State Assembly list.

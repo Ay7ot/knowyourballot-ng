@@ -2,6 +2,8 @@ node_modules
 .next
 .cache
 .vercel
+.env*.local
+.venv
 *.tsbuildinfo
 next-env.d.ts
 __pycache__

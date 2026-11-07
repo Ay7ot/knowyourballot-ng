@@ -149,6 +149,11 @@ def slug(s):
     return re.sub(r"[^a-z0-9]+", "-", s.lower()).strip("-")
 
 
+def party_code(s):
+    """INEC sometimes spaces party codes ("S D P"); normalise to the code used in data/parties.json."""
+    return re.sub(r"\s+", "", s or "").strip().upper()
+
+
 # Highest qualification, read from INEC's free-text column. Order matters: highest first.
 LEVELS = [
     ("doctorate", r"\bph\.? ?d\b|\bdoctor(ate)? of\b|\bd\.? ?phil\b"),
@@ -200,12 +205,13 @@ def main():
         return races[rid]
 
     def add_candidate(race, row, mate=None):
-        cid = f"{race['id']}--{slug(row['party'])}"
+        code = party_code(row["party"])
+        cid = f"{race['id']}--{slug(code)}"
         n = 2
         while any(c["id"] == cid for c in candidates):
-            cid = f"{race['id']}--{slug(row['party'])}-{n}"
+            cid = f"{race['id']}--{slug(code)}-{n}"
             n += 1
-        c = {"id": cid, "race": race["id"], "office": race["office"], "party": row["party"].strip().upper(),
+        c = {"id": cid, "race": race["id"], "office": race["office"], "party": code,
              **person(row), "remarks": row.get("remarks") or None, "source": row["source"]}
         if mate:
             c["runningMate"] = person(mate)

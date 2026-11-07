@@ -3,7 +3,19 @@ import { pageMeta } from "@/lib/seo";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { ballotForLga, candidatesOf, ELECTIONS, geo, getLga, getSenatorial, getState, LEVEL_LABEL, OFFICE_LABEL, toTray, wardsOf } from "@/lib/data";
+import {
+  ballotForLga,
+  candidatesOf,
+  ELECTIONS,
+  geo,
+  getLga,
+  getSenatorial,
+  getState,
+  LEVEL_LABEL,
+  OFFICE_LABEL,
+  toTray,
+  wardsOf,
+} from "@/lib/data";
 import type { Office, Race } from "@/lib/types";
 import RaceSheet from "@/components/RaceSheet";
 import WardContext from "@/components/WardContext";
@@ -20,7 +32,11 @@ export const dynamicParams = false;
 export function generateStaticParams() {
   return geo.lgas.map((l) => ({ state: getState(l.state)!.slug, lga: l.slug }));
 }
-export async function generateMetadata({ params }: { params: Promise<{ state: string; lga: string }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ state: string; lga: string }>;
+}): Promise<Metadata> {
   const p = await params;
   const f = getLga(p.state, p.lga);
   if (!f) return {};
@@ -28,12 +44,26 @@ export async function generateMetadata({ params }: { params: Promise<{ state: st
     title: `Your 2027 ballot in ${f.lga.name}, ${f.state.short}`,
     description: `Every candidate a voter in ${f.lga.name} LGA, ${f.state.name} can vote for in 2027: President, Senate, House of Reps, Governor and State Assembly.`,
     path: `/state/${p.state}/${p.lga}`,
-    og: { k: `${f.state.name} · ${f.lga.name} LGA`, t: `Your 2027 ballot in ${f.lga.name}`, s: "President, Senate, House of Reps, Governor and State Assembly: every candidate, from INEC's lists." },
+    og: {
+      k: `${f.state.name} · ${f.lga.name} LGA`,
+      t: `Your 2027 ballot in ${f.lga.name}`,
+      s: "President, Senate, House of Reps, Governor and State Assembly: every candidate, from INEC's lists.",
+    },
   });
 }
 
-const longDay = (iso: string) => new Date(`${iso}T12:00:00Z`).toLocaleDateString("en-NG", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
-const SUB: Partial<Record<Office, string>> = { senate: "Senatorial district", rep: "Federal constituency", assembly: "State constituency" };
+const longDay = (iso: string) =>
+  new Date(`${iso}T12:00:00Z`).toLocaleDateString("en-NG", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+const SUB: Partial<Record<Office, string>> = {
+  senate: "Senatorial district",
+  rep: "Federal constituency",
+  assembly: "State constituency",
+};
 
 type Item = { race: Race; office: Office; title: string; fed?: string };
 
@@ -50,24 +80,51 @@ export default async function LgaBallot({ params }: { params: Promise<{ state: s
   const items: Item[] = [];
   for (const s of sections)
     for (const c of s.contests)
-      if (c.race && c.race.candidates.length)
-        items.push({ race: c.race, office: s.office, title: s.office === "president" ? "President of Nigeria" : c.race.name, fed: s.office === "rep" ? c.districtId : undefined });
+      if (c.race?.candidates.length)
+        items.push({
+          race: c.race,
+          office: s.office,
+          title: s.office === "president" ? "President of Nigeria" : c.race.name,
+          fed: s.office === "rep" ? c.districtId : undefined,
+        });
 
   const dateOf = (o: Office) => ELECTIONS.find((e) => e.offices.includes(o))!.date;
-  const tocRaces = items.map((i) => ({ id: i.race.id, label: i.title, office: OFFICE_LABEL[i.office], date: new Date(`${dateOf(i.office)}T12:00:00Z`).toLocaleDateString("en-NG", { day: "numeric", month: "short" }), fed: i.fed }));
+  const tocRaces = items.map((i) => ({
+    id: i.race.id,
+    label: i.title,
+    office: OFFICE_LABEL[i.office],
+    date: new Date(`${dateOf(i.office)}T12:00:00Z`).toLocaleDateString("en-NG", { day: "numeric", month: "short" }),
+    fed: i.fed,
+  }));
   const multiSha = items.filter((i) => i.office === "assembly").length > 1;
-  const SHORT: Record<Office, string> = { president: "President", senate: "Senate", rep: "Reps", governor: "Governor", assembly: "Assembly" };
+  const SHORT: Record<Office, string> = {
+    president: "President",
+    senate: "Senate",
+    rep: "Reps",
+    governor: "Governor",
+    assembly: "Assembly",
+  };
   const navRaces = items.map((i) => ({
     id: i.race.id,
     fed: i.fed,
-    short: (i.office === "assembly" && multiSha) || (i.office === "rep" && split) ? `${SHORT[i.office]} · ${i.race.name}` : SHORT[i.office],
+    short:
+      (i.office === "assembly" && multiSha) || (i.office === "rep" && split)
+        ? `${SHORT[i.office]} · ${i.race.name}`
+        : SHORT[i.office],
   }));
   const tray = items.flatMap((i) => candidatesOf(i.race).map((c) => toTray(c, i.title)));
 
   const chips = [
     { k: "Senate", v: sen.name },
-    ...lga.federal.map((f) => ({ k: "Reps", v: sections.find((s) => s.office === "rep")!.contests.find((c) => c.districtId === f)!.districtName, fed: split ? f : undefined })),
-    ...(sections.find((s) => s.office === "assembly")?.contests ?? []).map((c) => ({ k: "Assembly", v: c.districtName })),
+    ...lga.federal.map((f) => ({
+      k: "Reps",
+      v: sections.find((s) => s.office === "rep")!.contests.find((c) => c.districtId === f)!.districtName,
+      fed: split ? f : undefined,
+    })),
+    ...(sections.find((s) => s.office === "assembly")?.contests ?? []).map((c) => ({
+      k: "Assembly",
+      v: c.districtName,
+    })),
   ];
 
   return (
@@ -75,7 +132,13 @@ export default async function LgaBallot({ params }: { params: Promise<{ state: s
       <ResetCompareOnMount />
       <section className="border-b border-rule bg-sheet">
         <div className="mx-auto max-w-5xl pb-8 pt-6" style={gutter}>
-          <Crumbs items={[{ href: "/", label: "Home" }, { href: `/state/${state.slug}`, label: state.name }, { label: lga.name }]} />
+          <Crumbs
+            items={[
+              { href: "/", label: "Home" },
+              { href: `/state/${state.slug}`, label: state.name },
+              { label: lga.name },
+            ]}
+          />
           <div className="mt-5 flex flex-wrap items-end justify-between gap-4">
             <div className="min-w-0">
               <p className="label text-green">Your 2027 ballot</p>
@@ -88,7 +151,11 @@ export default async function LgaBallot({ params }: { params: Promise<{ state: s
           </div>
           <ul className="mt-5 flex flex-wrap gap-2 text-sm">
             {chips.map((c) => (
-              <li key={c.k + c.v} data-fed={"fed" in c ? c.fed : undefined} className="flex items-center gap-2 rounded-md border border-rule bg-paper px-2.5 py-1.5">
+              <li
+                key={c.k + c.v}
+                data-fed={"fed" in c ? c.fed : undefined}
+                className="flex items-center gap-2 rounded-md border border-rule bg-paper px-2.5 py-1.5"
+              >
                 <span className="label text-[0.65rem] text-muted">{c.k}</span>
                 <span className="font-medium">{c.v}</span>
               </li>
@@ -101,8 +168,13 @@ export default async function LgaBallot({ params }: { params: Promise<{ state: s
               ["Mark your picks", "#my-ballot"],
             ].map(([t, h], i) => (
               <li key={t}>
-                <a href={h} className="flex h-full flex-col gap-1.5 rounded-md border border-rule px-2.5 py-2.5 leading-tight hover:border-green sm:flex-row sm:items-center sm:gap-3 sm:px-3">
-                  <span className="mono grid h-7 w-7 shrink-0 place-items-center rounded-full border-2 border-green text-xs text-green">{i + 1}</span>
+                <a
+                  href={h}
+                  className="flex h-full flex-col gap-1.5 rounded-md border border-rule px-2.5 py-2.5 leading-tight hover:border-green sm:flex-row sm:items-center sm:gap-3 sm:px-3"
+                >
+                  <span className="mono grid h-7 w-7 shrink-0 place-items-center rounded-full border-2 border-green text-xs text-green">
+                    {i + 1}
+                  </span>
                   <span className="font-medium">{t}</span>
                 </a>
               </li>
@@ -117,10 +189,14 @@ export default async function LgaBallot({ params }: { params: Promise<{ state: s
         <div className="min-w-0 space-y-10">
           <section id="area" aria-labelledby="area-h" className="scroll-mt-32 lg:scroll-mt-24">
             <p className="label text-green">Step 1</p>
-            <h2 id="area-h" className="display-tight mt-1 text-2xl">Check this is your area</h2>
+            <h2 id="area-h" className="display-tight mt-1 text-2xl">
+              Check this is your area
+            </h2>
             <p className="mt-1 max-w-[62ch] text-muted">
               Your ballot depends on the polling unit printed on your voter&apos;s card, not where you live now.
-              {split ? " This LGA is split between two federal constituencies, so choose your ward to see the right House of Reps race." : " Choosing your ward is optional."}
+              {split
+                ? " This LGA is split between two federal constituencies, so choose your ward to see the right House of Reps race."
+                : " Choosing your ward is optional."}
             </p>
             <div className="mt-4">
               <Suspense fallback={<div className="sheet h-28" />}>
@@ -136,27 +212,42 @@ export default async function LgaBallot({ params }: { params: Promise<{ state: s
               <section key={e.date} aria-labelledby={`day-${e.date}`} className="space-y-5">
                 <div className="border-b-2 border-ink pb-3">
                   <p className="label text-green">Step 2 · {e.label}</p>
-                  <h2 id={`day-${e.date}`} className="display-tight mt-1 text-2xl">{longDay(e.date)}</h2>
+                  <h2 id={`day-${e.date}`} className="display-tight mt-1 text-2xl">
+                    {longDay(e.date)}
+                  </h2>
                 </div>
                 {secs.map((s) => (
                   <div key={s.office} className="space-y-4">
-                    {s.note && (
-                      <p className="rounded-md bg-amber-soft px-4 py-3 text-sm text-amber-ink">{s.note}</p>
-                    )}
+                    {s.note && <p className="rounded-md bg-amber-soft px-4 py-3 text-sm text-amber-ink">{s.note}</p>}
                     {s.office === "assembly" && s.contests.length === 0 && !s.note && (
                       <p className="sheet px-5 py-4 text-sm text-muted">
-                        <strong className="text-ink">State House of Assembly.</strong> We couldn&apos;t match a state constituency to this LGA from INEC&apos;s list.{" "}
-                        <Link prefetch={false} className="underline" href={`/state/${state.slug}#all-assembly`}>See every state constituency in {state.short}</Link>.
+                        <strong className="text-ink">State House of Assembly.</strong> We couldn&apos;t match a state
+                        constituency to this LGA from INEC&apos;s list.{" "}
+                        <Link prefetch={false} className="underline" href={`/state/${state.slug}#all-assembly`}>
+                          See every state constituency in {state.short}
+                        </Link>
+                        .
                       </p>
                     )}
                     {s.contests.map((c) =>
-                      c.race && c.race.candidates.length ? (
+                      c.race?.candidates.length ? (
                         <div key={c.districtId} data-fed={s.office === "rep" ? c.districtId : undefined}>
-                          <RaceSheet race={c.race} title={s.office === "president" ? "President of Nigeria" : c.race.name} sub={SUB[s.office]} />
+                          <RaceSheet
+                            race={c.race}
+                            title={s.office === "president" ? "President of Nigeria" : c.race.name}
+                            sub={SUB[s.office]}
+                          />
                         </div>
                       ) : (
-                        <p key={c.districtId} data-fed={s.office === "rep" ? c.districtId : undefined} className="sheet px-5 py-4 text-sm text-muted">
-                          <strong className="text-ink">{OFFICE_LABEL[s.office]}, {c.districtName}.</strong> INEC&apos;s list has no candidates we could match to this seat yet.
+                        <p
+                          key={c.districtId}
+                          data-fed={s.office === "rep" ? c.districtId : undefined}
+                          className="sheet px-5 py-4 text-sm text-muted"
+                        >
+                          <strong className="text-ink">
+                            {OFFICE_LABEL[s.office]}, {c.districtName}.
+                          </strong>{" "}
+                          INEC&apos;s list has no candidates we could match to this seat yet.
                         </p>
                       ),
                     )}
@@ -175,7 +266,10 @@ export default async function LgaBallot({ params }: { params: Promise<{ state: s
             <p className="label text-muted">On this ballot</p>
             <BallotToc races={tocRaces} />
             <p className="border-t border-rule pt-3 text-xs text-muted">
-              Candidates are in INEC&apos;s order. <Link prefetch={false} href="/data" className="underline">How we build this page</Link>
+              Candidates are in INEC&apos;s order.{" "}
+              <Link prefetch={false} href="/data" className="underline">
+                How we build this page
+              </Link>
             </p>
           </div>
         </aside>

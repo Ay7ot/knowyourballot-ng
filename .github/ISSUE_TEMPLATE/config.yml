@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Where the data comes from
+    url: https://knowyourballot-ng.vercel.app/data
+    about: Sources, coverage and known gaps before you report a correction.
+  - name: How voting works
+    url: https://knowyourballot-ng.vercel.app/guide
+    about: Polling unit codes, PVC, BVAS and what happens on election day.

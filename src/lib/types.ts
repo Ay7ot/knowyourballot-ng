@@ -72,7 +72,10 @@ export interface SourceDoc {
 }
 export interface Ballot {
   generatedAt: string | null;
-  offices: Record<"presidential" | "senate" | "reps" | "governorship" | "assembly", { status: "pending" | "loaded"; documents: SourceDoc[] }>;
+  offices: Record<
+    "presidential" | "senate" | "reps" | "governorship" | "assembly",
+    { status: "pending" | "loaded"; documents: SourceDoc[] }
+  >;
   races: Race[];
   candidates: Candidate[];
   assembly: District[];

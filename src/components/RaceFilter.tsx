@@ -23,8 +23,22 @@ export default function RaceFilter({ scope }: { scope: string }) {
   return (
     <div className="flex flex-wrap gap-2">
       {hide.length > 0 && <style>{`${hide.join(",")}{display:none}`}</style>}
-      <Segmented label="Gender" value={gender} onChange={setGender} options={[{ value: "", label: "Anyone" }, { value: "Female", label: "Women" }, { value: "Male", label: "Men" }]} />
-      <Segmented label="Qualification" value={level} onChange={setLevel} options={LEVELS.map(([value, label]) => ({ value, label }))} />
+      <Segmented
+        label="Gender"
+        value={gender}
+        onChange={setGender}
+        options={[
+          { value: "", label: "Anyone" },
+          { value: "Female", label: "Women" },
+          { value: "Male", label: "Men" },
+        ]}
+      />
+      <Segmented
+        label="Qualification"
+        value={level}
+        onChange={setLevel}
+        options={LEVELS.map(([value, label]) => ({ value, label }))}
+      />
     </div>
   );
 }

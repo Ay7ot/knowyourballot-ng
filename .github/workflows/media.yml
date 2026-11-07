@@ -32,13 +32,20 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install pillow==11.0.0
+      - run: pip install -r requirements.txt
       - name: Party logos from INEC's party profiles
         run: python scripts/fetch_party_logos.py
       - name: Verified candidate photos from Wikidata and Wikimedia Commons
         env:
           RECHECK: ${{ github.event.inputs.recheck }}
         run: python scripts/fetch_candidate_photos.py "${{ github.event.inputs.offices || 'president,governor,senate' }}" | tee photos.log
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Validate the data contract
+        run: npm run test:data
       - name: Commit changes
         run: |
           git config user.name "ballot-data-bot"

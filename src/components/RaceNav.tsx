@@ -46,8 +46,14 @@ export default function RaceNav({ races }: { races: NavRace[] }) {
   }, [active]);
 
   return (
-    <nav aria-label="Races on this ballot" className="no-print sticky top-[calc(3.5rem+env(safe-area-inset-top,0px))] z-30 border-b border-rule bg-paper md:top-[calc(4rem+env(safe-area-inset-top,0px))] lg:hidden">
-      <ol ref={strip} className="mx-auto flex max-w-5xl gap-1.5 overflow-x-auto px-4 py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+    <nav
+      aria-label="Races on this ballot"
+      className="no-print sticky top-[calc(3.5rem+env(safe-area-inset-top,0px))] z-30 border-b border-rule bg-paper md:top-[calc(4rem+env(safe-area-inset-top,0px))] lg:hidden"
+    >
+      <ol
+        ref={strip}
+        className="mx-auto flex max-w-5xl gap-1.5 overflow-x-auto px-4 py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      >
         {races.map((r) => {
           const on = active === r.id;
           const marked = !!picks[r.id];
@@ -60,7 +66,9 @@ export default function RaceNav({ races }: { races: NavRace[] }) {
                   on ? "border-ink bg-ink text-paper" : "border-rule bg-sheet text-ink hover:border-green"
                 }`}
               >
-                <Thumbprint className={`h-4 w-4 ${marked ? (on ? "text-violet-soft" : "text-violet") : "opacity-40"}`} />
+                <Thumbprint
+                  className={`h-4 w-4 ${marked ? (on ? "text-violet-soft" : "text-violet") : "opacity-40"}`}
+                />
                 {r.short}
                 {marked && <span className="sr-only"> (marked)</span>}
               </a>
@@ -68,7 +76,10 @@ export default function RaceNav({ races }: { races: NavRace[] }) {
           );
         })}
         <li className="shrink-0">
-          <a href="#my-ballot" className="flex h-9 items-center whitespace-nowrap rounded-full px-3 text-sm font-medium text-violet underline-offset-2 hover:underline">
+          <a
+            href="#my-ballot"
+            className="flex h-9 items-center whitespace-nowrap rounded-full px-3 text-sm font-medium text-violet underline-offset-2 hover:underline"
+          >
             My ballot
           </a>
         </li>

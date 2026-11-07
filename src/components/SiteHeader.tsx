@@ -27,7 +27,14 @@ function Wordmark() {
         <rect x="3" y="13" width="26" height="16" rx="2" fill="currentColor" />
         <rect x="9" y="12" width="14" height="2.5" rx="1" fill="var(--paper)" />
         <path d="M11 3h10v10H11z" fill="var(--sheet)" stroke="var(--ink)" strokeWidth="1.6" />
-        <path d="M13.5 8.2l1.8 1.8 3.4-3.6" fill="none" stroke="var(--violet)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+        <path
+          d="M13.5 8.2l1.8 1.8 3.4-3.6"
+          fill="none"
+          stroke="var(--violet)"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
       </svg>
       <span className="display whitespace-nowrap text-[1.05rem] leading-none tracking-tight">
         Know Your <span className="text-green">Ballot</span>
@@ -41,9 +48,15 @@ export default function SiteHeader() {
   const [open, setOpen] = useState(false);
   const panelId = useId();
   const btnRef = useRef<HTMLButtonElement>(null);
+  const lastPath = useRef(path);
 
   // Close the menu when the route changes.
-  useEffect(() => setOpen(false), [path]);
+  useEffect(() => {
+    if (lastPath.current !== path) {
+      lastPath.current = path;
+      setOpen(false);
+    }
+  }, [path]);
 
   // Escape closes; lock page scroll while the sheet is open on a phone.
   useEffect(() => {
@@ -68,7 +81,10 @@ export default function SiteHeader() {
   }, [open]);
 
   return (
-    <header className="no-print sticky top-0 z-40 border-b border-rule bg-paper" style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}>
+    <header
+      className="no-print sticky top-0 z-40 border-b border-rule bg-paper"
+      style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
+    >
       <div className="mx-auto flex h-14 max-w-5xl items-center justify-between gap-4 md:h-16" style={gutter}>
         <Wordmark />
 
@@ -99,7 +115,15 @@ export default function SiteHeader() {
           onClick={() => setOpen((o) => !o)}
         >
           <span>{open ? "Close" : "Menu"}</span>
-          <svg viewBox="0 0 24 24" className="h-5 w-5" aria-hidden fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+          <svg
+            viewBox="0 0 24 24"
+            className="h-5 w-5"
+            aria-hidden
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+          >
             {open ? <path d="M6 6l12 12M18 6L6 18" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
           </svg>
         </button>
@@ -124,12 +148,17 @@ export default function SiteHeader() {
                     onClick={() => setOpen(false)}
                     className="flex items-center gap-3 py-4"
                   >
-                    <span aria-hidden className={`h-8 w-1 shrink-0 rounded-full ${active ? "bg-green" : "bg-transparent"}`} />
+                    <span
+                      aria-hidden
+                      className={`h-8 w-1 shrink-0 rounded-full ${active ? "bg-green" : "bg-transparent"}`}
+                    />
                     <span className="min-w-0 flex-1">
                       <span className="display-tight block text-xl">{label}</span>
                       <span className="block text-sm text-muted">{note}</span>
                     </span>
-                    <span aria-hidden className="text-xl text-muted">›</span>
+                    <span aria-hidden className="text-xl text-muted">
+                      ›
+                    </span>
                   </Link>
                 </li>
               );

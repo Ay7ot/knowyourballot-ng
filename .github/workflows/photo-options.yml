@@ -21,7 +21,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install pillow==11.0.0
+      - run: pip install -r requirements.txt
       - run: python scripts/photo_options.py "${{ github.event.inputs.candidate }}" "${{ github.event.inputs.category }}"
       - name: Push to the photo-review branch (never main)
         run: |

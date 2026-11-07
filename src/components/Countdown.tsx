@@ -10,5 +10,9 @@ export default function Countdown({ date }: { date: string }) {
   if (d === null) return <span className="tabular invisible">00 days to go</span>;
   if (d < 0) return <span>Held</span>;
   if (d === 0) return <span>Today</span>;
-  return <span className="tabular">{d} {d === 1 ? "day" : "days"} to go</span>;
+  return (
+    <span className="tabular">
+      {d} {d === 1 ? "day" : "days"} to go
+    </span>
+  );
 }

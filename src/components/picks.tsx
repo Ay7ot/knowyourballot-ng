@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useSyncExternalStore } from "react";
+import { useEffect, useRef, useSyncExternalStore } from "react";
 import { Check } from "./controls";
 
 /**
@@ -29,7 +29,9 @@ function save() {
 function set(next: State) {
   state = next;
   save();
-  listeners.forEach((l) => l());
+  listeners.forEach((l) => {
+    l();
+  });
 }
 function subscribe(l: () => void) {
   load();
@@ -38,7 +40,9 @@ function subscribe(l: () => void) {
     if (e.key === KEY) {
       loaded = false;
       load();
-      listeners.forEach((x) => x());
+      listeners.forEach((x) => {
+        x();
+      });
     }
   };
   window.addEventListener("storage", onStorage);
@@ -50,7 +54,14 @@ function subscribe(l: () => void) {
 const EMPTY: State = { picks: {}, compare: [] };
 
 export function useBallotState() {
-  const s = useSyncExternalStore(subscribe, () => (load(), state), () => EMPTY);
+  const s = useSyncExternalStore(
+    subscribe,
+    () => {
+      load();
+      return state;
+    },
+    () => EMPTY,
+  );
   return {
     ...s,
     togglePick(race: string, cand: string) {
@@ -117,9 +128,10 @@ export function CompareToggle({ cand }: { cand: string }) {
 /** Keeps compare scoped to the page it was started on. */
 export function ResetCompareOnMount() {
   const { clearCompare } = useBallotState();
+  const clearRef = useRef(clearCompare);
+  clearRef.current = clearCompare;
   useEffect(() => {
-    clearCompare();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    clearRef.current();
   }, []);
   return null;
 }

@@ -2,7 +2,22 @@ import Link from "next/link";
 import { pageMeta } from "@/lib/seo";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { ballot, candidatesOf, geo, getFederal, getLgaById, getRace, getSenatorial, getState, lgaHref, LEVEL_LABEL, OFFICE_INFO, OFFICE_LABEL, officeStatus, toTray } from "@/lib/data";
+import {
+  ballot,
+  candidatesOf,
+  geo,
+  getFederal,
+  getLgaById,
+  getRace,
+  getSenatorial,
+  getState,
+  lgaHref,
+  LEVEL_LABEL,
+  OFFICE_INFO,
+  OFFICE_LABEL,
+  officeStatus,
+  toTray,
+} from "@/lib/data";
 import type { District, Office, Race } from "@/lib/types";
 import { Crumbs, Pending } from "@/components/ui";
 import RaceSheet from "@/components/RaceSheet";
@@ -21,7 +36,9 @@ function allRaces(): Race[] {
     have.get(id) ?? { id, office, name, state, district, candidates: [] };
   const out = new Map<string, Race>(have);
   out.set("president", placeholder("president", "president", "President of Nigeria", null, null));
-  for (const s of geo.states) if (s.governorship) out.set(`gov--${s.slug}`, placeholder(`gov--${s.slug}`, "governor", `Governor of ${s.short}`, s.code, null));
+  for (const s of geo.states)
+    if (s.governorship)
+      out.set(`gov--${s.slug}`, placeholder(`gov--${s.slug}`, "governor", `Governor of ${s.short}`, s.code, null));
   for (const d of geo.senatorial) out.set(`sen--${d.id}`, placeholder(`sen--${d.id}`, "senate", d.name, d.state, d.id));
   for (const d of geo.federal) out.set(`rep--${d.id}`, placeholder(`rep--${d.id}`, "rep", d.name, d.state, d.id));
   return [...out.values()];
@@ -35,7 +52,10 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const r = findRace((await params).id);
   if (!r) return {};
   const st = r.state ? getState(r.state) : null;
-  const where = r.office === "president" || r.office === "governor" ? r.name : `${OFFICE_LABEL[r.office]}: ${r.name}${st ? `, ${st.short}` : ""}`;
+  const where =
+    r.office === "president" || r.office === "governor"
+      ? r.name
+      : `${OFFICE_LABEL[r.office]}: ${r.name}${st ? `, ${st.short}` : ""}`;
   const n = r.candidates.length;
   return pageMeta({
     title: `${where} candidates 2027`,
@@ -43,13 +63,22 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
     path: `/race/${r.id}`,
     og: {
       k: `${OFFICE_LABEL[r.office]} · 2027`,
-      t: r.office === "president" ? "Who's running for President" : `${r.name}${st && r.office !== "governor" ? `, ${st.short}` : ""}`,
-      s: n ? `${n} candidate${n === 1 ? "" : "s"} on the ballot, from INEC's final list.` : "Candidates appear here once INEC publishes the final list.",
+      t:
+        r.office === "president"
+          ? "Who's running for President"
+          : `${r.name}${st && r.office !== "governor" ? `, ${st.short}` : ""}`,
+      s: n
+        ? `${n} candidate${n === 1 ? "" : "s"} on the ballot, from INEC's final list.`
+        : "Candidates appear here once INEC publishes the final list.",
     },
   });
 }
 
-const SUB: Partial<Record<Office, string>> = { senate: "Senatorial district", rep: "Federal constituency", assembly: "State constituency" };
+const SUB: Partial<Record<Office, string>> = {
+  senate: "Senatorial district",
+  rep: "Federal constituency",
+  assembly: "State constituency",
+};
 
 export default async function RacePage({ params }: { params: Promise<{ id: string }> }) {
   const race = findRace((await params).id);
@@ -57,7 +86,13 @@ export default async function RacePage({ params }: { params: Promise<{ id: strin
   const st = race.state ? getState(race.state) : null;
   const cands = candidatesOf(race);
   const district: District | undefined =
-    race.office === "senate" ? getSenatorial(race.district!) : race.office === "rep" ? getFederal(race.district!) : race.office === "assembly" ? ballot.assembly.find((a) => a.id === race.district) : undefined;
+    race.office === "senate"
+      ? getSenatorial(race.district!)
+      : race.office === "rep"
+        ? getFederal(race.district!)
+        : race.office === "assembly"
+          ? ballot.assembly.find((a) => a.id === race.district)
+          : undefined;
   const info = OFFICE_INFO[race.office];
   const pending = officeStatus(race.office) === "pending";
   const title = race.office === "president" ? "President of Nigeria" : race.name;
@@ -66,22 +101,36 @@ export default async function RacePage({ params }: { params: Promise<{ id: strin
     <>
       <ResetCompareOnMount />
       <div className="mx-auto max-w-3xl py-8" style={gutter}>
-        <Crumbs items={[{ href: "/", label: "Home" }, ...(st ? [{ href: `/state/${st.slug}`, label: st.name }] : []), { label: title }]} />
+        <Crumbs
+          items={[
+            { href: "/", label: "Home" },
+            ...(st ? [{ href: `/state/${st.slug}`, label: st.name }] : []),
+            { label: title },
+          ]}
+        />
         <div className="mt-5">
           {pending ? (
-            <div className="sheet overflow-hidden"><Pending what="these candidates" /></div>
+            <div className="sheet overflow-hidden">
+              <Pending what="these candidates" />
+            </div>
           ) : cands.length === 0 ? (
             <div className="sheet px-5 py-5">
               <p className="label text-green">{OFFICE_LABEL[race.office]}</p>
               <h1 className="display-tight mt-1 text-2xl">{title}</h1>
-              <p className="mt-2 text-sm text-muted">INEC&apos;s list has no candidates we could match to this seat yet.</p>
+              <p className="mt-2 text-sm text-muted">
+                INEC&apos;s list has no candidates we could match to this seat yet.
+              </p>
             </div>
           ) : (
             <RaceSheet race={race} title={title} sub={SUB[race.office]} main />
           )}
         </div>
         <dl className="mt-6 grid grid-cols-2 gap-px overflow-hidden rounded-md border border-rule bg-rule text-sm sm:grid-cols-3">
-          {[["Term", info.term], ["Seats", info.seats], ["Candidates", cands.length ? String(cands.length) : "None yet"]].map(([k, v]) => (
+          {[
+            ["Term", info.term],
+            ["Seats", info.seats],
+            ["Candidates", cands.length ? String(cands.length) : "None yet"],
+          ].map(([k, v]) => (
             <div key={k} className="bg-sheet px-4 py-3">
               <dt className="label text-[0.65rem] text-muted">{k}</dt>
               <dd className="mt-0.5 font-medium">{v}</dd>
@@ -96,7 +145,13 @@ export default async function RacePage({ params }: { params: Promise<{ id: strin
               return (
                 <span key={id}>
                   {i > 0 && ", "}
-                  <Link prefetch={false} className="underline decoration-rule underline-offset-2 hover:decoration-ink" href={lgaHref(l)}>{l.name}</Link>
+                  <Link
+                    prefetch={false}
+                    className="underline decoration-rule underline-offset-2 hover:decoration-ink"
+                    href={lgaHref(l)}
+                  >
+                    {l.name}
+                  </Link>
                 </span>
               );
             })}
@@ -105,22 +160,40 @@ export default async function RacePage({ params }: { params: Promise<{ id: strin
 
         {cands.length > 0 && race.id !== "president" && (
           <section id="promises" className="mt-10 scroll-mt-24" aria-labelledby="promises-h">
-            <h2 id="promises-h" className="display-tight text-2xl">What they promise</h2>
-            <p className="mb-4 mt-1 text-sm text-muted">Every pledge links to its source. Where a candidate has no manifesto of their own we show their party&apos;s, and say so.</p>
+            <h2 id="promises-h" className="display-tight text-2xl">
+              What they promise
+            </h2>
+            <p className="mb-4 mt-1 text-sm text-muted">
+              Every pledge links to its source. Where a candidate has no manifesto of their own we show their
+              party&apos;s, and say so.
+            </p>
             <RacePromises cands={cands} />
           </section>
         )}
         {race.id === "president" && (
-          <Link prefetch={false} href="/promises" className="mt-4 flex items-center justify-between gap-3 rounded-md border-2 border-ink bg-sheet px-4 py-3 font-semibold hover:bg-green-soft">
+          <Link
+            prefetch={false}
+            href="/promises"
+            className="mt-4 flex items-center justify-between gap-3 rounded-md border-2 border-ink bg-sheet px-4 py-3 font-semibold hover:bg-green-soft"
+          >
             Compare what the candidates promise, topic by topic <span aria-hidden>→</span>
           </Link>
         )}
         <p className="mt-4 text-sm text-muted">
           Listed in INEC&apos;s order, which is also the order on the ballot paper. Something wrong?{" "}
-          <a className="underline" href={correctionUrl(title, `/race/${race.id}`)}>Report a correction</a>.
+          <a className="underline" href={correctionUrl(title, `/race/${race.id}`)}>
+            Report a correction
+          </a>
+          .
         </p>
       </div>
-      {cands.length > 0 && <BallotTray candidates={cands.map((c) => toTray(c, title))} races={[{ id: race.id, label: title }]} levelLabels={LEVEL_LABEL} />}
+      {cands.length > 0 && (
+        <BallotTray
+          candidates={cands.map((c) => toTray(c, title))}
+          races={[{ id: race.id, label: title }]}
+          levelLabels={LEVEL_LABEL}
+        />
+      )}
     </>
   );
 }

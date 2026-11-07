@@ -32,7 +32,12 @@ export function Select({
       aria-label={label}
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      style={{ backgroundImage: chevron, backgroundRepeat: "no-repeat", backgroundPosition: "right 0.6rem center", backgroundSize: "1.1rem" }}
+      style={{
+        backgroundImage: chevron,
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "right 0.6rem center",
+        backgroundSize: "1.1rem",
+      }}
       className={`control block w-full appearance-none rounded-lg border-2 border-rule bg-sheet pr-9 font-medium text-ink transition-colors hover:border-ink ${
         size === "sm" ? "h-10 pl-3 text-sm" : "h-12 pl-3.5"
       } ${className}`}
@@ -63,6 +68,7 @@ export function Segmented({
       {options.map((o) => {
         const on = o.value === value;
         return (
+          // biome-ignore lint/a11y/useSemanticElements: a pill-styled button keeps button focus and click behaviour while exposing radio semantics
           <button
             key={o.value}
             type="button"
@@ -80,7 +86,15 @@ export function Segmented({
 }
 
 /** A checkbox drawn by us: square box, green fill and a white tick when on. */
-export function Check({ checked, onChange, children }: { checked: boolean; onChange: () => void; children: React.ReactNode }) {
+export function Check({
+  checked,
+  onChange,
+  children,
+}: {
+  checked: boolean;
+  onChange: () => void;
+  children: React.ReactNode;
+}) {
   return (
     <label className="group inline-flex min-h-8 cursor-pointer select-none items-center gap-2 text-sm text-muted hover:text-ink">
       <span className="relative grid h-5 w-5 place-items-center">
@@ -90,8 +104,19 @@ export function Check({ checked, onChange, children }: { checked: boolean; onCha
           onChange={onChange}
           className="control peer absolute inset-0 m-0 h-5 w-5 cursor-pointer appearance-none rounded-[5px] border-2 border-rule bg-sheet transition-colors checked:border-green checked:bg-green group-hover:border-ink checked:group-hover:border-green"
         />
-        <svg viewBox="0 0 16 16" aria-hidden className="pointer-events-none relative h-3.5 w-3.5 text-green-ink opacity-0 peer-checked:opacity-100">
-          <path d="m3.5 8.5 3 3 6-7" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+        <svg
+          viewBox="0 0 16 16"
+          aria-hidden
+          className="pointer-events-none relative h-3.5 w-3.5 text-green-ink opacity-0 peer-checked:opacity-100"
+        >
+          <path
+            d="m3.5 8.5 3 3 6-7"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
         </svg>
       </span>
       {children}

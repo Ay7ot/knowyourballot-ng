@@ -59,7 +59,9 @@ export default function Term({ id, children }: { id: string; children?: React.Re
         >
           <strong className="block font-semibold">{t.term}</strong>
           {t.short}
-          <a href={`/who-decides#${t.id}`} className="mt-1 block text-green underline">All election words</a>
+          <a href={`/who-decides#${t.id}`} className="mt-1 block text-green underline">
+            All election words
+          </a>
         </span>
       )}
     </span>

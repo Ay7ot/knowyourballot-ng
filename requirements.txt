@@ -1,0 +1,4 @@
+pdfplumber==0.11.4
+pillow==11.0.0
+# 49+ has no macOS x86_64 wheel for Python 3.12; 48.0.0 is the newest that does.
+cryptography==48.0.0
