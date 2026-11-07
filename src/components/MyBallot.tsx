@@ -25,7 +25,13 @@ export function BallotToc({ races }: { races: { id: string; label: string; offic
   );
 }
 
-export default function MyBallot({ races, candidates }: { races: { id: string; label: string; office: string; date: string; fed?: string }[]; candidates: TrayCandidate[] }) {
+export default function MyBallot({
+  races,
+  candidates,
+}: {
+  races: { id: string; label: string; office: string; date: string; fed?: string }[];
+  candidates: TrayCandidate[];
+}) {
   const { picks, togglePick } = useBallotState();
   const byId = new Map(candidates.map((c) => [c.id, c]));
   const marked = races.filter((r) => picks[r.id]).length;
@@ -33,9 +39,14 @@ export default function MyBallot({ races, candidates }: { races: { id: string; l
     <section id="my-ballot" aria-labelledby="mb-h" className="sheet scroll-mt-32 lg:scroll-mt-24 overflow-hidden">
       <header className="sheet-band px-5 pb-4 pt-5">
         <p className="label text-violet">Step 3</p>
-        <h2 id="mb-h" className="display-tight mt-1 text-2xl">Your marked ballot</h2>
+        <h2 id="mb-h" className="display-tight mt-1 text-2xl">
+          Your marked ballot
+        </h2>
         <p className="mt-1 text-sm text-muted">
-          {marked ? `${marked} of ${races.length} races marked.` : "Nothing marked yet. Tap a thumbprint next to a candidate."} Saved only in this browser. Nobody else can see it.
+          {marked
+            ? `${marked} of ${races.length} races marked.`
+            : "Nothing marked yet. Tap a thumbprint next to a candidate."}{" "}
+          Saved only in this browser. Nobody else can see it.
         </p>
       </header>
       <ul className="divide-y divide-rule">
@@ -50,14 +61,22 @@ export default function MyBallot({ races, candidates }: { races: { id: string; l
                 {c ? (
                   <p className="mt-1 flex items-center gap-3 font-semibold">
                     <PartyMark code={c.party} logo={c.logo} name={c.partyName} size="sm" />
-                    <Link prefetch={false} href={`/candidate/${c.id}`} className="hover:underline">{c.name}</Link>
+                    <Link prefetch={false} href={`/candidate/${c.id}`} className="hover:underline">
+                      {c.name}
+                    </Link>
                   </p>
                 ) : (
-                  <a href={`#${r.id}`} className="text-sm font-medium text-green hover:underline">Not marked yet, go to this race</a>
+                  <a href={`#${r.id}`} className="text-sm font-medium text-green hover:underline">
+                    Not marked yet, go to this race
+                  </a>
                 )}
               </div>
               {c && (
-                <button type="button" onClick={() => togglePick(r.id, c.id)} className="shrink-0 text-sm text-muted underline">
+                <button
+                  type="button"
+                  onClick={() => togglePick(r.id, c.id)}
+                  className="shrink-0 text-sm text-muted underline"
+                >
                   Clear
                 </button>
               )}

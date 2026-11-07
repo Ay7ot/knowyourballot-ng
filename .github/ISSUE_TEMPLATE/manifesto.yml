@@ -1,0 +1,32 @@
+name: Manifesto or pledge
+description: Send a public source for a candidate's manifesto, pledge or policy.
+title: "Manifesto: "
+labels: ["manifesto"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        We publish pledges only with a public source. A person reviews each one.
+  - type: input
+    id: candidate
+    attributes:
+      label: Candidate
+      description: The candidate's name, or the page URL.
+      placeholder: https://knowyourballot-ng.vercel.app/candidate/...
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Source
+      description: A link to the manifesto, the candidate's own page, or a reputable report of the pledge.
+      placeholder: https://...
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: What does it say?
+      description: Quote the relevant passage and say which topic it belongs to, for example economy, jobs, security, education or health.
+    validations:
+      required: false

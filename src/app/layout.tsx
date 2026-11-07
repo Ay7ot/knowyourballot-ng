@@ -28,32 +28,47 @@ export const viewport: Viewport = {
   ],
 };
 
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en-NG" className={`${archivo.variable} ${atkinson.variable} ${plexMono.variable}`}>
       <body className="flex min-h-dvh flex-col">
-        <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-50 focus:rounded focus:bg-sheet focus:px-3 focus:py-2">
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-50 focus:rounded focus:bg-sheet focus:px-3 focus:py-2"
+        >
           Skip to content
         </a>
         <SiteHeader />
-        <main id="main" className="flex-1">{children}</main>
+        <main id="main" className="flex-1">
+          {children}
+        </main>
         <footer className="no-print border-t border-rule">
-          <div className="mx-auto grid max-w-5xl gap-6 py-10 text-sm text-muted sm:grid-cols-3" style={gutter}>
+          <div className="shell grid gap-6 py-10 text-sm text-muted sm:grid-cols-3" style={gutter}>
             <div className="space-y-2">
               <p className="label text-ink">Non-partisan</p>
-              <p>Not affiliated with INEC or any party. Candidates appear in the order INEC lists them, and every party gets the same plain box.</p>
+              <p>
+                Not affiliated with INEC or any party. Candidates appear in the order INEC lists them, and every party
+                gets the same plain box.
+              </p>
             </div>
             <div className="space-y-2">
               <p className="label text-ink">Sourced</p>
               <p>
-                Candidate details come from <a className="underline" href="https://www.inecnigeria.org/press/">INEC&apos;s published lists</a>, checked daily. No religion, no rumours.
+                Candidate details come from{" "}
+                <a className="underline" href="https://www.inecnigeria.org/press/">
+                  INEC&apos;s published lists
+                </a>
+                , checked daily. No religion, no rumours.
               </p>
             </div>
             <div className="space-y-2">
               <p className="label text-ink">Fix something</p>
               <p>
-                See a mistake? <Link prefetch={false} className="underline" href="/data#corrections">Send a correction with a source</Link>. A person reviews every one.
+                See a mistake?{" "}
+                <Link prefetch={false} className="underline" href="/data#corrections">
+                  Send a correction with a source
+                </Link>
+                . A person reviews every one.
               </p>
             </div>
           </div>

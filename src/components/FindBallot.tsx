@@ -1,10 +1,11 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import type Fuse from "fuse.js";
 import type { SearchEntry } from "@/lib/types";
 import type { QuickEntry } from "@/lib/data";
+import { formatPollingUnit, matchPollingUnit, type PollingUnitParts } from "@/lib/polling-unit";
 
 type LgaPoint = { id: string; n: string; s: string; h: string; lat: number | null; lon: number | null };
 
@@ -17,16 +18,21 @@ const TYPE_LABEL: Record<SearchEntry["t"], string> = {
   a: "Assembly",
   c: "Candidate",
 };
-const PU_RE = /^\s*(\d{1,2})\s*[\/\-. ]\s*(\d{1,2})\s*[\/\-. ]\s*(\d{1,2})\s*[\/\-. ]\s*(\d{1,3})\s*$/;
 
 type Index = { fuse: Fuse<SearchEntry>; data: SearchEntry[]; folded: string[] };
-const fold = (s: string) => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9 ]+/g, " ");
+const fold = (s: string) =>
+  s
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9 ]+/g, " ");
 let indexPromise: Promise<Index> | null = null;
 function loadIndex() {
-  indexPromise ??= Promise.all([fetch("/search-index.json").then((r) => r.json()), import("fuse.js")]).then(([data, mod]) => ({
-    data: data as SearchEntry[],
-    folded: (data as SearchEntry[]).map((e) => ` ${fold(e.n)} `),
-    fuse: new mod.default<SearchEntry>(data as SearchEntry[], {
+  indexPromise ??= Promise.all([fetch("/search-index.json").then((r) => r.json()), import("fuse.js")]).then(
+    ([data, mod]) => ({
+      data: data as SearchEntry[],
+      folded: (data as SearchEntry[]).map((e) => ` ${fold(e.n)} `),
+      fuse: new mod.default<SearchEntry>(data as SearchEntry[], {
         keys: [
           { name: "n", weight: 3 },
           { name: "x", weight: 1 },
@@ -35,14 +41,21 @@ function loadIndex() {
         ignoreLocation: true,
         minMatchCharLength: 2,
       }),
-  }));
+    }),
+  );
   return indexPromise;
 }
 // Words that carry no meaning for matching ("who is running for president" -> "running president").
-const STOP = new Set("a an and are be can do does for from how i in is it me my of on or the to what which who will with nigeria nigerian 2027 about tell show find see party parties".split(" "));
+const STOP = new Set(
+  "a an and are be can do does for from how i in is it me my of on or the to what which who will with nigeria nigerian 2027 about tell show find see party parties".split(
+    " ",
+  ),
+);
 type Row = { n: string; x: string; h: string; label: string };
 function matchQuick(quick: QuickEntry[], q: string): Row[] {
-  const words = fold(q).split(" ").filter((w) => w.length > 1 && !STOP.has(w));
+  const words = fold(q)
+    .split(" ")
+    .filter((w) => w.length > 1 && !STOP.has(w));
   if (!words.length) return [];
   const scored = quick.map((e) => {
     const name = fold(e.n).split(" ");
@@ -62,10 +75,15 @@ function matchQuick(quick: QuickEntry[], q: string): Row[] {
 }
 
 let pointsPromise: Promise<LgaPoint[]> | null = null;
-const loadPoints = (): Promise<LgaPoint[]> => (pointsPromise ??= fetch("/lga-points.json").then((r) => r.json() as Promise<LgaPoint[]>));
+const loadPoints = (): Promise<LgaPoint[]> =>
+  (pointsPromise ??= fetch("/lga-points.json").then((r) => r.json() as Promise<LgaPoint[]>));
 
 export default function FindBallot({ autoFocus = false, quick = [] }: { autoFocus?: boolean; quick?: QuickEntry[] }) {
   const router = useRouter();
+  const uid = useId().replace(/:/g, "");
+  const inputId = `find-${uid}`;
+  const listId = `find-list-${uid}`;
+  const optionId = (index: number) => `opt-${uid}-${index}`;
   const [q, setQ] = useState("");
   const [fuse, setFuse] = useState<Index | null>(null);
   const [loading, setLoading] = useState(false);
@@ -94,7 +112,7 @@ export default function FindBallot({ autoFocus = false, quick = [] }: { autoFocu
     }
   }, [autoFocus]);
 
-  const pu = PU_RE.exec(q);
+  const pu = useMemo(() => matchPollingUnit(q), [q]);
   const answers = useMemo(() => (q.trim().length < 2 || pu ? [] : matchQuick(quick, q)), [quick, q, pu]);
   const found = useMemo(() => {
     if (!fuse || q.trim().length < 2 || pu) return [];
@@ -118,13 +136,27 @@ export default function FindBallot({ autoFocus = false, quick = [] }: { autoFocu
   const reported = useRef(new Set<string>());
   useEffect(() => {
     const term = q.trim().toLowerCase();
-    if (!fuse || pu || term.length < 3 || answers.length || found.length || reported.current.has(term) || reported.current.size >= 20) return;
+    if (
+      !fuse ||
+      pu ||
+      term.length < 3 ||
+      answers.length ||
+      found.length ||
+      reported.current.has(term) ||
+      reported.current.size >= 20
+    )
+      return;
     const t = setTimeout(() => {
       reported.current.add(term);
       const body = JSON.stringify({ q: term });
       try {
         if (!navigator.sendBeacon?.("/api/search-miss", new Blob([body], { type: "application/json" })))
-          fetch("/api/search-miss", { method: "POST", body, keepalive: true, headers: { "Content-Type": "application/json" } }).catch(() => {});
+          fetch("/api/search-miss", {
+            method: "POST",
+            body,
+            keepalive: true,
+            headers: { "Content-Type": "application/json" },
+          }).catch(() => {});
       } catch {}
     }, 1500);
     return () => clearTimeout(t);
@@ -136,8 +168,8 @@ export default function FindBallot({ autoFocus = false, quick = [] }: { autoFocu
     return [...top, ...places].slice(0, 9);
   }, [answers, found]);
 
-  async function lookupPu(m: RegExpExecArray) {
-    const [s, l, w, p] = m.slice(1).map((x, i) => x.padStart(i === 3 ? 3 : 2, "0"));
+  async function lookupPu(parts: PollingUnitParts) {
+    const [s, l, w, p] = parts.map((x, i) => x.padStart(i === 3 ? 3 : 2, "0"));
     setMsg("Looking up your polling unit…");
     try {
       const [units, points] = await Promise.all([
@@ -153,7 +185,9 @@ export default function FindBallot({ autoFocus = false, quick = [] }: { autoFocu
       router.push(`${lga.h}?${params}`);
       setMsg(unit ? null : "We couldn't find that exact polling unit, so we've opened your ward instead.");
     } catch {
-      setMsg("That code doesn't match a polling unit. It's printed on your voter's card as four numbers, like 24/14/05/012.");
+      setMsg(
+        "That code doesn't match a polling unit. It's printed on your voter's card as four numbers, like 24/14/05/012.",
+      );
     }
   }
 
@@ -201,22 +235,33 @@ export default function FindBallot({ autoFocus = false, quick = [] }: { autoFocu
   return (
     <div className="w-full">
       <div className="relative">
-        <label htmlFor="find" className="label mb-2 block text-ink">
+        <label htmlFor={inputId} className="label mb-2 block text-ink">
           Find your ballot
         </label>
-        <svg aria-hidden viewBox="0 0 24 24" className="pointer-events-none absolute left-4 bottom-[18px] h-5 w-5 text-muted">
-          <path fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" d="m21 21-4.3-4.3M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" />
+        <svg
+          aria-hidden
+          viewBox="0 0 24 24"
+          className="pointer-events-none absolute left-4 bottom-[18px] h-5 w-5 text-muted"
+        >
+          <path
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            d="m21 21-4.3-4.3M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z"
+          />
         </svg>
         <input
-          id="find"
+          id={inputId}
           ref={inputRef}
           type="search"
           inputMode="search"
           autoComplete="off"
           role="combobox"
+          aria-autocomplete="list"
           aria-expanded={showList}
-          aria-controls="find-list"
-          aria-activedescendant={showList && results[active] ? `opt-${active}` : undefined}
+          aria-controls={listId}
+          aria-activedescendant={showList && results[active] ? optionId(active) : undefined}
           placeholder="Your LGA, a name, a party or a question"
           className="control h-14 w-full rounded-lg border-2 border-ink bg-sheet pl-12 pr-12 text-[1.05rem] placeholder:text-muted"
           value={q}
@@ -248,27 +293,48 @@ export default function FindBallot({ autoFocus = false, quick = [] }: { autoFocu
             }}
             className="absolute bottom-2 right-2 grid h-10 w-10 place-items-center rounded-md text-muted hover:bg-green-soft hover:text-ink"
           >
-            <svg viewBox="0 0 24 24" aria-hidden className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M6 6l12 12M18 6 6 18" /></svg>
+            <svg
+              viewBox="0 0 24 24"
+              aria-hidden
+              className="h-5 w-5"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+            >
+              <path d="M6 6l12 12M18 6 6 18" />
+            </svg>
           </button>
         )}
         {showList && (
-          <ul id="find-list" role="listbox" className="absolute z-20 mt-2 w-full overflow-hidden rounded-lg border border-rule bg-sheet shadow-xl">
+          <div
+            id={listId}
+            role="listbox"
+            className="absolute z-20 mt-2 w-full overflow-hidden rounded-lg border border-rule bg-sheet shadow-xl"
+          >
             {pu ? (
-              <li>
-                <button type="button" onMouseDown={(e) => e.preventDefault()} onClick={() => lookupPu(pu)} className="w-full text-left px-4 py-3 bg-green-soft">
-                  <div className="font-medium">Find polling unit {pu.slice(1).join("/")}</div>
+              <div>
+                <button
+                  type="button"
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => lookupPu(pu)}
+                  className="w-full text-left px-4 py-3 bg-green-soft"
+                >
+                  <div className="font-medium">Find polling unit {formatPollingUnit(pu)}</div>
                   <div className="text-sm text-muted">Open the ballot for this polling unit</div>
                 </button>
-              </li>
+              </div>
             ) : results.length === 0 && loading && !fuse ? (
-              <li className="px-4 py-3 text-sm text-muted">Loading places and candidates…</li>
+              <div className="px-4 py-3 text-sm text-muted">Loading places and candidates…</div>
             ) : results.length === 0 ? (
-              <li className="px-4 py-3 text-sm text-muted">
-                Nothing matched &ldquo;{q.trim()}&rdquo;. Try your LGA or ward (like <em>Ikeja</em>), a candidate&apos;s name, a party (like <em>APC</em>), an office (like <em>Senate</em>), or a question like <em>when is the election</em>.
-              </li>
+              <div className="px-4 py-3 text-sm text-muted">
+                Nothing matched &ldquo;{q.trim()}&rdquo;. Try your LGA or ward (like <em>Ikeja</em>), a candidate&apos;s
+                name, a party (like <em>APC</em>), an office (like <em>Senate</em>), or a question like{" "}
+                <em>when is the election</em>.
+              </div>
             ) : (
               results.map((r, i) => (
-                <li key={r.h + i} id={`opt-${i}`} role="option" aria-selected={i === active}>
+                <div key={`${r.h}|${r.n}`} id={optionId(i)} role="option" aria-selected={i === active} tabIndex={-1}>
                   <button
                     type="button"
                     onMouseDown={(e) => e.preventDefault()}
@@ -282,10 +348,10 @@ export default function FindBallot({ autoFocus = false, quick = [] }: { autoFocu
                       <span className="line-clamp-2 block text-sm text-muted">{r.x}</span>
                     </span>
                   </button>
-                </li>
+                </div>
               ))
             )}
-          </ul>
+          </div>
         )}
       </div>
 
@@ -313,27 +379,48 @@ export default function FindBallot({ autoFocus = false, quick = [] }: { autoFocu
       )}
 
       <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
-        <button type="button" onClick={locate} className="inline-flex items-center gap-1.5 font-medium text-green hover:underline disabled:opacity-60" disabled={locating}>
+        <button
+          type="button"
+          onClick={locate}
+          className="inline-flex items-center gap-1.5 font-medium text-green hover:underline disabled:opacity-60"
+          disabled={locating}
+        >
           <svg aria-hidden viewBox="0 0 24 24" className="h-4 w-4">
-            <path fill="none" stroke="currentColor" strokeWidth="2" d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21Z M12 12.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+            <path
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21Z M12 12.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"
+            />
           </svg>
           {locating ? "Finding you…" : "Use my location"}
         </button>
         <span className="text-muted">
-          Have your voter&apos;s card? Its code, like <span className="mono">24/14/05/012</span>, finds your exact ballot.
+          Have your voter&apos;s card? Its code, like <span className="mono">24/14/05/012</span>, finds your exact
+          ballot.
         </span>
       </div>
 
-      {msg && <p role="status" className="mt-3 text-sm rounded-md bg-amber-soft text-amber-ink px-3 py-2">{msg}</p>}
+      {msg && (
+        <p role="status" className="mt-3 text-sm rounded-md bg-amber-soft text-amber-ink px-3 py-2">
+          {msg}
+        </p>
+      )}
 
       {near && (
         <div className="mt-4 rounded-lg border border-rule bg-sheet p-4">
           <p className="text-sm text-muted">
-            Your location is closest to these LGAs. Pick the one you <strong>registered to vote in</strong>, which may not be where you are now.
+            Your location is closest to these LGAs. Pick the one you <strong>registered to vote in</strong>, which may
+            not be where you are now.
           </p>
           <div className="mt-3 flex flex-wrap gap-2">
             {near.map((p) => (
-              <button key={p.id} type="button" onClick={() => router.push(p.h)} className="rounded-md border border-rule bg-sheet px-3 py-1.5 text-sm hover:border-green hover:bg-green-soft">
+              <button
+                key={p.id}
+                type="button"
+                onClick={() => router.push(p.h)}
+                className="rounded-md border border-rule bg-sheet px-3 py-1.5 text-sm hover:border-green hover:bg-green-soft"
+              >
                 {p.n}, <span className="text-muted">{p.s}</span>
               </button>
             ))}

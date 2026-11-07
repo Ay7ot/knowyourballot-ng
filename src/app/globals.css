@@ -59,7 +59,9 @@
   --font-mono: var(--font-mono);
 }
 
-html { -webkit-text-size-adjust: 100%; }
+html {
+  -webkit-text-size-adjust: 100%;
+}
 body {
   background: var(--paper);
   color: var(--ink);
@@ -67,6 +69,11 @@ body {
   font-size: 1.0625rem;
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
+}
+.shell {
+  width: 100%;
+  max-width: 110rem;
+  margin-inline: auto;
 }
 h1, h2, h3 { text-wrap: balance; }
 p { text-wrap: pretty; }

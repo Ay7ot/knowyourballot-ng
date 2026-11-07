@@ -2,12 +2,22 @@
   "name": "knowyourballot-ng",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "typecheck": "tsc --noEmit"
+    "lint": "biome lint .",
+    "format": "biome format --write .",
+    "format:check": "biome format .",
+    "check": "biome check .",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test --experimental-strip-types tests/*.test.mjs",
+    "test:data": "node --test tests/data-contract.test.mjs",
+    "test:polling": "node --test --experimental-strip-types tests/polling-unit.test.mjs",
+    "snapshot:ids": "node scripts/snapshot_ids.mjs",
+    "smoke": "bash scripts/smoke.sh",
+    "audit": "npm audit --audit-level=low"
   },
   "dependencies": {
     "@fontsource-variable/archivo": "^5.2.8",
@@ -21,12 +31,24 @@
     "server-only": "^0.0.1"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.6.6",
     "@tailwindcss/postcss": "^4.1.13",
     "@types/node": "^22.18.0",
     "@types/react": "^19.1.12",
     "@types/react-dom": "^19.1.9",
     "tailwindcss": "^4.1.13",
     "typescript": "^5.9.3"
+  },
+  "overrides": {
+    "next": {
+      "postcss": "8.5.32"
+    },
+    "@vercel/cli-config": {
+      "zod": "4.6.7"
+    }
+  },
+  "engines": {
+    "node": ">=24"
   },
   "browserslist": [
     "chrome >= 100",

@@ -10,7 +10,17 @@ type WardOpt = { code: string; name: string; federal: string[] };
  * Reads ?ward=, ?pu= and ?fed= from the URL. Shows the voter's ward/polling unit and, where an LGA is split
  * between federal constituencies, hides the constituency that isn't theirs.
  */
-export default function WardContext({ stateCode, lgaCode, wards, split }: { stateCode: string; lgaCode: string; wards: WardOpt[]; split: boolean }) {
+export default function WardContext({
+  stateCode,
+  lgaCode,
+  wards,
+  split,
+}: {
+  stateCode: string;
+  lgaCode: string;
+  wards: WardOpt[];
+  split: boolean;
+}) {
   const params = useSearchParams();
   const router = useRouter();
   const path = usePathname();
@@ -40,17 +50,22 @@ export default function WardContext({ stateCode, lgaCode, wards, split }: { stat
   return (
     <div className="sheet grid gap-4 p-5 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] sm:items-start">
       <div>
-      {fed && split && <style>{`[data-fed]:not([data-fed="${CSS.escape(fed)}"]){display:none}`}</style>}
-      <label htmlFor="ward" className="text-sm font-semibold">
-        Your ward {split ? <span className="text-amber-ink">(needed for this LGA)</span> : <span className="text-muted font-normal">(optional)</span>}
-      </label>
-      <Select
-        id="ward"
-        className="mt-2"
-        value={ward?.code ?? ""}
-        onChange={pick}
-        options={[{ value: "", label: "Choose your ward…" }, ...wards.map((w) => ({ value: w.code, label: w.name }))]}
-      />
+        {fed && split && <style>{`[data-fed]:not([data-fed="${CSS.escape(fed)}"]){display:none}`}</style>}
+        <label htmlFor="ward" className="text-sm font-semibold">
+          Your ward{" "}
+          {split ? (
+            <span className="text-amber-ink">(needed for this LGA)</span>
+          ) : (
+            <span className="text-muted font-normal">(optional)</span>
+          )}
+        </label>
+        <Select
+          id="ward"
+          className="mt-2"
+          value={ward?.code ?? ""}
+          onChange={pick}
+          options={[{ value: "", label: "Choose your ward…" }, ...wards.map((w) => ({ value: w.code, label: w.name }))]}
+        />
       </div>
       <div className="text-sm">
         {pu ? (
@@ -60,11 +75,17 @@ export default function WardContext({ stateCode, lgaCode, wards, split }: { stat
             {puName && <p className="capitalize text-muted">{puName.toLowerCase()}</p>}
           </div>
         ) : split && !fed ? (
-          <p className="rounded-md bg-amber-soft px-3 py-2 text-amber-ink">Parts of this LGA vote in different federal constituencies. Until you choose a ward we show both.</p>
+          <p className="rounded-md bg-amber-soft px-3 py-2 text-amber-ink">
+            Parts of this LGA vote in different federal constituencies. Until you choose a ward we show both.
+          </p>
         ) : ward ? (
-          <p className="text-muted">Showing the ballot for <strong className="text-ink">{ward.name}</strong> ward.</p>
+          <p className="text-muted">
+            Showing the ballot for <strong className="text-ink">{ward.name}</strong> ward.
+          </p>
         ) : (
-          <p className="text-muted">Tip: entering the full polling unit code from your card on the home page fills this in for you.</p>
+          <p className="text-muted">
+            Tip: entering the full polling unit code from your card on the home page fills this in for you.
+          </p>
         )}
       </div>
     </div>

@@ -1,0 +1,39 @@
+name: Correction
+description: Report a wrong or missing fact, with a source.
+title: "Correction: "
+labels: ["correction"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping. We can only publish claims with a public source. A person reviews every correction.
+  - type: input
+    id: page
+    attributes:
+      label: Page URL
+      description: The page on Know Your Ballot that needs the correction.
+      placeholder: https://knowyourballot-ng.vercel.app/candidate/...
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is wrong or missing?
+      description: Be specific. Include the current text and the corrected text if you can.
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Source
+      description: A link to INEC, a court judgment, an official record or a reputable report.
+      placeholder: https://...
+    validations:
+      required: true
+  - type: input
+    id: name
+    attributes:
+      label: Your name (optional)
+      description: We will not publish it unless you ask us to.
+    validations:
+      required: false

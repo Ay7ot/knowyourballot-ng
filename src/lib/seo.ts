@@ -35,7 +35,15 @@ export function pageMeta({
     ...(title ? { title } : {}),
     description,
     alternates: { canonical: path },
-    openGraph: { title: shareTitle, description, url: path, siteName: SITE_NAME, locale: "en_NG", type, images: [image] },
+    openGraph: {
+      title: shareTitle,
+      description,
+      url: path,
+      siteName: SITE_NAME,
+      locale: "en_NG",
+      type,
+      images: [image],
+    },
     twitter: { card: "summary_large_image", title: shareTitle, description, images: [image.url] },
   };
 }

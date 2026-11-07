@@ -15,8 +15,20 @@ export default function ShareButton({ title }: { title: string }) {
     } catch {}
   }
   return (
-    <button type="button" onClick={share} className="inline-flex items-center gap-2 h-11 rounded-md border-2 border-ink bg-sheet px-4 text-sm font-semibold hover:bg-green-soft">
-      <svg aria-hidden viewBox="0 0 24 24" className="h-4 w-4"><path fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6" /></svg>
+    <button
+      type="button"
+      onClick={share}
+      className="inline-flex items-center gap-2 h-11 rounded-md border-2 border-ink bg-sheet px-4 text-sm font-semibold hover:bg-green-soft"
+    >
+      <svg aria-hidden viewBox="0 0 24 24" className="h-4 w-4">
+        <path
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"
+        />
+      </svg>
       {done ? "Link copied" : "Share"}
     </button>
   );

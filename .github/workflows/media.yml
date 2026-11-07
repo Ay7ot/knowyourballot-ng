@@ -28,23 +28,39 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 300
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
           python-version: "3.12"
-      - run: pip install pillow==11.0.0
+      - run: pip install -r requirements.txt
       - name: Party logos from INEC's party profiles
         run: python scripts/fetch_party_logos.py
       - name: Verified candidate photos from Wikidata and Wikimedia Commons
         env:
           RECHECK: ${{ github.event.inputs.recheck }}
-        run: python scripts/fetch_candidate_photos.py "${{ github.event.inputs.offices || 'president,governor,senate' }}" | tee photos.log
+          OFFICES: ${{ github.event.inputs.offices || 'president,governor,senate' }}
+        run: |
+          case "$OFFICES" in
+            *[!a-z,]*|"") echo "Invalid offices input"; exit 1;;
+          esac
+          python scripts/fetch_candidate_photos.py "$OFFICES" | tee photos.log
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Validate the data contract
+        run: npm run test:data
       - name: Commit changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config user.name "ballot-data-bot"
           git config user.email "actions@users.noreply.github.com"
           git add data/party_logos.json data/candidate_photos.json data/photo_report.json public/parties public/candidates
           if git diff --cached --quiet; then echo "No changes"; exit 0; fi
           git commit -m "media: refresh party logos and candidate photos"
-          git pull --rebase origin main
-          git push
+          git pull --rebase "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" main
+          git push "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:main

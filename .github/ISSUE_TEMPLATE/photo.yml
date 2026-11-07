@@ -1,0 +1,45 @@
+name: Candidate photo
+description: Send a photo you own, or ask us to change or remove one.
+title: "Photo: "
+labels: ["photo"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A wrong face is worse than no photo, so we check every image. If you are the candidate or their campaign, tell us how we can confirm that.
+  - type: input
+    id: candidate
+    attributes:
+      label: Candidate
+      description: The candidate's name, or the page URL.
+      placeholder: https://knowyourballot-ng.vercel.app/candidate/...
+    validations:
+      required: true
+  - type: textarea
+    id: photo
+    attributes:
+      label: Photo
+      description: Drag the image into this box. A recent, clear portrait works best.
+    validations:
+      required: true
+  - type: input
+    id: who
+    attributes:
+      label: Who are you?
+      description: The candidate, the campaign, the party, or a supporter. Include an official account or another way to confirm.
+    validations:
+      required: true
+  - type: checkboxes
+    id: rights
+    attributes:
+      label: Rights
+      options:
+        - label: I own this photo, or I am authorised to let Know Your Ballot publish it, and I allow the site to use it with credit.
+          required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Anything else
+      description: Credit line, removal request, or other context.
+    validations:
+      required: false

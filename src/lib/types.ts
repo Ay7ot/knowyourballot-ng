@@ -72,7 +72,10 @@ export interface SourceDoc {
 }
 export interface Ballot {
   generatedAt: string | null;
-  offices: Record<"presidential" | "senate" | "reps" | "governorship" | "assembly", { status: "pending" | "loaded"; documents: SourceDoc[] }>;
+  offices: Record<
+    "presidential" | "senate" | "reps" | "governorship" | "assembly",
+    { status: "pending" | "loaded"; documents: SourceDoc[] }
+  >;
   races: Race[];
   candidates: Candidate[];
   assembly: District[];
@@ -85,6 +88,16 @@ export interface BallotSection {
   note?: string;
   contests: { districtId: string; districtName: string; race: Race | null }[];
 }
+
+export type MapPoint = { id: string; label: string; href: string; x: number; y: number; count?: number };
+export type MapStatePath = {
+  slug: string;
+  name: string;
+  d: string;
+  bbox: [number, number, number, number];
+  count?: number;
+  href?: string;
+};
 
 export interface SearchEntry {
   /** type: s=state l=lga w=ward d=senate district f=fed constituency a=assembly constituency c=candidate */
