@@ -149,12 +149,17 @@ export default function SiteHeader() {
               setOpen(false);
               setSearchOpen(true);
             }}
-            className="hidden min-h-10 items-center gap-2 rounded-full border border-rule bg-sheet px-3 text-sm text-muted transition-colors hover:border-green hover:text-ink md:inline-flex"
+            className="hidden min-h-10 items-center gap-2 rounded-full border border-rule bg-sheet px-3 text-sm text-muted transition-colors hover:border-green hover:text-ink lg:inline-flex"
             aria-label="Search your ballot (Command K)"
           >
             <SearchIcon />
             <span>Search</span>
-            <kbd className="mono rounded border border-rule px-1 text-[0.65rem] text-muted">⌘K</kbd>
+            <kbd
+              className="mono rounded border border-rule px-1 text-[0.65rem] text-muted"
+              title="Command K on macOS, Ctrl K on Windows and Linux"
+            >
+              ⌘K
+            </kbd>
           </button>
 
           {/* Tablet and desktop: inline links */}
@@ -180,7 +185,7 @@ export default function SiteHeader() {
               setOpen(false);
               setSearchOpen(true);
             }}
-            className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-md text-ink hover:bg-green-soft md:hidden"
+            className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-md text-ink hover:bg-green-soft lg:hidden"
             aria-label="Search your ballot"
           >
             <SearchIcon />
@@ -254,7 +259,7 @@ export default function SiteHeader() {
         ref={searchRef}
         aria-labelledby="search-title"
         onClose={() => setSearchOpen(false)}
-        className="m-auto w-[min(760px,calc(100vw-24px))] overflow-visible rounded-xl border border-rule bg-sheet p-0 text-ink shadow-2xl backdrop:bg-black/45"
+        className="m-auto max-h-[88dvh] w-[min(760px,calc(100vw-24px))] overflow-hidden rounded-xl border border-rule bg-sheet p-0 text-ink shadow-2xl backdrop:bg-black/45"
       >
         <div className="flex items-center justify-between border-b border-rule px-4 py-3">
           <p id="search-title" className="display-tight text-lg">
@@ -268,10 +273,10 @@ export default function SiteHeader() {
             Close
           </button>
         </div>
-        <div className="min-h-[22rem] p-4">
+        <div className="max-h-[75dvh] overflow-y-auto p-4">
           <FindBallot autoFocus quick={[]} />
           <p className="mt-3 text-xs text-muted">
-            Search by polling unit code, LGA, ward, candidate, party or a question. Press Esc to close.
+            Search by polling unit code, LGA, ward, candidate or party. Press Esc to close.
           </p>
         </div>
       </dialog>

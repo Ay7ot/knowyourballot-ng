@@ -21,7 +21,7 @@ import type { Photo } from "@/lib/data";
 import PartyMark from "@/components/PartyMark";
 import type { Person } from "@/lib/types";
 import { Crumbs } from "@/components/ui";
-import { PickButton, CompareToggle } from "@/components/picks";
+import { PickButton } from "@/components/picks";
 import ShareButton from "@/components/ShareButton";
 import { correctionUrl, photoUrl } from "@/lib/site";
 import { gutter } from "@/lib/gutter";
@@ -183,7 +183,7 @@ export default async function CandidatePage({ params }: { params: Promise<{ id: 
                 </div>
               </div>
             </div>
-            <div className="thumb-cell flex w-20 shrink-0 flex-col items-center justify-center gap-1 px-1">
+            <div className="thumb-cell flex w-20 shrink-0 flex-col items-center justify-center gap-1 px-1 lg:hidden">
               <PickButton race={race.id} cand={c.id} name={c.name} />
               <span aria-hidden className="text-center text-[0.7rem] leading-tight text-muted">
                 Mark as my pick
@@ -277,7 +277,7 @@ export default async function CandidatePage({ params }: { params: Promise<{ id: 
           <h2 id="aff-h" className="display-tight mt-1 text-xl">
             Not published online by INEC yet
           </h2>
-          <p className="mt-2 text-sm">
+          <p className="mt-2 max-w-[75ch] text-sm">
             Every candidate swears an affidavit and submits personal particulars (INEC&apos;s nomination forms) with
             their date of birth, schooling and certificates. For 2027, INEC has published only the summary lists that
             this page is built from, not the forms themselves.
@@ -296,7 +296,7 @@ export default async function CandidatePage({ params }: { params: Promise<{ id: 
           <h2 id="bg-h" className="font-semibold">
             Track record and background
           </h2>
-          <p className="mt-2 text-sm text-muted">
+          <p className="mt-2 max-w-[75ch] text-sm text-muted">
             We add past offices, court records and reported positions only with a link to an official record or
             reputable report. Nothing has been added for this candidate yet.
           </p>
@@ -332,7 +332,6 @@ export default async function CandidatePage({ params }: { params: Promise<{ id: 
                 <PickButton race={race.id} cand={c.id} name={c.name} />
                 <span className="text-sm font-medium">Mark as my pick</span>
               </div>
-              <CompareToggle cand={c.id} />
               <ShareButton title={`${c.name} · ${raceTitle}`} />
             </div>
           </div>

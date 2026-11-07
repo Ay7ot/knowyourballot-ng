@@ -320,38 +320,54 @@ export type TrayPolicy = {
   title: string | null;
   pledges: TrayPledge[];
   note: string;
+  noteSource: { label: string; url: string } | null;
+};
+
+const sourceLink = (ids: string[]): { label: string; url: string } | null => {
+  const source = ids.map((id) => PLATFORMS.sources[id]).find(Boolean);
+  if (!source) return null;
+  const date =
+    source.date.length === 7 ? new Date(`${source.date}-15T12:00:00Z`) : new Date(`${source.date}T12:00:00Z`);
+  const formatted = Number.isNaN(date.getTime())
+    ? source.date
+    : date.toLocaleDateString(
+        "en-NG",
+        source.date.length === 7
+          ? { month: "short", year: "numeric" }
+          : { day: "numeric", month: "short", year: "numeric" },
+      );
+  return { label: `${source.outlet.split(" (")[0]}, ${formatted}`, url: source.url };
 };
 
 const trayPledges = (pledges: Pledge[]): TrayPledge[] =>
-  pledges.map((p) => {
-    const source = p.src.map((id) => PLATFORMS.sources[id]).find(Boolean);
-    let label: string | null = null;
-    if (source) {
-      const date =
-        source.date.length === 7 ? new Date(`${source.date}-15T12:00:00Z`) : new Date(`${source.date}T12:00:00Z`);
-      const formatted = Number.isNaN(date.getTime())
-        ? source.date
-        : date.toLocaleDateString("en-NG", { day: "numeric", month: "short", year: "numeric" });
-      label = `${source.outlet.split(" (")[0]}, ${formatted}`;
-    }
-    return {
-      topic: p.topic,
-      text: p.text,
-      source: source && label ? { label, url: source.url } : null,
-    };
-  });
+  pledges.map((p) => ({ topic: p.topic, text: p.text, source: sourceLink(p.src) }));
 
 /** A compact policy summary for the side-by-side compare dialog. */
 export function trayPolicy(c: Candidate): TrayPolicy {
   const own = platformFor(c.id);
-  if (own) return { kind: own.status, title: own.title, pledges: trayPledges(own.pledges), note: own.note };
+  if (own)
+    return {
+      kind: own.status,
+      title: own.title,
+      pledges: trayPledges(own.pledges),
+      note: own.note,
+      noteSource: sourceLink(own.noteSrc ?? []),
+    };
   const party = partyPlatform(c.party);
-  if (party) return { kind: "party", title: party.title, pledges: trayPledges(party.pledges), note: party.note };
+  if (party)
+    return {
+      kind: "party",
+      title: party.title,
+      pledges: trayPledges(party.pledges),
+      note: party.note,
+      noteSource: sourceLink(party.noteSrc ?? []),
+    };
   return {
     kind: "none",
     title: null,
     pledges: [],
     note: "No published manifesto, pledges or party platform found yet.",
+    noteSource: null,
   };
 }
 

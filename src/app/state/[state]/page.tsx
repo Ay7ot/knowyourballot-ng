@@ -85,6 +85,7 @@ export default async function StatePage({ params }: { params: Promise<{ state: s
   const lgaNames = (ids: string[]) => ids.map((i) => getLgaById(i)!.name).join(", ");
   const lgas = lgasOf(st.code);
   const statePath = stateMapPath(st.slug);
+  const mapPoints = lgaMapPoints(st.code);
 
   return (
     <>
@@ -109,10 +110,14 @@ export default async function StatePage({ params }: { params: Promise<{ state: s
           <div className="min-w-0">
             <GeoMap
               paths={statePath ? [statePath] : []}
-              points={lgaMapPoints(st.code)}
+              points={mapPoints}
               viewBox={stateMapViewBox(st.slug)}
               title={`LGAs in ${st.name}`}
-              description="Each dot is an LGA. Hover to see it, click to open its ballot."
+              description={`Each dot is an LGA you can open.${
+                lgas.length > mapPoints.length
+                  ? ` ${lgas.length - mapPoints.length} LGAs have no centroid and appear in the list below.`
+                  : ""
+              }`}
               compact
             />
           </div>

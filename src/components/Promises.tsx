@@ -55,7 +55,7 @@ export function PlatformStatus({ p, who = "this candidate" }: { p: Platform | nu
           </>
         )}
       </p>
-      <p className="mt-1 text-muted">
+      <p className="mt-1 max-w-[75ch] text-muted">
         {p.note}
         {p.noteSrc && <Cites ids={p.noteSrc} />}
       </p>
@@ -78,7 +78,7 @@ export default function Promises({ p, who }: { p: Platform | null; who?: string 
                 {p!.pledges
                   .filter((x) => x.topic === t)
                   .map((x) => (
-                    <p key={x.text} className="text-[0.95rem]">
+                    <p key={x.text} className="max-w-[75ch] text-[0.95rem]">
                       {x.text}
                       <Cites ids={x.src} />
                     </p>

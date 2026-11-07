@@ -1,12 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useId, useMemo, useState } from "react";
 
 export type LgaLink = { id: string; name: string; href: string; wards: number };
 
 export default function LgaFilter({ lgas }: { lgas: LgaLink[] }) {
   const [q, setQ] = useState("");
+  const uid = useId().replace(/:/g, "");
+  const inputId = `lga-filter-${uid}`;
   const filtered = useMemo(() => {
     const term = q.trim().toLowerCase();
     if (!term) return lgas;
@@ -17,12 +19,12 @@ export default function LgaFilter({ lgas }: { lgas: LgaLink[] }) {
     <div>
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div className="min-w-0 flex-1">
-          <label htmlFor="lga-filter" className="label mb-2 block text-ink">
+          <label htmlFor={inputId} className="label mb-2 block text-ink">
             Find your LGA
           </label>
           <div className="relative max-w-xl">
             <input
-              id="lga-filter"
+              id={inputId}
               type="search"
               value={q}
               onChange={(e) => setQ(e.target.value)}
@@ -33,7 +35,7 @@ export default function LgaFilter({ lgas }: { lgas: LgaLink[] }) {
               <button
                 type="button"
                 onClick={() => setQ("")}
-                className="absolute right-2 top-1/2 h-9 -translate-y-1/2 rounded-full px-3 text-sm text-muted hover:bg-green-soft hover:text-ink"
+                className="absolute right-2 top-1/2 h-10 -translate-y-1/2 rounded-full px-3 text-sm text-muted hover:bg-green-soft hover:text-ink"
               >
                 Clear
               </button>

@@ -61,7 +61,7 @@ export default function RacePromises({ cands }: { cands: Candidate[] }) {
                         {c.name}
                         {!platformFor(c.id) && <span className="font-normal text-muted"> (party platform)</span>}
                       </p>
-                      <p className="mt-0.5 text-[0.95rem]">
+                      <p className="mt-0.5 max-w-[75ch] text-[0.95rem]">
                         {x.text}
                         <Cites ids={x.src} />
                       </p>

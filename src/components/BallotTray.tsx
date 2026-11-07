@@ -224,12 +224,29 @@ export default function BallotTray({
                         ? "Published manifesto."
                         : "Manifesto published, but no specific pledges extracted yet."
                       : c.policy.kind === "pledges"
-                        ? "Reported pledges, no full manifesto."
+                        ? c.policy.pledges.length
+                          ? "Reported pledges, no full manifesto."
+                          : "No manifesto or pledges extracted yet."
                         : c.policy.kind === "party"
-                          ? "No personal manifesto. Party platform shown."
+                          ? c.policy.pledges.length
+                            ? "No personal manifesto. Party platform shown."
+                            : "No personal manifesto. Party platform has no extracted pledges."
                           : "No manifesto or pledges yet."}
                   </p>
                   {c.policy.title && <p className="mt-0.5 line-clamp-2 text-xs text-muted">{c.policy.title}</p>}
+                  {c.policy.note && (
+                    <p className="mt-1 text-xs text-muted">
+                      {c.policy.note}
+                      {c.policy.noteSource && (
+                        <>
+                          {" "}
+                          <a className="underline" href={c.policy.noteSource.url} target="_blank" rel="noreferrer">
+                            {c.policy.noteSource.label}
+                          </a>
+                        </>
+                      )}
+                    </p>
+                  )}
                 </div>
               ))}
             </div>
@@ -281,8 +298,8 @@ export default function BallotTray({
                             <p className="mt-1 text-sm text-muted">
                               {c.policy.kind === "none"
                                 ? "No manifesto or party platform yet."
-                                : c.policy.kind === "manifesto" && c.policy.pledges.length === 0
-                                  ? "Manifesto published, but no pledge on this topic extracted yet."
+                                : c.policy.pledges.length === 0
+                                  ? "No specific pledges extracted yet."
                                   : "No published position on this topic yet."}
                             </p>
                           )}
@@ -290,6 +307,7 @@ export default function BallotTray({
                             <a
                               className="mt-2 inline-block text-xs underline"
                               href={manifestoUrl(c.name, `/candidate/${c.id}`)}
+                              aria-label={`Ask ${c.name} for their manifesto`}
                             >
                               Ask the campaign
                             </a>

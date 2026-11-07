@@ -200,7 +200,11 @@ export default async function LgaBallot({ params }: { params: Promise<{ state: s
               viewBox={stateMapViewBox(state.slug)}
               selected={selectedOnMap}
               title={`${lga.name} in ${state.short}`}
-              description="Your LGA is highlighted. Hover another dot to compare."
+              description={
+                selectedOnMap
+                  ? "Your LGA is highlighted. Hover another dot to compare."
+                  : "This LGA has no centroid yet, so it is not shown as a dot. Use the list below."
+              }
               compact
             />
           </div>

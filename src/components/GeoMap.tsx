@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { MapPoint, MapStatePath } from "@/lib/types";
 
 type Props = {
@@ -18,6 +18,7 @@ type Props = {
 export default function GeoMap({ paths, points = [], viewBox, title, description, selected, compact = false }: Props) {
   const router = useRouter();
   const [active, setActive] = useState<string | null>(selected ?? null);
+  useEffect(() => setActive(selected ?? null), [selected]);
   const activePoint = points.find((p) => p.id === active);
   const activePath = paths.find((p) => p.slug === active);
   const activeLabel = activePoint
@@ -28,10 +29,10 @@ export default function GeoMap({ paths, points = [], viewBox, title, description
 
   const [, , viewWidth, viewHeight] = viewBox.split(" ").map(Number);
   const scale = Math.max(viewWidth, viewHeight) / 100;
-  const dotRadius = (compact ? 1.35 : 1.05) * scale;
-  const dotActive = 1.75 * scale;
-  const hitRadius = 2.6 * scale;
-  const haloRadius = 3 * scale;
+  const dotRadius = (compact ? 2.8 : 1.05) * scale;
+  const dotActive = (compact ? 3.8 : 1.75) * scale;
+  const hitRadius = (compact ? 5 : 2.6) * scale;
+  const haloRadius = (compact ? 5.6 : 3) * scale;
 
   const reset = () => setActive(selected ?? null);
   const go = (href: string) => router.push(href);
@@ -44,21 +45,21 @@ export default function GeoMap({ paths, points = [], viewBox, title, description
 
   return (
     <figure className="sheet relative overflow-hidden p-4 sm:p-5">
-      <div className="flex items-start justify-between gap-4">
-        <figcaption className="min-w-0">
+      <figcaption className="flex items-start justify-between gap-4">
+        <div className="min-w-0">
           <p className="label text-green">{title}</p>
           <p className="mt-1 max-w-[38ch] text-sm text-muted">{description}</p>
-        </figcaption>
+        </div>
         <p className="mono shrink-0 text-xs text-muted">
-          {points.length ? `${points.length} LGAs` : `${paths.length} states`}
+          {points.length ? `${points.length} mapped LGAs` : `${paths.length} states`}
         </p>
-      </div>
+      </figcaption>
 
       <div className={`relative mt-3 w-full ${compact ? "aspect-[16/9]" : "aspect-[5/4]"}`}>
         <svg
           viewBox={viewBox}
           preserveAspectRatio="xMidYMid meet"
-          role="img"
+          role="group"
           aria-label={`${title}. ${description}`}
           className="h-full w-full overflow-visible"
         >
@@ -71,7 +72,7 @@ export default function GeoMap({ paths, points = [], viewBox, title, description
                 fill={on ? "var(--green)" : "var(--green-soft)"}
                 fillOpacity={on ? 0.5 : 0.7}
                 stroke={on ? "var(--green)" : "var(--rule)"}
-                strokeWidth={(on ? 0.5 : 0.25) * scale}
+                strokeWidth={(on ? 1.2 : 0.25) * scale}
                 fillRule="evenodd"
                 className="motion-safe:transition-[fill,fill-opacity] motion-safe:duration-150"
               />
@@ -88,7 +89,7 @@ export default function GeoMap({ paths, points = [], viewBox, title, description
                 onBlur={reset}
                 onClick={() => go(p.href!)}
                 onKeyDown={(event) => onKey(event, p.href!)}
-                className="cursor-pointer outline-none"
+                className="cursor-pointer"
               >
                 {shape}
               </g>
@@ -111,7 +112,7 @@ export default function GeoMap({ paths, points = [], viewBox, title, description
                 onBlur={reset}
                 onClick={() => go(p.href)}
                 onKeyDown={(event) => onKey(event, p.href)}
-                className="cursor-pointer outline-none"
+                className="cursor-pointer"
               >
                 <circle cx={p.x} cy={p.y} r={hitRadius} fill="transparent" />
                 <circle
@@ -149,9 +150,13 @@ export default function GeoMap({ paths, points = [], viewBox, title, description
 
       <p className="mt-2 text-xs text-muted">
         {points.length
-          ? "Hover an LGA to see its name. Click to open it."
-          : "Hover a state to see its name. Click to open it."}{" "}
-        Boundaries: geoBoundaries / GRID3, CC BY 4.0.
+          ? "Tap a dot to open its ballot. On desktop, hover to see the name."
+          : "Tap a state to open it. On desktop, hover to see the name."}{" "}
+        Boundaries: geoBoundaries / GRID3,{" "}
+        <a className="underline" href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer">
+          CC BY 4.0
+        </a>
+        .
       </p>
     </figure>
   );

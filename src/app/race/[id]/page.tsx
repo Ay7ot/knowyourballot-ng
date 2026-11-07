@@ -126,7 +126,7 @@ export default async function RacePage({ params }: { params: Promise<{ id: strin
               <RaceSheet race={race} title={title} sub={SUB[race.office]} main />
             )}
           </div>
-          <dl className="mt-6 grid grid-cols-2 gap-px overflow-hidden rounded-md border border-rule bg-rule text-sm sm:grid-cols-3">
+          <dl className="mt-6 grid grid-cols-2 gap-px overflow-hidden rounded-md border border-rule bg-rule text-sm sm:grid-cols-3 lg:hidden">
             {[
               ["Term", info.term],
               ["Seats", info.seats],
