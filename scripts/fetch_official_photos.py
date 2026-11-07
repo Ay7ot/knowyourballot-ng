@@ -2,7 +2,8 @@
 
 data/official_handles.json lists, per candidate id: the INEC name, the X handle, and how we know the
 account is the candidate's own ("why"). Only accounts we can tie to the person go in that file, e.g. one
-listed on their Wikidata entry (P2002), linked from their official website, or verified and widely cited.
+listed on their Wikidata entry (P2002, checked here), or a verified account (checked here) that news outlets
+cite as theirs.
 These photos are NOT freely licensed: they're the campaign's own publicity image, shown with a credit for
 voter information, and taken down if the candidate asks. Output: public/candidates/official/{id}.webp and
 data/official_photos.json.
@@ -58,6 +59,9 @@ def main():
             raw, meta = avatar(h["x"])
         except Exception as e:
             print(f"{pid}: failed, keeping what we have ({e})")
+            continue
+        if not h.get("wikidata") and not meta["verified"]:
+            print(f"{pid}: @{h['x']} is not verified and not on Wikidata, skipped")
             continue
         img = Image.open(io.BytesIO(raw)).convert("RGB")
         print(f"{pid}: @{h['x']} {img.size} verified={meta['verified']} name={meta['displayName']!r}")
