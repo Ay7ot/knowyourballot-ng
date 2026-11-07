@@ -13,10 +13,11 @@ All notable changes to this project are recorded here. The format follows [Keep 
 - Dependabot configuration for npm, pip and GitHub Actions.
 - Security headers and a production Content Security Policy.
 - Origin, content-type, body-size and rate-limit guards on `/api/search-miss`.
-- Error, global error and loading boundaries.
+- Error and global error boundaries. The root loading boundary was removed because it caused soft 404s.
 - `SECURITY.md`, `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `.env.example`, `CHANGELOG.md` and the `docs/` guides.
 - Correction, photo and manifesto issue templates.
 - `uv` setup for the Python 3.12 pipeline, with pinned requirements.
+- Polling unit parser tests for slash, hyphen, dot, middle dot and space separators.
 
 ### Changed
 
@@ -24,10 +25,16 @@ All notable changes to this project are recorded here. The format follows [Keep 
 - Normalised party codes at build time. One candidate changed from `S D P` to `SDP`.
 - Data workflows now run the data contract test before committing.
 - Updated the README, HANDOFF and AGENTS documents for the current stack and checks.
+- Bumped Pillow to 13.0.0 and pdfplumber to 0.11.10, and added `pip-audit` for the Linux resolution.
+- Pinned GitHub Actions to commit SHAs and stopped persisting checkout credentials.
+- Scoped the npm overrides to the vulnerable parents.
+- The report accepts `Authorization: Bearer`, counts body size in bytes and returns an accurate `Retry-After`.
 
 ### Fixed
 
 - `npm audit` now reports 0 vulnerabilities. `postcss` and `zod` are pinned through `overrides`.
 - Permanent redirect from the old `sha--benue--gboko-iii--s-d-p` URL to the corrected candidate.
-- Search input now has an accessible name.
+- Unknown candidate, race and state URLs return 404, and the smoke test checks them.
+- Search input keeps its visible label as the accessible name.
+- Candidate IDs are now in the stable-ID snapshot, with orphaned photo and platform keys checked.
 - Removed an unused import in `RaceSheet`.

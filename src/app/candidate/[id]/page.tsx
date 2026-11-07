@@ -53,10 +53,9 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 
 function Portrait({ photo, name }: { photo: Photo; name: string }) {
   return (
-    // eslint-disable-next-line @next/next/no-img-element
     <img
       src={photo.file}
-      alt={name}
+      alt={`Portrait of ${name}`}
       width={96}
       height={120}
       className="h-[7.5rem] w-24 shrink-0 rounded-sm border border-rule object-cover"

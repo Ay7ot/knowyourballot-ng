@@ -37,7 +37,7 @@ Out of scope:
 - denial of service caused only by very high request volume;
 - social engineering;
 - vulnerabilities in GitHub, Vercel, INEC or other third-party services, which should be reported to those providers;
-- missing security headers on preview deployments that are not intended for public use.
+- preview deployments being publicly reachable, when no data or credentials are exposed.
 
 ## Safe harbour
 

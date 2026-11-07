@@ -22,7 +22,7 @@ if [ ! -f .next/BUILD_ID ]; then
   exit 1
 fi
 
-npx next start -p "$PORT" >"$LOG" 2>&1 &
+env -u BLOB_READ_WRITE_TOKEN -u SEARCH_REPORT_KEY npx next start -p "$PORT" >"$LOG" 2>&1 &
 SERVER_PID=$!
 
 ready=0
@@ -68,6 +68,14 @@ check /data
 check /search-index.json
 check /lga-points.json
 check /og
+check /candidate/definitely-not-real 404
+check /candidate/sha--benue--gboko-iii--sdp 200
+check /race/not-real 404
+check /state/not-real 404
+
+code=$(curl -s -o /dev/null -w "%{http_code}" "$BASE/candidate/sha--benue--gboko-iii--s-d-p")
+[ "$code" = "308" ] || { echo "FAIL redirect old candidate URL: $code"; exit 1; }
+echo "PASS redirect old candidate URL: $code"
 
 check_header "x-content-type-options" "nosniff"
 check_header "referrer-policy" "strict-origin-when-cross-origin"

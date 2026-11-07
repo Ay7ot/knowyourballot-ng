@@ -30,7 +30,7 @@ Hand-maintained inputs:
 - `data/official_handles.json`: candidate id to X handle, with a `why`
 - `data/platforms.json`: sourced manifestos, pledges and party platforms
 - `data/photo_rejects.json` and `data/photo_confirms.json`: human photo decisions
-- `data/photo_overrides.json`: optional, used when present
+- `data/photo_overrides.json`: optional, present as `{}`
 - `data/parties.json`: INEC's 22 parties
 - `src/lib/economy.ts`: hand-checked figures; bump `ECONOMY_CHECKED` when a figure changes
 
@@ -96,9 +96,9 @@ A numeric suffix (`-2`, `-3`) is added if a candidate id collides. IDs are deriv
 5. Every LGA has a senate district and at least one federal constituency.
 6. Every ward and district points at a real LGA.
 7. Every assembly constituency points at a real state and real LGAs.
-8. `unmatched` is empty, or the rows are explained on `/data`.
+8. `unmatched` is empty; a new row must be explained on `/data` before the test is updated.
 9. Every referenced photo and logo file exists.
-10. No stable race, state, LGA or district ID was removed.
+10. No stable candidate, race, state, LGA or district ID was removed.
 
 ## Pipeline order
 
@@ -124,7 +124,7 @@ All steps overwrite their outputs. A failed download is recorded in `data/candid
 
 - **A candidate fact:** find the INEC document in `data/sources.json`, correct the source or the parser, rerun ingest and build, then run the tests. Do not type a fact in by hand.
 - **A manifesto or pledge:** add it to `data/platforms.json` with a public source. A person reviews each one.
-- **A photo:** add a rejection to `data/photo_rejects.json` if a match is wrong. For a verified Commons choice, use `data/photo_overrides.json` or the photo review workflow.
+- **A photo:** add a rejection to `data/photo_rejects.json` if a match is wrong. For a verified Commons choice, add it to `data/photo_overrides.json` or use the photo review workflow.
 - **A party:** update `data/parties.json` only from INEC's register.
 
 ## Known gaps

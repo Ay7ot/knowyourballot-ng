@@ -12,7 +12,11 @@ const parties = read("data/parties.json");
 const photos = read("data/candidate_photos.json");
 const official = read("data/official_photos.json");
 const logos = read("data/party_logos.json");
+const platforms = read("data/platforms.json");
 const snapshot = read("tests/fixtures/data-ids.json");
+
+const candidateIds = new Set(ballot.candidates.map((c) => c.id));
+const principalId = (id) => (id.endsWith("--mate") ? id.slice(0, -6) : id);
 
 const unique = (values) => new Set(values).size === values.length;
 
@@ -95,13 +99,17 @@ test("assembly constituencies and races agree", () => {
   assert.equal(ballot.unmatched.length, 0, "unmatched rows need review");
 });
 
-test("photo and logo files exist", () => {
+test("photo, logo and platform keys belong to live candidates", () => {
   for (const [id, photo] of Object.entries(photos.photos)) {
+    const principal = principalId(id);
+    assert.ok(candidateIds.has(principal), `photo for missing candidate ${id}`);
     assert.ok(exists(`public${photo.file}`), `missing photo ${photo.file} for ${id}`);
-    const candidate = ballot.candidates.find((c) => c.id === id);
-    if (candidate) assert.equal(photo.name, candidate.name, `${id} photo name mismatch`);
+    const candidate = ballot.candidates.find((c) => c.id === principal);
+    const person = id.endsWith("--mate") ? candidate?.runningMate : candidate;
+    if (person) assert.equal(photo.name, person.name, `${id} photo name mismatch`);
   }
   for (const [id, photo] of Object.entries(official)) {
+    assert.ok(candidateIds.has(id), `official photo for missing candidate ${id}`);
     assert.ok(exists(`public${photo.file}`), `missing official photo ${photo.file} for ${id}`);
     const candidate = ballot.candidates.find((c) => c.id === id);
     if (candidate) assert.equal(photo.name, candidate.name, `${id} official photo name mismatch`);
@@ -109,14 +117,19 @@ test("photo and logo files exist", () => {
   for (const [code, logo] of Object.entries(logos)) {
     assert.ok(exists(`public${logo.file}`), `missing logo ${logo.file} for ${code}`);
   }
+  for (const id of Object.keys(platforms.candidates)) {
+    assert.ok(candidateIds.has(id), `platform for missing candidate ${id}`);
+  }
 });
 
 test("no stable id was removed", () => {
+  const currentCandidates = new Set(ballot.candidates.map((c) => c.id));
   const currentRaces = new Set(ballot.races.map((r) => r.id));
   const currentStates = new Set(geo.states.map((s) => s.slug));
   const currentLgas = new Set(geo.lgas.map((l) => l.id));
   const currentDistricts = new Set([...geo.senatorial, ...geo.federal].map((d) => d.id));
   const cases = [
+    ["candidates", currentCandidates, snapshot.candidates],
     ["races", currentRaces, snapshot.races],
     ["states", currentStates, snapshot.states],
     ["lgas", currentLgas, snapshot.lgas],

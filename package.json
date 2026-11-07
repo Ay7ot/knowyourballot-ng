@@ -2,6 +2,7 @@
   "name": "knowyourballot-ng",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -11,8 +12,9 @@
     "format:check": "biome format .",
     "check": "biome check .",
     "typecheck": "tsc --noEmit",
-    "test": "npm run test:data",
+    "test": "node --test --experimental-strip-types tests/*.test.mjs",
     "test:data": "node --test tests/data-contract.test.mjs",
+    "test:polling": "node --test --experimental-strip-types tests/polling-unit.test.mjs",
     "snapshot:ids": "node scripts/snapshot_ids.mjs",
     "smoke": "bash scripts/smoke.sh",
     "audit": "npm audit --audit-level=low"
@@ -38,8 +40,15 @@
     "typescript": "^5.9.3"
   },
   "overrides": {
-    "postcss": "8.5.32",
-    "zod": "4.6.7"
+    "next": {
+      "postcss": "8.5.32"
+    },
+    "@vercel/cli-config": {
+      "zod": "4.6.7"
+    }
+  },
+  "engines": {
+    "node": ">=24"
   },
   "browserslist": [
     "chrome >= 100",

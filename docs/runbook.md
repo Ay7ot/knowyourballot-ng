@@ -4,15 +4,16 @@ Operational procedures for the live site and the data pipeline. Pushing to `main
 
 ## Quick reference
 
-| Symptom                                 | First action                                                             |
-| --------------------------------------- | ------------------------------------------------------------------------ |
-| Daily ingest failed                     | Check the Actions log and `data/candidates/_report.json`                 |
-| Bad data reached production             | Roll back the data commit and the Vercel deployment, then fix the parser |
-| Vercel build failed                     | Run `npm run build` locally and compare the error                        |
-| Search report returns 404               | Set or check `SEARCH_REPORT_KEY` in Vercel                               |
-| Wrong candidate photo                   | Add the match to `data/photo_rejects.json` and rerun the media workflow  |
-| Data contract test fails after a rename | Review the removed IDs, add a redirect, update the snapshot              |
-| npm audit reports a vulnerability       | Check the dependency chain, prefer an override, then rerun all checks    |
+| Symptom                                 | First action                                                                 |
+| --------------------------------------- | ---------------------------------------------------------------------------- |
+| Daily ingest failed                     | Check the Actions log and `data/candidates/_report.json`                     |
+| Bad data reached production             | Roll back the data commit and the Vercel deployment, then fix the parser     |
+| Vercel build failed                     | Run `npm run build` locally and compare the error                            |
+| Search report returns 404               | Set or check `SEARCH_REPORT_KEY` in Vercel                                   |
+| Wrong candidate photo                   | Add the match to `data/photo_rejects.json` and rerun the media workflow      |
+| Data contract test fails after a rename | Review the removed IDs, add a redirect, update the snapshot                  |
+| Unknown candidate URL returns 200       | Check for a root `loading.tsx` or a new Suspense boundary; smoke asserts 404 |
+| npm audit reports a vulnerability       | Check the dependency chain, prefer an override, then rerun all checks        |
 
 ## Ingest failure
 
@@ -71,13 +72,13 @@ The workflow commits only if the data contract test passes. If it fails, no comm
 
 - Without `BLOB_READ_WRITE_TOKEN`, POST returns 204 and stores nothing.
 - Without `SEARCH_REPORT_KEY`, GET returns 404.
-- The route rejects non-JSON requests with 415, cross-origin requests with 403, bodies over 512 characters with 413, and more than 30 requests per 10 minutes per instance with 429.
+- The route rejects non-JSON requests with 415, browser cross-origin requests with 403, bodies over 512 bytes with 413, and more than 30 requests per 10 minutes per instance with 429.
 - The rate limiter is in memory per serverless instance. It reduces casual abuse but is not a global quota. If abuse becomes a real cost problem, add a Vercel WAF rate limit or a shared store.
 
 To review failed searches:
 
 ```sh
-curl "https://knowyourballot-ng.vercel.app/api/search-miss?key=$SEARCH_REPORT_KEY"
+curl -H "Authorization: Bearer $SEARCH_REPORT_KEY" "https://knowyourballot-ng.vercel.app/api/search-miss"
 ```
 
 ## Wrong or missing photo

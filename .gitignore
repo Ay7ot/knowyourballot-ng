@@ -2,7 +2,9 @@ node_modules
 .next
 .cache
 .vercel
-.env*.local
+.env
+.env.*
+!.env.example
 .venv
 *.tsbuildinfo
 next-env.d.ts

@@ -17,12 +17,13 @@ const CSP = [
   "frame-ancestors 'none'",
   "form-action 'self'",
   "script-src 'self' 'unsafe-inline'",
+  "script-src-attr 'none'",
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob:",
   "font-src 'self'",
   "connect-src 'self'",
   "manifest-src 'self'",
-  "worker-src 'self' blob:",
+  "worker-src 'self'",
   "upgrade-insecure-requests",
 ].join("; ");
 

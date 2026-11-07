@@ -1,4 +1,5 @@
-pdfplumber==0.11.4
-pillow==11.0.0
-# 49+ has no macOS x86_64 wheel for Python 3.12; 48.0.0 is the newest that does.
-cryptography==48.0.0
+pdfplumber==0.11.10
+pillow==13.0.0
+# Linux CI gets the fully patched cryptography. macOS x86_64 has no wheel for 49+.
+cryptography==50.0.2; sys_platform == "linux"
+cryptography==48.0.1; sys_platform != "linux"

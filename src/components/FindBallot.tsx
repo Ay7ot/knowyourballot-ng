@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import type Fuse from "fuse.js";
 import type { SearchEntry } from "@/lib/types";
 import type { QuickEntry } from "@/lib/data";
+import { formatPollingUnit, matchPollingUnit, type PollingUnitParts } from "@/lib/polling-unit";
 
 type LgaPoint = { id: string; n: string; s: string; h: string; lat: number | null; lon: number | null };
 
@@ -17,7 +18,6 @@ const TYPE_LABEL: Record<SearchEntry["t"], string> = {
   a: "Assembly",
   c: "Candidate",
 };
-const PU_RE = /^\s*(\d{1,2})\s*[\/\-. ]\s*(\d{1,2})\s*[\/\-. ]\s*(\d{1,2})\s*[\/\-. ]\s*(\d{1,3})\s*$/;
 
 type Index = { fuse: Fuse<SearchEntry>; data: SearchEntry[]; folded: string[] };
 const fold = (s: string) =>
@@ -108,7 +108,7 @@ export default function FindBallot({ autoFocus = false, quick = [] }: { autoFocu
     }
   }, [autoFocus]);
 
-  const pu = PU_RE.exec(q);
+  const pu = useMemo(() => matchPollingUnit(q), [q]);
   const answers = useMemo(() => (q.trim().length < 2 || pu ? [] : matchQuick(quick, q)), [quick, q, pu]);
   const found = useMemo(() => {
     if (!fuse || q.trim().length < 2 || pu) return [];
@@ -164,8 +164,8 @@ export default function FindBallot({ autoFocus = false, quick = [] }: { autoFocu
     return [...top, ...places].slice(0, 9);
   }, [answers, found]);
 
-  async function lookupPu(m: RegExpExecArray) {
-    const [s, l, w, p] = m.slice(1).map((x, i) => x.padStart(i === 3 ? 3 : 2, "0"));
+  async function lookupPu(parts: PollingUnitParts) {
+    const [s, l, w, p] = parts.map((x, i) => x.padStart(i === 3 ? 3 : 2, "0"));
     setMsg("Looking up your polling unit…");
     try {
       const [units, points] = await Promise.all([
@@ -254,7 +254,6 @@ export default function FindBallot({ autoFocus = false, quick = [] }: { autoFocu
           inputMode="search"
           autoComplete="off"
           role="combobox"
-          aria-label="Search your ballot by LGA, ward, polling unit, candidate, party or question"
           aria-autocomplete="list"
           aria-expanded={showList}
           aria-controls="find-list"
@@ -317,7 +316,7 @@ export default function FindBallot({ autoFocus = false, quick = [] }: { autoFocu
                   onClick={() => lookupPu(pu)}
                   className="w-full text-left px-4 py-3 bg-green-soft"
                 >
-                  <div className="font-medium">Find polling unit {pu.slice(1).join("/")}</div>
+                  <div className="font-medium">Find polling unit {formatPollingUnit(pu)}</div>
                   <div className="text-sm text-muted">Open the ballot for this polling unit</div>
                 </button>
               </div>
@@ -331,7 +330,7 @@ export default function FindBallot({ autoFocus = false, quick = [] }: { autoFocu
               </div>
             ) : (
               results.map((r, i) => (
-                <div key={r.h} id={`opt-${i}`} role="option" aria-selected={i === active} tabIndex={-1}>
+                <div key={`${r.h}|${r.n}`} id={`opt-${i}`} role="option" aria-selected={i === active} tabIndex={-1}>
                   <button
                     type="button"
                     onMouseDown={(e) => e.preventDefault()}

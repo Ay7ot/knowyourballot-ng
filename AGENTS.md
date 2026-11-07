@@ -29,7 +29,7 @@ Current dataset (`data/ballot.json`, generated 2026-11-06): **15,137 candidates,
 | Styling            | Tailwind CSS v4 via `@tailwindcss/postcss`, CSS-first tokens in `src/app/globals.css`      |
 | Search             | Fuse.js in the browser over a generated `/search-index.json`                               |
 | Fonts              | Self-hosted, subsetted Archivo / Atkinson Hyperlegible Next / IBM Plex Mono in `src/fonts` |
-| Data pipeline      | Python 3.12 scripts (`pdfplumber`, `Pillow`), run by GitHub Actions                        |
+| Data pipeline      | Python 3.12 scripts (`pdfplumber` 0.11.10, `Pillow` 13.0.0), run by GitHub Actions         |
 | Quality            | Biome 2.6 for lint and format; `tsc --noEmit`; Node test runner and pytest                 |
 | CI                 | GitHub Actions: audit, check, typecheck, tests, build and smoke                            |
 | Hosting            | Vercel (Git integration); Vercel Blob for failed-search analytics                          |
@@ -127,7 +127,7 @@ Root documents: `README.md`, `HANDOFF.md`, `SECURITY.md`, `CONTRIBUTING.md`, `CO
 - `data/official_handles.json`: candidate-id → X handle, with a `why`
 - `data/platforms.json`: sourced manifestos, pledges, party platforms
 - `data/photo_rejects.json`, `data/photo_confirms.json`: human photo decisions
-- `data/photo_overrides.json`: optional, used when present
+- `data/photo_overrides.json`: optional, present as `{}`
 - `data/parties.json`: INEC's 22 parties
 - `src/lib/economy.ts`: hand-checked figures; bump `ECONOMY_CHECKED` when a figure changes
 
@@ -220,15 +220,16 @@ All data workflows share concurrency group `ingest` and commit back to `main`, w
 
 Deterministic layers exist. Run all of them before a pull request:
 
-| Command             | Covers                                                           |
-| ------------------- | ---------------------------------------------------------------- |
-| `npm run audit`     | npm vulnerabilities at any severity                              |
-| `npm run check`     | Biome formatting and lint                                        |
-| `npm run typecheck` | TypeScript strict compile                                        |
-| `npm test`          | Data contract, foreign keys, sources, photo files and stable IDs |
-| `npm run build`     | Every route and static page                                      |
-| `npm run smoke`     | Built server, key routes, security headers and API guards        |
-| `uv run pytest -q`  | Python pipeline helpers                                          |
+| Command                                | Covers                                                                                    |
+| -------------------------------------- | ----------------------------------------------------------------------------------------- |
+| `npm run audit`                        | npm vulnerabilities at any severity                                                       |
+| `npm run check`                        | Biome formatting and lint                                                                 |
+| `npm run typecheck`                    | TypeScript strict compile                                                                 |
+| `npm test`                             | Data contract, foreign keys, sources, photo files, candidate IDs and polling unit parsing |
+| `npm run build`                        | Every route and static page                                                               |
+| `npm run smoke`                        | Built server, key routes, security headers and API guards                                 |
+| `uv run pytest -q`                     | Python pipeline helpers                                                                   |
+| `uv run pip-audit -r requirements.txt` | Python dependencies, on the Linux resolution                                              |
 
 Test files:
 
@@ -238,7 +239,7 @@ Test files:
 
 When a reviewed rename removes a stable ID, add a redirect, then run `npm run snapshot:ids`. Do not update the snapshot to make a failing test pass without reviewing the removed IDs.
 
-Not covered yet: browser end-to-end for search and picks, automated accessibility audits, performance budgets in CI, photo matcher unit tests, and `pip-audit` for Python packages.
+Not covered yet: browser end-to-end for search and picks, automated accessibility audits, performance budgets in CI, and photo matcher unit tests.
 
 ---
 
@@ -246,7 +247,7 @@ Not covered yet: browser end-to-end for search and picks, automated accessibilit
 
 - Vercel is connected to GitHub. **Push to `main` → production deploy**; other branches get preview URLs. There is no `vercel.json`.
 - Before pushing: `npm run audit && npm run check && npm run typecheck && npm test && npm run build && npm run smoke`. After pushing: check the live page.
-- CI in `.github/workflows/ci.yml` runs audit, format/lint, typecheck, tests, build and smoke on every pull request and push to `main`.
+- CI in `.github/workflows/ci.yml` runs audit, format/lint, typecheck, tests, build and smoke on every pull request and push to `main`. GitHub Actions are pinned to commit SHAs, and checkouts do not persist credentials.
 - Data workflows run `npm run test:data` before committing, so a broken join or missing asset stops the commit.
 - Env vars (none needed for local dev):
   - `BLOB_READ_WRITE_TOKEN`: Vercel Blob store `kyb-search-misses`; without it `/api/search-miss` returns 204 and stores nothing. `vercel env pull .env.local` needs the Vercel CLI (not installed here).
@@ -258,8 +259,8 @@ Not covered yet: browser end-to-end for search and picks, automated accessibilit
 
 ## Security and sensitive surfaces
 
-- `/api/search-miss` `POST` is unauthenticated by design. It rejects cross-origin requests (403), non-JSON bodies (415), bodies over 512 characters (413) and more than 30 requests per 10 minutes per instance (429). It sanitises input to 60 characters, records only the query and day (no IP, cookie or device), and writes to private Blob storage. The limiter is in memory per serverless instance, not a global quota.
-- `GET /api/search-miss` requires `SEARCH_REPORT_KEY`, returns 404 when unset, and compares the key with `timingSafeEqual`.
+- `/api/search-miss` `POST` is unauthenticated by design. It rejects browser cross-origin requests when `Origin` is present (403), non-JSON bodies (415), bodies over 512 bytes (413) and more than 30 requests per 10 minutes per instance (429). It sanitises input to 60 characters, records only the query and day (no IP, cookie or device), and writes to private Blob storage. The limiter is in memory per serverless instance, not a global quota.
+- `GET /api/search-miss` requires `SEARCH_REPORT_KEY`, returns 404 when unset, accepts `Authorization: Bearer` or `?key=`, and compares the key with `timingSafeEqual`.
 - `next.config.ts` sets `X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options`, `Permissions-Policy`, HSTS and, in production, a CSP. The CSP allows inline scripts and styles because Next injects both; everything else is locked to self.
 - Python scripts fetch from INEC, Wikidata, Wikimedia Commons and X. Keep timeouts, user agent and allowlists; never fetch arbitrary URLs from user input.
 - No secrets belong in the repo or in data JSON.
@@ -290,13 +291,13 @@ Not covered yet: browser end-to-end for search and picks, automated accessibilit
 - **Large JSON in Git:** `data/ballot.json` ~6.5 MB, `data/candidates/assembly.json` ~3.9 MB, `public/data/pu` ~7.2 MB. Builds and clones are heavy; think before adding more committed artifacts.
 - **ID stability:** names and slugs drive IDs. The data contract test fails when a stable ID is removed, and renames still need a redirect.
 - **Rate limiting is per serverless instance.** The in-memory limiter is not a global quota. Use Vercel WAF or a shared store if abuse becomes a cost problem.
-- **No browser end-to-end tests, automated accessibility audits or performance budgets in CI.** The search input now has an accessible name, but manual checks still matter.
-- **Python dependencies are not audited.** `pip-audit` would close that gap.
+- **No browser end-to-end tests, automated accessibility audits or performance budgets in CI.** The search input uses its visible label as the accessible name, but manual checks still matter.
+- **Python audit uses the Linux resolution.** macOS x86_64 has no wheel for `cryptography` 49+, so local dev pins 48.0.1 while CI audits 50.0.2.
 - **Coverage gaps:** some INEC lists are unpublished (e.g. Borno State Assembly at last check); `data/candidates/_report.json` and `/data` show failures.
 - **No `LICENSE`.** The repository has no reuse terms yet.
 - **Single maintainer.** Contributor docs and CI reduce the bus factor but do not remove it.
 - **Official X photos beyond Peter Obi** remain a product and licensing decision.
-- **`data/photo_overrides.json` is optional and currently absent.** The media workflow trigger for it is dormant until the file is created.
+- **`data/photo_overrides.json` is present as `{}`.** The media workflow trigger is live; add entries only after a human review.
 - **Observability is limited** to Vercel logs, GitHub Actions logs and the `/data` page. There is no error tracking or alerting.
 
 ---

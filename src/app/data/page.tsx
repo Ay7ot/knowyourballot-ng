@@ -82,7 +82,7 @@ export default function DataPage() {
                         <span className="text-amber-ink">Importing</span>
                       )}
                     </td>
-                    <td className="px-4 py-2 tabular">{o?.status === "loaded" ? ok : "–"}</td>
+                    <td className="px-4 py-2 tabular">{o?.status === "loaded" ? ok : "-"}</td>
                   </tr>
                 );
               })}
@@ -145,8 +145,8 @@ export default function DataPage() {
         <h2 className="display-tight text-2xl">What we log</h2>
         <p className="text-muted">
           If a search finds nothing, we store the words you typed and the day so we can add what voters are looking for.
-          We do not store your IP address, cookies or device details in that log. Your picks and comparison stay in this
-          browser.
+          We do not store your IP address, cookies or device details in that log. Our host also keeps standard request
+          logs; we do not join them to the search log. Your picks and comparison stay in this browser.
         </p>
       </section>
 
@@ -207,15 +207,6 @@ export default function DataPage() {
         >
           Report a correction
         </a>
-      </section>
-
-      <section id="privacy" className="mt-10 space-y-2">
-        <h2 className="display-tight text-2xl">What we record about you</h2>
-        <p className="text-muted">
-          Nothing that identifies you. Your picks are saved only in your own browser. When a search finds nothing, we
-          keep the words you typed and the day, so we can add what people look for. No IP address, account, cookie or
-          device details go with it.
-        </p>
       </section>
     </div>
   );

@@ -36,7 +36,7 @@ Port 3100 is used by another local app.
 npm run audit        # no known npm vulnerabilities
 npm run check        # Biome formatting and lint
 npm run typecheck    # tsc --noEmit
-npm test             # data contract and ID snapshot
+npm test             # data contract, polling unit parser and ID snapshot
 npm run build        # production build, 2,777 static pages
 npm run smoke        # built server, key routes, headers and API guards
 ```
@@ -47,6 +47,7 @@ For the Python pipeline:
 uv venv --python 3.12
 uv pip install -r requirements-dev.txt
 uv run pytest -q
+uv run pip-audit -r requirements.txt
 ```
 
 ## Data pipeline

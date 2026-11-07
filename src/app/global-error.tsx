@@ -37,6 +37,11 @@ export default function GlobalError({ error, reset }: { error: Error & { digest?
           >
             Try again
           </button>
+          <p style={{ marginTop: 16 }}>
+            <a href="/" style={{ color: "#0b6a46" }}>
+              Go to the home page
+            </a>
+          </p>
         </main>
       </body>
     </html>

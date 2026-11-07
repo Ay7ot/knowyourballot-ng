@@ -58,7 +58,7 @@ function DistrictList({
           <li key={d.href}>
             <Link prefetch={false} href={d.href} className="group grid grid-cols-[1fr_auto] gap-x-3 py-3">
               <span className="font-semibold group-hover:underline">{d.name}</span>
-              <span className="mono text-sm text-muted">{d.count ?? "–"}</span>
+              <span className="mono text-sm text-muted">{d.count ?? "-"}</span>
               <span className="col-span-2 line-clamp-2 text-sm text-muted">{d.lgas}</span>
             </Link>
           </li>

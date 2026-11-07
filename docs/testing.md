@@ -4,15 +4,16 @@ The project uses deterministic checks rather than manual inspection. Run the ful
 
 ## Gates
 
-| Command             | What it proves                                                                              |
-| ------------------- | ------------------------------------------------------------------------------------------- |
-| `npm run audit`     | No known npm vulnerabilities at any severity                                                |
-| `npm run check`     | Biome formatting and lint pass                                                              |
-| `npm run typecheck` | TypeScript compiles with `strict: true`                                                     |
-| `npm test`          | The data contract and ID snapshot hold                                                      |
-| `npm run build`     | Every static page and route builds                                                          |
-| `npm run smoke`     | The built server returns 200 for key routes, sets security headers, and enforces API guards |
-| `uv run pytest -q`  | Python pipeline helpers behave as expected                                                  |
+| Command                                | What it proves                                                                              |
+| -------------------------------------- | ------------------------------------------------------------------------------------------- |
+| `npm run audit`                        | No known npm vulnerabilities at any severity                                                |
+| `npm run check`                        | Biome formatting and lint pass                                                              |
+| `npm run typecheck`                    | TypeScript compiles with `strict: true`                                                     |
+| `npm test`                             | The data contract, polling unit parser and ID snapshot hold                                 |
+| `npm run build`                        | Every static page and route builds                                                          |
+| `npm run smoke`                        | The built server returns 200 for key routes, sets security headers, and enforces API guards |
+| `uv run pytest -q`                     | Python pipeline helpers behave as expected                                                  |
+| `uv run pip-audit -r requirements.txt` | Python dependencies are clean on the Linux resolution                                       |
 
 `npm run smoke` expects a production build. Run `npm run build` first.
 
@@ -27,8 +28,8 @@ The project uses deterministic checks rather than manual inspection. Run the ful
 - every foreign key between races, candidates, LGAs, wards and districts;
 - INEC source URL and page on every candidate;
 - normalised party codes and known parties;
-- every referenced photo and logo file exists;
-- no stable race, state, LGA or district ID was removed.
+- every referenced photo, logo and platform key belongs to a live candidate;
+- no stable candidate, race, state, LGA or district ID was removed.
 
 The snapshot lives in `tests/fixtures/data-ids.json`. When a rename is intentional, review the removed IDs, add a redirect if the old URL was public, then run:
 
@@ -38,7 +39,7 @@ npm run snapshot:ids
 
 ### Python unit tests
 
-`tests/python/test_build_ballot.py` covers party-code normalisation, slug and title helpers, qualification levels, and State Assembly constituency matching. Run with:
+`tests/python/test_build_ballot.py` covers party-code normalisation, slug and title helpers, qualification levels, and State Assembly constituency matching. `tests/python/test_image_processing.py` exercises the Pillow WebP thumbnail path used by the media scripts. Run with:
 
 ```sh
 uv run pytest -q
@@ -54,12 +55,14 @@ The tests read the committed data but do not touch the network.
 
 - `/`, `/race/president`, `/candidate/president--ndc`, `/state/lagos`, `/economy`, `/promises`, `/data`;
 - `/search-index.json`, `/lga-points.json`, `/og`;
+- unknown candidate, race and state URLs return 404;
+- the old `sha--benue--gboko-iii--s-d-p` candidate URL redirects with 308;
 - `X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options` and `Content-Security-Policy`;
-- `/api/search-miss` rejects a non-JSON body, a cross-origin request and an oversized body, hides the report without a key, and rate-limits repeated requests.
+- `/api/search-miss` rejects a non-JSON body, a browser cross-origin request and an oversized body, hides the report without a key, accepts a bearer key and rate-limits repeated requests.
 
 ### CI
 
-`.github/workflows/ci.yml` runs the app checks and the Python tests on every pull request and every push to `main`. The data workflows also run `npm run test:data` before they commit, so a broken join or a missing photo file stops the commit.
+`.github/workflows/ci.yml` runs the app checks, the Python tests and `pip-audit` on every pull request and every push to `main`. The data workflows also run `npm run test:data` before they commit, so a broken join or a missing photo file stops the commit.
 
 ## Not covered yet
 
@@ -67,7 +70,7 @@ The tests read the committed data but do not touch the network.
 - Automated accessibility audits beyond the Biome rules and the manual checks in the components.
 - Performance budgets in CI. The shared JavaScript is about 103 kB and should stay close to that.
 - Python tests for the photo matcher. The data contract test covers the output, not the matching rules.
-- A dependency audit for Python packages. `pip-audit` would be a useful addition.
+- Browser end-to-end coverage for the maps and the desktop ballot desk that are being added next.
 
 ## Adding a test
 

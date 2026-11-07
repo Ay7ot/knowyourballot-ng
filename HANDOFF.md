@@ -117,9 +117,10 @@ Vercel is connected to the GitHub repo. Push to `main` and Vercel builds and dep
 ## Security and limits
 
 - `next.config.ts` sets `X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options`, `Permissions-Policy`, HSTS and, in production, a CSP. The CSP allows inline scripts and styles because Next injects both; everything else is locked to self.
-- `/api/search-miss` rejects cross-origin requests (403), non-JSON (415), bodies over 512 characters (413) and more than 30 requests per 10 minutes per instance (429). The report requires `SEARCH_REPORT_KEY` and uses a timing-safe comparison. The limiter is in memory per serverless instance, not a global quota.
+- `/api/search-miss` rejects browser cross-origin requests when `Origin` is present (403), non-JSON (415), bodies over 512 bytes (413) and more than 30 requests per 10 minutes per instance (429). The report requires `SEARCH_REPORT_KEY`, accepts `Authorization: Bearer` or `?key=`, and uses a timing-safe comparison. The limiter is in memory per serverless instance, not a global quota.
+- GitHub Actions are pinned to commit SHAs, and checkouts do not persist credentials. Python dependencies are audited on the Linux resolution with `pip-audit`; macOS uses a dev-only `cryptography` pin because 49+ has no wheel for x86_64. Pillow is 13.0.0 and pdfplumber is 0.11.10.
 - `npm audit` is clean. `postcss` and `zod` are pinned through `overrides` in `package.json`; review those pins when Next or `@vercel/blob` changes.
-- There are `error`, `global-error` and `loading` boundaries under `src/app/`.
+- There are `error` and `global-error` boundaries. There is deliberately no root `loading.tsx`: it made unknown candidate URLs return 200, so `npm run smoke` asserts 404 for unknown routes.
 
 ## Recent changes (5 to 7 Nov 2026)
 
@@ -139,7 +140,7 @@ Vercel is connected to the GitHub repo. Push to `main` and Vercel builds and dep
 - Data contract tests, Python unit tests and a production smoke test now exist.
 - CI runs audit, check, typecheck, tests, build and smoke on every pull request and push to `main`.
 - Security headers and a production CSP are set in `next.config.ts`; `/api/search-miss` has origin, content-type, size and rate guards.
-- `error`, `global-error` and `loading` boundaries were added.
+- `error` and `global-error` boundaries were added. The root loading boundary was removed after it caused soft 404s; the smoke test now checks 404s and the redirect.
 - Party codes are normalised at build time. One candidate changed from `S D P` to `SDP`, with a permanent redirect from the old URL.
 
 ## Open decisions (need Ayomide)
@@ -158,5 +159,5 @@ Vercel is connected to the GitHub repo. Push to `main` and Vercel builds and dep
 3. Decide the data workflow gate, then implement the branch and PR path if approved.
 4. Get a decision on X photos, then add handles to `data/official_handles.json` with a `why` and let `official-photos.yml` run.
 5. Review the failed-search log weekly once `SEARCH_REPORT_KEY` is set.
-6. Extend tests: browser end-to-end for search, picks and compare; unit tests for the photo matcher; `pip-audit` for Python dependencies.
+6. Extend tests: browser end-to-end for search, picks and compare; unit tests for the photo matcher; performance budgets in CI.
 7. Watch the daily ingest for INEC substitutions and parser failures (`data/candidates/_report.json`, the `/data` page). Re-check the Borno State Assembly list.
