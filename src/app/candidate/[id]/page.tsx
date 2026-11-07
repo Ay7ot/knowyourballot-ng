@@ -39,7 +39,14 @@ function Portrait({ photo, name }: { photo: Photo; name: string }) {
   );
 }
 
-function Credit({ photo, who }: { photo: Photo; who: string }) {
+function Credit({ photo, who, page }: { photo: Photo; who: string; page: string }) {
+  if (photo.kind === "official")
+    return (
+      <p className="text-xs text-muted">
+        Photo of {who}: profile picture from <a className="underline" href={photo.source}>@{photo.x}</a> on X, {photo.why}. Shown for voter information; the campaign can{" "}
+        <a className="underline" href={photoUrl(who, page)}>ask us to change or remove it</a>.
+      </p>
+    );
   return (
     <p className="text-xs text-muted">
       Photo of {who}:{" "}
@@ -119,7 +126,7 @@ export default async function CandidatePage({ params }: { params: Promise<{ id: 
           <span className="text-muted">{OFFICE_INFO[c.office].what}</span>
         </p>
         {photo ? (
-          <div className="border-t border-rule px-5 py-2"><Credit photo={photo} who={c.name} /></div>
+          <div className="border-t border-rule px-5 py-2"><Credit photo={photo} who={c.name} page={`/candidate/${c.id}`} /></div>
         ) : (
           <p className="border-t border-rule px-5 py-2 text-xs text-muted">
             No verified photo yet. INEC doesn&apos;t publish candidate photos.{" "}
@@ -161,7 +168,7 @@ export default async function CandidatePage({ params }: { params: Promise<{ id: 
             </div>
           </div>
           <Facts p={c.runningMate} />
-          {matePhoto && <div className="border-t border-rule px-5 py-2"><Credit photo={matePhoto} who={c.runningMate.name} /></div>}
+          {matePhoto && <div className="border-t border-rule px-5 py-2"><Credit photo={matePhoto} who={c.runningMate.name} page={`/candidate/${c.id}`} /></div>}
         </section>
       )}
 

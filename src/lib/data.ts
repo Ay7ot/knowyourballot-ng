@@ -5,6 +5,7 @@ import geoJson from "@data/geo.json";
 import ballotJson from "@data/ballot.json";
 import partiesJson from "@data/parties.json";
 import photoJson from "@data/candidate_photos.json";
+import officialPhotoJson from "@data/official_photos.json";
 import platformJson from "@data/platforms.json";
 import logoJson from "@data/party_logos.json";
 import type { Ballot, BallotSection, Candidate, Geo, Lga, Race, State, Office } from "./types";
@@ -202,12 +203,19 @@ export function partyLogo(code: string): string | null {
   return LOGOS[code]?.file ?? null;
 }
 
-export type Photo = { file: string; wikidata: string; wikidataLabel: string; evidence: string; commons: string; license: string; licenseUrl: string | null; artist: string };
-const PHOTOS = (photoJson as unknown as { photos: Record<string, Photo & { name: string }> }).photos;
-/** A verified, freely licensed photo (see scripts/fetch_candidate_photos.py), only while the same person holds the slot. */
+/** A freely licensed photo from Wikimedia Commons, matched to the candidate on Wikidata. */
+export type CommonsPhoto = { kind: "commons"; file: string; wikidata: string; wikidataLabel: string; evidence: string; commons: string; license: string; licenseUrl: string | null; artist: string };
+/** The candidate's own profile picture from an account tied to them (scripts/fetch_official_photos.py). Not freely licensed. */
+export type OfficialPhoto = { kind: "official"; file: string; x: string; why: string; source: string; fetched: string };
+export type Photo = CommonsPhoto | OfficialPhoto;
+const PHOTOS = (photoJson as unknown as { photos: Record<string, Omit<CommonsPhoto, "kind"> & { name: string }> }).photos;
+const OFFICIAL = officialPhotoJson as unknown as Record<string, Omit<OfficialPhoto, "kind"> & { name: string }>;
+/** The candidate's own official photo if we have one, else a verified, freely licensed one; only while the same person holds the slot. */
 export function candidatePhoto(id: string, name: string): Photo | null {
+  const o = OFFICIAL[id];
+  if (o && o.name === name) return { ...o, kind: "official" };
   const p = PHOTOS[id];
-  return p && p.name === name ? p : null;
+  return p && p.name === name ? { ...p, kind: "commons" } : null;
 }
 
 export type PlatformSource = { outlet: string; date: string; title: string; url: string };

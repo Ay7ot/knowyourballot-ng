@@ -114,8 +114,10 @@ export default function DataPage() {
       <section id="photos" className="mt-10 space-y-2">
         <h2 className="display-tight text-2xl">Party logos and candidate photos</h2>
         <p className="text-muted">
-          Party logos come from each party&apos;s profile on INEC&apos;s website. INEC doesn&apos;t publish candidate photos, so we only show a
-          photo when it is freely licensed on Wikimedia Commons and the person on Wikidata is verifiably the same candidate: a Nigerian
+          Party logos come from each party&apos;s profile on INEC&apos;s website. INEC doesn&apos;t publish candidate photos. Where a
+          candidate has an X account we can tie to them (a verified account, or the one their Wikidata entry lists), we show the profile
+          picture they chose, credited to that account; it isn&apos;t freely licensed, and we change or remove it if the campaign asks.
+          Otherwise we only show a photo when it is freely licensed on Wikimedia Commons and the person on Wikidata is verifiably the same candidate: a Nigerian
           whose name matches, whose date of birth agrees with the age INEC printed (or whose party matches when no birth date is recorded),
           and with no other person passing the same checks. Every photo is credited to its author and licence. Candidates without a verified
           photo show none rather than a guess.
