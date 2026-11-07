@@ -17,6 +17,7 @@ All notable changes to this project are recorded here. The format follows [Keep 
 - `SECURITY.md`, `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `.env.example`, `CHANGELOG.md` and the `docs/` guides.
 - Correction, photo and manifesto issue templates.
 - `uv` setup for the Python 3.12 pipeline, with pinned requirements.
+- Added the MIT `LICENSE`.
 - Polling unit parser tests for slash, hyphen, dot, middle dot and space separators.
 - Interactive Nigeria state map with real boundaries, plus LGA dot maps on state and LGA pages.
 - Global search dialog on `Cmd/Ctrl+K`, available from every page.
@@ -32,6 +33,7 @@ All notable changes to this project are recorded here. The format follows [Keep 
 - Normalised party codes at build time. One candidate changed from `S D P` to `SDP`.
 - Data workflows now run the data contract test before committing.
 - Updated the README, HANDOFF and AGENTS documents for the current stack and checks.
+- Added the MIT `LICENSE`, documented the keep-in-Git data decision and added the `main` branch-protection ruleset.
 - Bumped Pillow to 13.0.0 and pdfplumber to 0.11.10, and added `pip-audit` for the Linux resolution.
 - Pinned GitHub Actions to commit SHAs and stopped persisting checkout credentials.
 - Scoped the npm overrides to the vulnerable parents.

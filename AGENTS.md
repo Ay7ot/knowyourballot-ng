@@ -2,6 +2,8 @@
 
 Civic, non-partisan site that helps any Nigerian voter find every candidate on their 2027 ballot (President, Senate, House of Representatives, Governor, State House of Assembly) by state, LGA, ward, polling unit code or location, and read sourced information about them.
 
+Licensed under the MIT licence; see `LICENSE`.
+
 - **Repo:** https://github.com/Ay7ot/knowyourballot-ng (default branch `main`)
 - **Live:** https://knowyourballot-ng.vercel.app
 - **Election dates:** 16 Jan 2027 (Presidential & National Assembly), 6 Feb 2027 (Governorship & State Assembly), defined in `ELECTIONS` in `src/lib/data.ts`.
@@ -251,6 +253,7 @@ Not covered yet: browser end-to-end for search and picks, automated accessibilit
 - Vercel is connected to GitHub. **Push to `main` → production deploy**; other branches get preview URLs. There is no `vercel.json`.
 - Before pushing: `npm run audit && npm run check && npm run typecheck && npm test && npm run build && npm run smoke`. After pushing: check the live page.
 - CI in `.github/workflows/ci.yml` runs audit, format/lint, typecheck, tests, build and smoke on every pull request and push to `main`. GitHub Actions are pinned to commit SHAs, and checkouts do not persist credentials.
+- **`main` is protected.** Changes land through a pull request with CI; force pushes and branch deletion are blocked. The data workflows are the only automation allowed to bypass the pull request requirement.
 - Data workflows run `npm run test:data` before committing, so a broken join or missing asset stops the commit.
 - Env vars (none needed for local dev):
   - `BLOB_READ_WRITE_TOKEN`: Vercel Blob store `kyb-search-misses`; without it `/api/search-miss` returns 204 and stores nothing. `vercel env pull .env.local` needs the Vercel CLI (not installed here).
@@ -297,7 +300,6 @@ Not covered yet: browser end-to-end for search and picks, automated accessibilit
 - **No browser end-to-end tests, automated accessibility audits or performance budgets in CI.** The search input uses its visible label as the accessible name, but manual checks still matter.
 - **Python audit uses the Linux resolution.** macOS x86_64 has no wheel for `cryptography` 49+, so local dev pins 48.0.1 while CI audits 50.0.2.
 - **Coverage gaps:** some INEC lists are unpublished (e.g. Borno State Assembly at last check); `data/candidates/_report.json` and `/data` show failures.
-- **No `LICENSE`.** The repository has no reuse terms yet.
 - **Single maintainer.** Contributor docs and CI reduce the bus factor but do not remove it.
 - **Official X photos beyond Peter Obi** remain a product and licensing decision.
 - **`data/photo_overrides.json` is present as `{}`.** The media workflow trigger is live; add entries only after a human review.

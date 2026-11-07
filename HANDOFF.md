@@ -112,7 +112,7 @@ Environment variables (none needed for local dev):
 
 ## Deploy flow
 
-Vercel is connected to the GitHub repo. Push to `main` and Vercel builds and deploys to production; other branches get preview URLs. There's no `vercel.json`. Before pushing: `npm run audit && npm run check && npm run typecheck && npm test && npm run build && npm run smoke`. CI in `.github/workflows/ci.yml` runs the same checks on every pull request and push to `main`. After pushing, check the live page. Lighthouse is 100 on desktop and 96 to 98 for mobile performance, limited by Next/React's ~110 KB of shared JS; keep new client JS small.
+Vercel is connected to the GitHub repo. Push to `main` and Vercel builds and deploys to production; other branches get preview URLs. There's no `vercel.json`. `main` is protected by a repository ruleset: changes land through a pull request with CI, and force pushes and branch deletion are blocked. The data workflows are the only automation allowed to bypass the pull request requirement. Before pushing: `npm run audit && npm run check && npm run typecheck && npm test && npm run build && npm run smoke`. CI in `.github/workflows/ci.yml` runs the same checks on every pull request and push to `main`. After pushing, check the live page. Lighthouse is 100 on desktop and 96 to 98 for mobile performance, limited by Next/React's ~110 KB of shared JS; keep new client JS small.
 
 ## Security and limits
 
@@ -143,21 +143,21 @@ Vercel is connected to the GitHub repo. Push to `main` and Vercel builds and dep
 - `error` and `global-error` boundaries were added. The root loading boundary was removed after it caused soft 404s; the smoke test now checks 404s and the redirect.
 - Party codes are normalised at build time. One candidate changed from `S D P` to `SDP`, with a permanent redirect from the old URL.
 
+## Decisions already made
+
+- **Licence: MIT.** See `LICENSE`.
+- **Generated JSON stays in Git.** No Git LFS and no external artifact store; review large additions and keep new committed artifacts small.
+- **`main` is protected.** Changes land through a pull request with CI; force pushes and branch deletion are blocked. The data workflows are the only automation allowed to bypass the pull request requirement, after the data contract test passes.
+
 ## Open decisions (need Ayomide)
 
-1. **Licence.** The repository has no `LICENSE`. Choose MIT (recommended for a civic codebase and data), Apache-2.0 (patent grant), AGPL-3.0 (copyleft for network use) or proprietary. The choice affects whether others can reuse the code and data.
-2. **Official X photos for other candidates.** Options: (a) President, Governor and Senate first, then report coverage (recommended: that's where voters look and where accounts can be verified); (b) everyone verifiable, including Reps and Assembly (slow, most have no verifiable account); (c) Obi only, add others when campaigns send photos. These images are not freely licensed; credit and removal requests are the mitigation.
-3. **Large JSON in Git.** `data/ballot.json` is about 6.5 MB, `data/candidates/assembly.json` about 3.9 MB and `public/data/pu` about 7.2 MB. Options: keep committing JSON, move generated data to Git LFS, or publish it as a build artifact. Rewriting history is destructive and needs explicit approval.
-4. **Data workflow gate.** The workflows validate with `npm run test:data` before committing, but they still commit to `main` and deploy automatically. A branch plus pull request gate would add human review, but needs a token or GitHub App so CI runs on the branch.
-5. **Set `SEARCH_REPORT_KEY`** in Vercel so failed searches can be reviewed.
-6. **Campaign outreach** for photos and manifestos: the reliable way to cover the ~13,000 candidates with no public record.
+1. **Official X photos for other candidates.** Options: (a) President, Governor and Senate first, then report coverage (recommended: that's where voters look and where accounts can be verified); (b) everyone verifiable, including Reps and Assembly (slow, most have no verifiable account); (c) Obi only, add others when campaigns send photos. These images are not freely licensed; credit and removal requests are the mitigation.
+2. **Set `SEARCH_REPORT_KEY`** in Vercel so failed searches can be reviewed.
+3. **Campaign outreach** for photos and manifestos: the reliable way to cover the ~13,000 candidates with no public record.
 
 ## Suggested next steps
 
-1. Choose a licence and add `LICENSE`.
-2. Decide the large-JSON storage approach before the repository grows further.
-3. Decide the data workflow gate, then implement the branch and PR path if approved.
-4. Get a decision on X photos, then add handles to `data/official_handles.json` with a `why` and let `official-photos.yml` run.
-5. Review the failed-search log weekly once `SEARCH_REPORT_KEY` is set.
-6. Extend tests: browser end-to-end for search, picks and compare; unit tests for the photo matcher; performance budgets in CI.
-7. Watch the daily ingest for INEC substitutions and parser failures (`data/candidates/_report.json`, the `/data` page). Re-check the Borno State Assembly list.
+1. Get a decision on X photos, then add handles to `data/official_handles.json` with a `why` and let `official-photos.yml` run.
+2. Review the failed-search log weekly once `SEARCH_REPORT_KEY` is set.
+3. Extend tests: browser end-to-end for search, picks and compare; unit tests for the photo matcher; performance budgets in CI.
+4. Watch the daily ingest for INEC substitutions and parser failures (`data/candidates/_report.json`, the `/data` page). Re-check the Borno State Assembly list.

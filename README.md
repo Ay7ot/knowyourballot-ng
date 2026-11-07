@@ -89,3 +89,7 @@ See [.env.example](.env.example).
 ## Contributing and security
 
 Read [CONTRIBUTING.md](CONTRIBUTING.md) before a pull request. Report security problems privately through [SECURITY.md](SECURITY.md), never in a public issue. Community standards are in [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
+
+## License
+
+MIT, see [LICENSE](LICENSE).

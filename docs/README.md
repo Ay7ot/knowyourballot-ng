@@ -4,12 +4,13 @@ Start with [README.md](../README.md) for the public overview and [HANDOFF.md](..
 
 ## Guides
 
-| Document                 | What it covers                                                      |
-| ------------------------ | ------------------------------------------------------------------- |
-| [data.md](data.md)       | Sources, file shapes, ID conventions, invariants and pipeline order |
-| [testing.md](testing.md) | Test layers, commands, snapshots and CI                             |
-| [runbook.md](runbook.md) | What to do when ingest, deploy, photos, search or dependencies fail |
-| [labels.md](labels.md)   | Labels used by the issue templates                                  |
+| Document                                     | What it covers                                                      |
+| -------------------------------------------- | ------------------------------------------------------------------- |
+| [data.md](data.md)                           | Sources, file shapes, ID conventions, invariants and pipeline order |
+| [testing.md](testing.md)                     | Test layers, commands, snapshots and CI                             |
+| [runbook.md](runbook.md)                     | What to do when ingest, deploy, photos, search or dependencies fail |
+| [branch-protection.md](branch-protection.md) | The `main` ruleset and how to apply it                              |
+| [labels.md](labels.md)                       | Labels used by the issue templates                                  |
 
 ## Policies
 

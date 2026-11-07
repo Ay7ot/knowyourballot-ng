@@ -97,3 +97,5 @@ The issue templates use the labels `correction`, `photo` and `manifesto`. If tho
 ## Review
 
 The maintainer reviews every pull request. A pull request is merged only when the checks pass and the change does not weaken the sourcing, photo or non-partisan rules.
+
+`main` is protected by a repository ruleset. Changes land through a pull request, the CI checks must pass, and force pushes and branch deletion are blocked. The data workflows are the only automation allowed to bypass the pull request requirement, because they validate the data contract before committing.

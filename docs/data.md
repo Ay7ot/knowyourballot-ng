@@ -135,6 +135,10 @@ node scripts/build_map.mjs /tmp/nga-states.geojson
 
 The boundaries are simplified for display, not survey-grade. Credit geoBoundaries / GRID3, CC BY 4.0 wherever the map appears. LGA points use the centroids from `data/geo.json`; four Imo LGAs have no centroid and therefore no dot.
 
+## Keeping data in Git
+
+The generated JSON stays in Git by decision. There is no Git LFS and no external artifact store. The repository is larger as a result; review large additions and keep new committed artifacts small. Human changes to `main` go through a pull request; the data workflows are the only automation allowed to push directly, after `npm run test:data` passes.
+
 ## Adding or correcting data
 
 - **A candidate fact:** find the INEC document in `data/sources.json`, correct the source or the parser, rerun ingest and build, then run the tests. Do not type a fact in by hand.
