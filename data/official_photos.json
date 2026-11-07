@@ -1,1 +1,13 @@
-{}
+{
+ "president--ndc": {
+  "file": "/candidates/official/president--ndc.webp",
+  "name": "Obi Peter Gregory",
+  "x": "PeterObi",
+  "why": "his verified X account, which Nigerian news outlets quote as his",
+  "source": "https://x.com/PeterObi",
+  "fetched": "2026-11-07",
+  "avatar": "https://pbs.twimg.com/profile_images/1050783097934020608/2_bhBolN.jpg",
+  "displayName": "Peter Obi",
+  "verified": true
+ }
+}
