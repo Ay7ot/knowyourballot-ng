@@ -135,6 +135,26 @@ test("map data covers every state", () => {
   }
 });
 
+test("every platform pledge has a resolvable source", () => {
+  const groups = {
+    ...Object.fromEntries(Object.entries(platforms.candidates).map(([id, platform]) => [`candidate ${id}`, platform])),
+    ...Object.fromEntries(
+      Object.entries(platforms.parties ?? {}).map(([code, platform]) => [`party ${code}`, platform]),
+    ),
+  };
+  for (const [who, platform] of Object.entries(groups)) {
+    assert.ok(["manifesto", "pledges"].includes(platform.status), `${who} has an unknown status`);
+    for (const pledge of platform.pledges) {
+      assert.ok(pledge.topic, `${who} has a pledge without a topic`);
+      assert.ok(pledge.text, `${who} has a pledge without text`);
+      assert.ok(pledge.src.length > 0, `${who} has a pledge without a source`);
+      for (const source of pledge.src) {
+        assert.ok(platforms.sources[source], `${who} references missing source ${source}`);
+      }
+    }
+  }
+});
+
 test("no stable id was removed", () => {
   const currentCandidates = new Set(ballot.candidates.map((c) => c.id));
   const currentRaces = new Set(ballot.races.map((r) => r.id));

@@ -256,6 +256,7 @@ export function toTray(c: Candidate, raceLabel: string) {
     mate: c.runningMate?.name ?? null,
     race: c.race,
     raceLabel,
+    policy: trayPolicy(c),
   };
 }
 
@@ -312,6 +313,47 @@ export const platformFor = (id: string): Platform | null =>
   (PLATFORMS.candidates as Record<string, Platform>)[id] ?? null;
 export const partyPlatform = (code: string): Platform | null =>
   (PLATFORMS as unknown as { parties?: Record<string, Platform> }).parties?.[code] ?? null;
+
+export type TrayPledge = { topic: string; text: string; source: { label: string; url: string } | null };
+export type TrayPolicy = {
+  kind: "manifesto" | "pledges" | "party" | "none";
+  title: string | null;
+  pledges: TrayPledge[];
+  note: string;
+};
+
+const trayPledges = (pledges: Pledge[]): TrayPledge[] =>
+  pledges.map((p) => {
+    const source = p.src.map((id) => PLATFORMS.sources[id]).find(Boolean);
+    let label: string | null = null;
+    if (source) {
+      const date =
+        source.date.length === 7 ? new Date(`${source.date}-15T12:00:00Z`) : new Date(`${source.date}T12:00:00Z`);
+      const formatted = Number.isNaN(date.getTime())
+        ? source.date
+        : date.toLocaleDateString("en-NG", { day: "numeric", month: "short", year: "numeric" });
+      label = `${source.outlet.split(" (")[0]}, ${formatted}`;
+    }
+    return {
+      topic: p.topic,
+      text: p.text,
+      source: source && label ? { label, url: source.url } : null,
+    };
+  });
+
+/** A compact policy summary for the side-by-side compare dialog. */
+export function trayPolicy(c: Candidate): TrayPolicy {
+  const own = platformFor(c.id);
+  if (own) return { kind: own.status, title: own.title, pledges: trayPledges(own.pledges), note: own.note };
+  const party = partyPlatform(c.party);
+  if (party) return { kind: "party", title: party.title, pledges: trayPledges(party.pledges), note: party.note };
+  return {
+    kind: "none",
+    title: null,
+    pledges: [],
+    note: "No published manifesto, pledges or party platform found yet.",
+  };
+}
 
 /**
  * Plain-language answers for the search box: offices, parties, election dates, how to

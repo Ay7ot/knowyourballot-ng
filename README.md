@@ -8,7 +8,7 @@ Live: https://knowyourballot-ng.vercel.app
 
 A non-partisan civic site. Every candidate row comes from an INEC document and keeps the source URL and page. There is no religion, no unsourced claim and no editorialising. Corrections arrive as GitHub issues and a person reviews each one.
 
-On desktop, the site uses a wide ballot desk: an interactive map of Nigeria's states and LGAs, a global search dialog on `Cmd/Ctrl+K`, and a sticky progress rail on ballot pages. The same pages collapse to a single column on a phone.
+On desktop, the site uses a wide ballot desk: an interactive map of Nigeria's states and LGAs, a global search dialog on `Cmd/Ctrl+K`, and a sticky progress rail on ballot pages. The same pages collapse to a single column on a phone. The side-by-side comparison has a Policies tab, so you can compare what candidates promise and see clearly when a campaign has not published a manifesto or position yet.
 
 ## Data
 

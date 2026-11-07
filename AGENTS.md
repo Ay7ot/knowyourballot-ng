@@ -236,8 +236,8 @@ Deterministic layers exist. Run all of them before a pull request:
 
 Test files:
 
-- `tests/data-contract.test.mjs`: Node test runner; data invariants and the ID snapshot in `tests/fixtures/data-ids.json`.
-- `tests/python/test_build_ballot.py`: party-code normalisation, slug/title helpers, qualification levels and State Assembly matching.
+- `tests/data-contract.test.mjs`: Node test runner; data invariants, the ID snapshot, map coverage and pledge sources.
+- `tests/python/test_build_ballot.py`: party-code normalisation, slug/title helpers, qualification levels, and State Assembly matching. `tests/python/test_image_processing.py` exercises the Pillow WebP path.
 - `scripts/smoke.sh`: production server smoke test, including `/api/search-miss` guards.
 
 When a reviewed rename removes a stable ID, add a redirect, then run `npm run snapshot:ids`. Do not update the snapshot to make a failing test pass without reviewing the removed IDs.

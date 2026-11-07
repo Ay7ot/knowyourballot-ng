@@ -23,6 +23,7 @@ All notable changes to this project are recorded here. The format follows [Keep 
 - Desktop ballot desk with progress, race list, compare summary and a next-race action.
 - LGA filter on state pages.
 - Wide desktop shell and two-column layouts for state, LGA, race and candidate pages.
+- Policies tab in the side-by-side comparison, with candidate pledges, a party-platform fallback, per-topic missing-position states and campaign request links.
 - Map build script and `data/nigeria-map.json`, credited to geoBoundaries / GRID3.
 
 ### Changed
