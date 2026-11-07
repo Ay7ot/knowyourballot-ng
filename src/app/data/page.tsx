@@ -44,7 +44,7 @@ export default function DataPage() {
     : null;
 
   return (
-    <div className="mx-auto max-w-3xl py-8" style={gutter}>
+    <div className="mx-auto max-w-6xl py-8" style={gutter}>
       <Crumbs items={[{ href: "/", label: "Home" }, { label: "About the data" }]} />
       <h1 className="display mt-5 text-4xl sm:text-5xl">Where this comes from</h1>
       <p className="mt-3 text-muted">
@@ -130,6 +130,10 @@ export default function DataPage() {
             <strong className="text-ink">Known gap:</strong> INEC doesn&apos;t publish which wards make up each State
             House of Assembly constituency. We match them to LGAs by name, so when an LGA has two or more state
             constituencies we show all of them.
+          </p>
+          <p className="text-muted mt-2">
+            <strong className="text-ink">Maps:</strong> state boundaries come from geoBoundaries (GRID3), CC BY 4.0.
+            Dots are LGA centroids from Open Admin Data.
           </p>
         </div>
         <div>

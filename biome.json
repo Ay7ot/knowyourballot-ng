@@ -47,6 +47,16 @@
           }
         }
       }
+    },
+    {
+      "includes": ["src/components/GeoMap.tsx"],
+      "linter": {
+        "rules": {
+          "a11y": {
+            "useSemanticElements": "off"
+          }
+        }
+      }
     }
   ]
 }

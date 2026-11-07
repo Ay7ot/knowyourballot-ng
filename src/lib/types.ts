@@ -89,6 +89,16 @@ export interface BallotSection {
   contests: { districtId: string; districtName: string; race: Race | null }[];
 }
 
+export type MapPoint = { id: string; label: string; href: string; x: number; y: number; count?: number };
+export type MapStatePath = {
+  slug: string;
+  name: string;
+  d: string;
+  bbox: [number, number, number, number];
+  count?: number;
+  href?: string;
+};
+
 export interface SearchEntry {
   /** type: s=state l=lga w=ward d=senate district f=fed constituency a=assembly constituency c=candidate */
   t: "s" | "l" | "w" | "d" | "f" | "a" | "c";

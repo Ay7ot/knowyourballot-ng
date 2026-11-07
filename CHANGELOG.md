@@ -18,6 +18,12 @@ All notable changes to this project are recorded here. The format follows [Keep 
 - Correction, photo and manifesto issue templates.
 - `uv` setup for the Python 3.12 pipeline, with pinned requirements.
 - Polling unit parser tests for slash, hyphen, dot, middle dot and space separators.
+- Interactive Nigeria state map with real boundaries, plus LGA dot maps on state and LGA pages.
+- Global search dialog on `Cmd/Ctrl+K`, available from every page.
+- Desktop ballot desk with progress, race list, compare summary and a next-race action.
+- LGA filter on state pages.
+- Wide desktop shell and two-column layouts for state, LGA, race and candidate pages.
+- Map build script and `data/nigeria-map.json`, credited to geoBoundaries / GRID3.
 
 ### Changed
 

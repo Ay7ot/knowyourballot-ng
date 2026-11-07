@@ -43,7 +43,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {children}
         </main>
         <footer className="no-print border-t border-rule">
-          <div className="mx-auto grid max-w-5xl gap-6 py-10 text-sm text-muted sm:grid-cols-3" style={gutter}>
+          <div className="shell grid gap-6 py-10 text-sm text-muted sm:grid-cols-3" style={gutter}>
             <div className="space-y-2">
               <p className="label text-ink">Non-partisan</p>
               <p>

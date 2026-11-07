@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import type Fuse from "fuse.js";
 import type { SearchEntry } from "@/lib/types";
@@ -80,6 +80,10 @@ const loadPoints = (): Promise<LgaPoint[]> =>
 
 export default function FindBallot({ autoFocus = false, quick = [] }: { autoFocus?: boolean; quick?: QuickEntry[] }) {
   const router = useRouter();
+  const uid = useId().replace(/:/g, "");
+  const inputId = `find-${uid}`;
+  const listId = `find-list-${uid}`;
+  const optionId = (index: number) => `opt-${uid}-${index}`;
   const [q, setQ] = useState("");
   const [fuse, setFuse] = useState<Index | null>(null);
   const [loading, setLoading] = useState(false);
@@ -231,7 +235,7 @@ export default function FindBallot({ autoFocus = false, quick = [] }: { autoFocu
   return (
     <div className="w-full">
       <div className="relative">
-        <label htmlFor="find" className="label mb-2 block text-ink">
+        <label htmlFor={inputId} className="label mb-2 block text-ink">
           Find your ballot
         </label>
         <svg
@@ -248,7 +252,7 @@ export default function FindBallot({ autoFocus = false, quick = [] }: { autoFocu
           />
         </svg>
         <input
-          id="find"
+          id={inputId}
           ref={inputRef}
           type="search"
           inputMode="search"
@@ -256,8 +260,8 @@ export default function FindBallot({ autoFocus = false, quick = [] }: { autoFocu
           role="combobox"
           aria-autocomplete="list"
           aria-expanded={showList}
-          aria-controls="find-list"
-          aria-activedescendant={showList && results[active] ? `opt-${active}` : undefined}
+          aria-controls={listId}
+          aria-activedescendant={showList && results[active] ? optionId(active) : undefined}
           placeholder="Your LGA, a name, a party or a question"
           className="control h-14 w-full rounded-lg border-2 border-ink bg-sheet pl-12 pr-12 text-[1.05rem] placeholder:text-muted"
           value={q}
@@ -304,7 +308,7 @@ export default function FindBallot({ autoFocus = false, quick = [] }: { autoFocu
         )}
         {showList && (
           <div
-            id="find-list"
+            id={listId}
             role="listbox"
             className="absolute z-20 mt-2 w-full overflow-hidden rounded-lg border border-rule bg-sheet shadow-xl"
           >
@@ -330,7 +334,7 @@ export default function FindBallot({ autoFocus = false, quick = [] }: { autoFocu
               </div>
             ) : (
               results.map((r, i) => (
-                <div key={`${r.h}|${r.n}`} id={`opt-${i}`} role="option" aria-selected={i === active} tabIndex={-1}>
+                <div key={`${r.h}|${r.n}`} id={optionId(i)} role="option" aria-selected={i === active} tabIndex={-1}>
                   <button
                     type="button"
                     onMouseDown={(e) => e.preventDefault()}

@@ -100,92 +100,138 @@ export default async function RacePage({ params }: { params: Promise<{ id: strin
   return (
     <>
       <ResetCompareOnMount />
-      <div className="mx-auto max-w-3xl py-8" style={gutter}>
-        <Crumbs
-          items={[
-            { href: "/", label: "Home" },
-            ...(st ? [{ href: `/state/${st.slug}`, label: st.name }] : []),
-            { label: title },
-          ]}
-        />
-        <div className="mt-5">
-          {pending ? (
-            <div className="sheet overflow-hidden">
-              <Pending what="these candidates" />
-            </div>
-          ) : cands.length === 0 ? (
-            <div className="sheet px-5 py-5">
-              <p className="label text-green">{OFFICE_LABEL[race.office]}</p>
-              <h1 className="display-tight mt-1 text-2xl">{title}</h1>
-              <p className="mt-2 text-sm text-muted">
-                INEC&apos;s list has no candidates we could match to this seat yet.
-              </p>
-            </div>
-          ) : (
-            <RaceSheet race={race} title={title} sub={SUB[race.office]} main />
-          )}
-        </div>
-        <dl className="mt-6 grid grid-cols-2 gap-px overflow-hidden rounded-md border border-rule bg-rule text-sm sm:grid-cols-3">
-          {[
-            ["Term", info.term],
-            ["Seats", info.seats],
-            ["Candidates", cands.length ? String(cands.length) : "None yet"],
-          ].map(([k, v]) => (
-            <div key={k} className="bg-sheet px-4 py-3">
-              <dt className="label text-[0.65rem] text-muted">{k}</dt>
-              <dd className="mt-0.5 font-medium">{v}</dd>
-            </div>
-          ))}
-        </dl>
-        {district && district.lgas.length > 0 && (
-          <p className="mt-4 text-sm">
-            <span className="label mr-2 text-[0.65rem] text-muted">Covers</span>
-            {district.lgas.map((id, i) => {
-              const l = getLgaById(id)!;
-              return (
-                <span key={id}>
-                  {i > 0 && ", "}
-                  <Link
-                    prefetch={false}
-                    className="underline decoration-rule underline-offset-2 hover:decoration-ink"
-                    href={lgaHref(l)}
-                  >
-                    {l.name}
-                  </Link>
-                </span>
-              );
-            })}
-          </p>
-        )}
-
-        {cands.length > 0 && race.id !== "president" && (
-          <section id="promises" className="mt-10 scroll-mt-24" aria-labelledby="promises-h">
-            <h2 id="promises-h" className="display-tight text-2xl">
-              What they promise
-            </h2>
-            <p className="mb-4 mt-1 text-sm text-muted">
-              Every pledge links to its source. Where a candidate has no manifesto of their own we show their
-              party&apos;s, and say so.
+      <div className="shell grid gap-8 py-8 lg:grid-cols-[minmax(0,1fr)_20rem]" style={gutter}>
+        <div className="min-w-0">
+          <Crumbs
+            items={[
+              { href: "/", label: "Home" },
+              ...(st ? [{ href: `/state/${st.slug}`, label: st.name }] : []),
+              { label: title },
+            ]}
+          />
+          <div className="mt-5">
+            {pending ? (
+              <div className="sheet overflow-hidden">
+                <Pending what="these candidates" />
+              </div>
+            ) : cands.length === 0 ? (
+              <div className="sheet px-5 py-5">
+                <p className="label text-green">{OFFICE_LABEL[race.office]}</p>
+                <h1 className="display-tight mt-1 text-2xl">{title}</h1>
+                <p className="mt-2 text-sm text-muted">
+                  INEC&apos;s list has no candidates we could match to this seat yet.
+                </p>
+              </div>
+            ) : (
+              <RaceSheet race={race} title={title} sub={SUB[race.office]} main />
+            )}
+          </div>
+          <dl className="mt-6 grid grid-cols-2 gap-px overflow-hidden rounded-md border border-rule bg-rule text-sm sm:grid-cols-3">
+            {[
+              ["Term", info.term],
+              ["Seats", info.seats],
+              ["Candidates", cands.length ? String(cands.length) : "None yet"],
+            ].map(([k, v]) => (
+              <div key={k} className="bg-sheet px-4 py-3">
+                <dt className="label text-[0.65rem] text-muted">{k}</dt>
+                <dd className="mt-0.5 font-medium">{v}</dd>
+              </div>
+            ))}
+          </dl>
+          {district && district.lgas.length > 0 && (
+            <p className="mt-4 text-sm">
+              <span className="label mr-2 text-[0.65rem] text-muted">Covers</span>
+              {district.lgas.map((id, i) => {
+                const l = getLgaById(id)!;
+                return (
+                  <span key={id}>
+                    {i > 0 && ", "}
+                    <Link
+                      prefetch={false}
+                      className="underline decoration-rule underline-offset-2 hover:decoration-ink"
+                      href={lgaHref(l)}
+                    >
+                      {l.name}
+                    </Link>
+                  </span>
+                );
+              })}
             </p>
-            <RacePromises cands={cands} />
-          </section>
-        )}
-        {race.id === "president" && (
-          <Link
-            prefetch={false}
-            href="/promises"
-            className="mt-4 flex items-center justify-between gap-3 rounded-md border-2 border-ink bg-sheet px-4 py-3 font-semibold hover:bg-green-soft"
-          >
-            Compare what the candidates promise, topic by topic <span aria-hidden>→</span>
-          </Link>
-        )}
-        <p className="mt-4 text-sm text-muted">
-          Listed in INEC&apos;s order, which is also the order on the ballot paper. Something wrong?{" "}
-          <a className="underline" href={correctionUrl(title, `/race/${race.id}`)}>
-            Report a correction
-          </a>
-          .
-        </p>
+          )}
+
+          {cands.length > 0 && race.id !== "president" && (
+            <section id="promises" className="mt-10 scroll-mt-24" aria-labelledby="promises-h">
+              <h2 id="promises-h" className="display-tight text-2xl">
+                What they promise
+              </h2>
+              <p className="mb-4 mt-1 text-sm text-muted">
+                Every pledge links to its source. Where a candidate has no manifesto of their own we show their
+                party&apos;s, and say so.
+              </p>
+              <RacePromises cands={cands} />
+            </section>
+          )}
+          {race.id === "president" && (
+            <Link
+              prefetch={false}
+              href="/promises"
+              className="mt-4 flex items-center justify-between gap-3 rounded-md border-2 border-ink bg-sheet px-4 py-3 font-semibold hover:bg-green-soft"
+            >
+              Compare what the candidates promise, topic by topic <span aria-hidden>→</span>
+            </Link>
+          )}
+          <p className="mt-4 text-sm text-muted">
+            Listed in INEC&apos;s order, which is also the order on the ballot paper. Something wrong?{" "}
+            <a className="underline" href={correctionUrl(title, `/race/${race.id}`)}>
+              Report a correction
+            </a>
+            .
+          </p>
+        </div>
+
+        <aside className="hidden lg:block">
+          <div className="sticky top-24 space-y-3">
+            <div className="sheet p-4">
+              <p className="label text-muted">This race</p>
+              <p className="mt-2 text-sm text-muted">{info.what}</p>
+              <dl className="mt-3 space-y-2 text-sm">
+                <div>
+                  <dt className="label text-[0.65rem] text-muted">Term</dt>
+                  <dd>{info.term}</dd>
+                </div>
+                <div>
+                  <dt className="label text-[0.65rem] text-muted">Seats</dt>
+                  <dd>{info.seats}</dd>
+                </div>
+                <div>
+                  <dt className="label text-[0.65rem] text-muted">Candidates</dt>
+                  <dd>{cands.length ? String(cands.length) : "None yet"}</dd>
+                </div>
+              </dl>
+            </div>
+            <div className="sheet p-4">
+              <p className="label text-muted">Find your ballot</p>
+              <p className="mt-1 text-sm text-muted">Your LGA decides which races you vote in.</p>
+              <Link
+                prefetch={false}
+                href="/"
+                className="mt-3 inline-flex min-h-10 items-center rounded-full border border-rule px-3 text-sm font-medium hover:border-green hover:bg-green-soft"
+              >
+                Search your ballot <span aria-hidden>→</span>
+              </Link>
+            </div>
+            {st && (
+              <Link
+                prefetch={false}
+                href={`/state/${st.slug}`}
+                className="sheet block p-4 text-sm hover:border-green hover:bg-green-soft/40"
+              >
+                <span className="label text-muted">State</span>
+                <span className="mt-1 block font-medium">All {st.short} races</span>
+              </Link>
+            )}
+          </div>
+        </aside>
       </div>
       {cands.length > 0 && (
         <BallotTray

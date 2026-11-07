@@ -24,7 +24,7 @@ const topicHref = (t: string) => `/promises#topic-${t.toLowerCase().replace(/\W+
 
 export default function Economy() {
   return (
-    <div className="mx-auto max-w-4xl py-8" style={gutter}>
+    <div className="mx-auto max-w-6xl py-8" style={gutter}>
       <Crumbs items={[{ href: "/", label: "Home" }, { label: "Economy" }]} />
       <h1 className="display mt-5 text-4xl sm:text-5xl">The economy in eight numbers</h1>
       <p className="mt-3 max-w-[60ch] text-lg text-muted">

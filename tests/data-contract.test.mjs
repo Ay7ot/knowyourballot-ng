@@ -13,6 +13,7 @@ const photos = read("data/candidate_photos.json");
 const official = read("data/official_photos.json");
 const logos = read("data/party_logos.json");
 const platforms = read("data/platforms.json");
+const map = read("data/nigeria-map.json");
 const snapshot = read("tests/fixtures/data-ids.json");
 
 const candidateIds = new Set(ballot.candidates.map((c) => c.id));
@@ -119,6 +120,18 @@ test("photo, logo and platform keys belong to live candidates", () => {
   }
   for (const id of Object.keys(platforms.candidates)) {
     assert.ok(candidateIds.has(id), `platform for missing candidate ${id}`);
+  }
+});
+
+test("map data covers every state", () => {
+  assert.equal(map.viewBox.length, 4);
+  assert.equal(map.states.length, 37);
+  assert.ok(unique(map.states.map((s) => s.slug)), "duplicate map state");
+  for (const state of geo.states) {
+    const path = map.states.find((s) => s.slug === state.slug);
+    assert.ok(path, `missing map path for ${state.slug}`);
+    assert.ok(path.d.startsWith("M"), `bad path for ${state.slug}`);
+    assert.equal(path.bbox.length, 4, `bad bbox for ${state.slug}`);
   }
 });
 

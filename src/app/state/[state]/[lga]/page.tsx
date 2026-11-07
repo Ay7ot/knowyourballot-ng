@@ -11,8 +11,11 @@ import {
   getLga,
   getSenatorial,
   getState,
+  lgaMapPoints,
   LEVEL_LABEL,
   OFFICE_LABEL,
+  stateMapPath,
+  stateMapViewBox,
   toTray,
   wardsOf,
 } from "@/lib/data";
@@ -21,9 +24,11 @@ import RaceSheet from "@/components/RaceSheet";
 import WardContext from "@/components/WardContext";
 import ShareButton from "@/components/ShareButton";
 import BallotTray from "@/components/BallotTray";
-import MyBallot, { BallotToc } from "@/components/MyBallot";
+import BallotDesk from "@/components/BallotDesk";
+import MyBallot from "@/components/MyBallot";
 import VotingDay from "@/components/VotingDay";
 import RaceNav from "@/components/RaceNav";
+import GeoMap from "@/components/GeoMap";
 import { ResetCompareOnMount } from "@/components/picks";
 import { Crumbs } from "@/components/ui";
 import { gutter } from "@/lib/gutter";
@@ -73,6 +78,9 @@ export default async function LgaBallot({ params }: { params: Promise<{ state: s
   if (!found) notFound();
   const { state, lga } = found;
   const sections = ballotForLga(lga);
+  const mapPoints = lgaMapPoints(state.code);
+  const statePath = stateMapPath(state.slug);
+  const selectedOnMap = mapPoints.some((p) => p.id === lga.id) ? lga.id : undefined;
   const wards = wardsOf(lga.id).map((w) => ({ code: w.id.split("-")[2], name: w.name, federal: w.federal }));
   const sen = getSenatorial(lga.senatorial)!;
   const split = lga.federal.length > 1;
@@ -131,61 +139,77 @@ export default async function LgaBallot({ params }: { params: Promise<{ state: s
     <>
       <ResetCompareOnMount />
       <section className="border-b border-rule bg-sheet">
-        <div className="mx-auto max-w-5xl pb-8 pt-6" style={gutter}>
-          <Crumbs
-            items={[
-              { href: "/", label: "Home" },
-              { href: `/state/${state.slug}`, label: state.name },
-              { label: lga.name },
-            ]}
-          />
-          <div className="mt-5 flex flex-wrap items-end justify-between gap-4">
-            <div className="min-w-0">
-              <p className="label text-green">Your 2027 ballot</p>
-              <h1 className="display mt-2 text-4xl sm:text-5xl">
-                {lga.name}
-                <span className="text-muted">, {state.short}</span>
-              </h1>
+        <div
+          className="shell grid gap-8 pb-8 pt-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:items-start"
+          style={gutter}
+        >
+          <div className="min-w-0">
+            <Crumbs
+              items={[
+                { href: "/", label: "Home" },
+                { href: `/state/${state.slug}`, label: state.name },
+                { label: lga.name },
+              ]}
+            />
+            <div className="mt-5 flex flex-wrap items-end justify-between gap-4">
+              <div className="min-w-0">
+                <p className="label text-green">Your 2027 ballot</p>
+                <h1 className="display mt-2 text-4xl sm:text-5xl">
+                  {lga.name}
+                  <span className="text-muted">, {state.short}</span>
+                </h1>
+              </div>
+              <ShareButton title={`My 2027 ballot: ${lga.name}, ${state.short}`} />
             </div>
-            <ShareButton title={`My 2027 ballot: ${lga.name}, ${state.short}`} />
-          </div>
-          <ul className="mt-5 flex flex-wrap gap-2 text-sm">
-            {chips.map((c) => (
-              <li
-                key={c.k + c.v}
-                data-fed={"fed" in c ? c.fed : undefined}
-                className="flex items-center gap-2 rounded-md border border-rule bg-paper px-2.5 py-1.5"
-              >
-                <span className="label text-[0.65rem] text-muted">{c.k}</span>
-                <span className="font-medium">{c.v}</span>
-              </li>
-            ))}
-          </ul>
-          <ol className="mt-6 grid grid-cols-3 gap-2 text-sm" aria-label="How to use this page">
-            {[
-              ["Check your area", "#area"],
-              ["Read each race", `#${items[0]?.race.id ?? "area"}`],
-              ["Mark your picks", "#my-ballot"],
-            ].map(([t, h], i) => (
-              <li key={t}>
-                <a
-                  href={h}
-                  className="flex h-full flex-col gap-1.5 rounded-md border border-rule px-2.5 py-2.5 leading-tight hover:border-green sm:flex-row sm:items-center sm:gap-3 sm:px-3"
+            <ul className="mt-5 flex flex-wrap gap-2 text-sm">
+              {chips.map((c) => (
+                <li
+                  key={c.k + c.v}
+                  data-fed={"fed" in c ? c.fed : undefined}
+                  className="flex items-center gap-2 rounded-md border border-rule bg-paper px-2.5 py-1.5"
                 >
-                  <span className="mono grid h-7 w-7 shrink-0 place-items-center rounded-full border-2 border-green text-xs text-green">
-                    {i + 1}
-                  </span>
-                  <span className="font-medium">{t}</span>
-                </a>
-              </li>
-            ))}
-          </ol>
+                  <span className="label text-[0.65rem] text-muted">{c.k}</span>
+                  <span className="font-medium">{c.v}</span>
+                </li>
+              ))}
+            </ul>
+            <ol className="mt-6 grid grid-cols-3 gap-2 text-sm" aria-label="How to use this page">
+              {[
+                ["Check your area", "#area"],
+                ["Read each race", `#${items[0]?.race.id ?? "area"}`],
+                ["Mark your picks", "#my-ballot"],
+              ].map(([t, h], i) => (
+                <li key={t}>
+                  <a
+                    href={h}
+                    className="flex h-full flex-col gap-1.5 rounded-md border border-rule px-2.5 py-2.5 leading-tight hover:border-green sm:flex-row sm:items-center sm:gap-3 sm:px-3"
+                  >
+                    <span className="mono grid h-7 w-7 shrink-0 place-items-center rounded-full border-2 border-green text-xs text-green">
+                      {i + 1}
+                    </span>
+                    <span className="font-medium">{t}</span>
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </div>
+          <div className="min-w-0">
+            <GeoMap
+              paths={statePath ? [statePath] : []}
+              points={mapPoints}
+              viewBox={stateMapViewBox(state.slug)}
+              selected={selectedOnMap}
+              title={`${lga.name} in ${state.short}`}
+              description="Your LGA is highlighted. Hover another dot to compare."
+              compact
+            />
+          </div>
         </div>
       </section>
 
       <RaceNav races={navRaces} />
 
-      <div className="mx-auto grid max-w-5xl grid-cols-1 gap-8 py-8 lg:grid-cols-[minmax(0,1fr)_17rem]" style={gutter}>
+      <div className="shell grid grid-cols-1 gap-8 py-8 lg:grid-cols-[minmax(0,1fr)_22rem]" style={gutter}>
         <div className="min-w-0 space-y-10">
           <section id="area" aria-labelledby="area-h" className="scroll-mt-32 lg:scroll-mt-24">
             <p className="label text-green">Step 1</p>
@@ -262,10 +286,9 @@ export default async function LgaBallot({ params }: { params: Promise<{ state: s
         </div>
 
         <aside className="hidden lg:block">
-          <div className="sticky top-20 space-y-3">
-            <p className="label text-muted">On this ballot</p>
-            <BallotToc races={tocRaces} />
-            <p className="border-t border-rule pt-3 text-xs text-muted">
+          <div className="sticky top-24 space-y-3">
+            <BallotDesk races={tocRaces} candidates={tray} lgaName={lga.name} />
+            <p className="px-1 text-xs text-muted">
               Candidates are in INEC&apos;s order.{" "}
               <Link prefetch={false} href="/data" className="underline">
                 How we build this page

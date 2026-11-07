@@ -52,7 +52,7 @@ export default function RaceNav({ races }: { races: NavRace[] }) {
     >
       <ol
         ref={strip}
-        className="mx-auto flex max-w-5xl gap-1.5 overflow-x-auto px-4 py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="shell flex gap-1.5 overflow-x-auto px-4 py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {races.map((r) => {
           const on = active === r.id;

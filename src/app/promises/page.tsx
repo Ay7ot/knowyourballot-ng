@@ -23,7 +23,7 @@ const day = (iso: string) =>
 export default function PromisesPage() {
   const cands = candidatesOf(getRace("president")!);
   return (
-    <div className="mx-auto max-w-4xl py-8" style={gutter}>
+    <div className="mx-auto max-w-6xl py-8" style={gutter}>
       <Crumbs
         items={[
           { href: "/", label: "Home" },

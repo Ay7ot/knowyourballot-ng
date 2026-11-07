@@ -43,7 +43,7 @@ export default function Guide() {
       year: "numeric",
     });
   return (
-    <div className="mx-auto max-w-4xl py-8" style={gutter}>
+    <div className="mx-auto max-w-6xl py-8" style={gutter}>
       <Crumbs items={[{ href: "/", label: "Home" }, { label: "Voting-day guide" }]} />
       <h1 className="display mt-5 text-4xl sm:text-5xl">Voting in 2027, step by step</h1>
       <p className="mt-3 max-w-[60ch] text-lg text-muted">

@@ -25,7 +25,7 @@ export default function States() {
     }, {}),
   ).sort(([a], [b]) => a.localeCompare(b));
   return (
-    <div className="mx-auto max-w-5xl py-8" style={gutter}>
+    <div className="shell py-8" style={gutter}>
       <Crumbs items={[{ href: "/", label: "Home" }, { label: "States" }]} />
       <h1 className="display mt-5 text-4xl sm:text-5xl">36 states and the FCT</h1>
       <p className="mt-2 max-w-[60ch] text-muted">

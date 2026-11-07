@@ -8,6 +8,8 @@ Live: https://knowyourballot-ng.vercel.app
 
 A non-partisan civic site. Every candidate row comes from an INEC document and keeps the source URL and page. There is no religion, no unsourced claim and no editorialising. Corrections arrive as GitHub issues and a person reviews each one.
 
+On desktop, the site uses a wide ballot desk: an interactive map of Nigeria's states and LGAs, a global search dialog on `Cmd/Ctrl+K`, and a sticky progress rail on ballot pages. The same pages collapse to a single column on a phone.
+
 ## Data
 
 | What                                                                | Source                                                                                                                                           |
@@ -15,6 +17,7 @@ A non-partisan civic site. Every candidate row comes from an INEC document and k
 | Candidates                                                          | INEC's published final lists (inecnigeria.org/press), fetched and parsed daily by `.github/workflows/ingest.yml`                                 |
 | Polling unit to ward, LGA, senate district and federal constituency | INEC IReV polling-unit register, compiled by [Emeka-Onwuepe/Polling_Units_in_Nigeria](https://github.com/Emeka-Onwuepe/Polling_Units_in_Nigeria) |
 | LGA centroids for "use my location"                                 | [Open Admin Data](https://openadmindata.org/ng/) (CC BY 4.0)                                                                                     |
+| State boundaries for the maps                                       | [geoBoundaries](https://www.geoboundaries.org/) NGA ADM1 (GRID3), CC BY 4.0                                                                      |
 | Party logos                                                         | Each party's INEC profile page                                                                                                                   |
 | Candidate photos                                                    | Wikidata and Wikimedia Commons, with strict identity checks; official X photos only when tied to the candidate                                   |
 | Manifestos and pledges                                              | Published documents and reputable reports, each linked                                                                                           |

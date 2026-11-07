@@ -85,7 +85,7 @@ export default function BallotTray({
         style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
       >
         <div
-          className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3 py-3"
+          className="shell flex flex-wrap items-center justify-between gap-3 py-3"
           style={{
             paddingLeft: "max(16px, env(safe-area-inset-left, 0px))",
             paddingRight: "max(16px, env(safe-area-inset-right, 0px))",

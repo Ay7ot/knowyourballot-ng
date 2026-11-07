@@ -8,7 +8,8 @@ import photoJson from "@data/candidate_photos.json";
 import officialPhotoJson from "@data/official_photos.json";
 import platformJson from "@data/platforms.json";
 import logoJson from "@data/party_logos.json";
-import type { Ballot, BallotSection, Candidate, Geo, Lga, Race, State, Office } from "./types";
+import nigeriaMap from "@data/nigeria-map.json";
+import type { Ballot, BallotSection, Candidate, Geo, Lga, MapPoint, MapStatePath, Race, State, Office } from "./types";
 
 export const geo = geoJson as unknown as Geo;
 export const ballot = ballotJson as unknown as Ballot;
@@ -75,6 +76,57 @@ export function officeStatus(office: Office) {
 
 export function lgaHref(lga: Lga) {
   return `/state/${stateByCode.get(lga.state)!.slug}/${lga.slug}`;
+}
+
+const MAP = nigeriaMap as unknown as {
+  viewBox: [number, number, number, number];
+  bounds: { minLon: number; minLat: number; maxLon: number; maxLat: number };
+  states: { slug: string; name: string; d: string; bbox: [number, number, number, number]; count: number }[];
+};
+
+function project(lon: number, lat: number): [number, number] {
+  const { minLon, minLat, maxLat } = MAP.bounds;
+  const meanLat = (((minLat + maxLat) / 2) * Math.PI) / 180;
+  const xSpan = (MAP.bounds.maxLon - minLon) * Math.cos(meanLat);
+  const ySpan = maxLat - minLat;
+  const [, , width, height] = MAP.viewBox;
+  return [((lon - minLon) / xSpan) * width, ((maxLat - lat) / ySpan) * height];
+}
+
+export const nationalMapViewBox = MAP.viewBox.join(" ");
+
+export function nationalMapPaths(): MapStatePath[] {
+  return MAP.states.map((s) => ({ ...s, href: `/state/${s.slug}` }));
+}
+
+export function stateMapPath(slug: string): MapStatePath | undefined {
+  const s = MAP.states.find((state) => state.slug === slug);
+  return s ? { ...s, href: undefined } : undefined;
+}
+
+export function stateMapViewBox(slug: string): string {
+  const s = MAP.states.find((state) => state.slug === slug);
+  if (!s) return nationalMapViewBox;
+  const [x, y, w, h] = s.bbox;
+  const pad = 1;
+  return `${x - pad} ${y - pad} ${w + pad * 2} ${h + pad * 2}`;
+}
+
+/** LGAs with a centroid, projected onto the same map as the state boundaries. */
+export function lgaMapPoints(stateCode: string): MapPoint[] {
+  return geo.lgas
+    .filter((l) => l.state === stateCode && typeof l.lat === "number" && typeof l.lon === "number")
+    .map((l) => {
+      const [x, y] = project(l.lon as number, l.lat as number);
+      return {
+        id: l.id,
+        label: l.name,
+        href: lgaHref(l),
+        x,
+        y,
+        count: geo.wards.filter((w) => w.lga === l.id).length,
+      };
+    });
 }
 
 /** Every race a voter registered in this LGA votes in. `federal` narrows split LGAs. */

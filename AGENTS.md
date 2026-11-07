@@ -28,6 +28,7 @@ Current dataset (`data/ballot.json`, generated 2026-11-06): **15,137 candidates,
 | Framework          | Next.js 15.5 (App Router), React 19, TypeScript 5.9 (`strict: true`)                       |
 | Styling            | Tailwind CSS v4 via `@tailwindcss/postcss`, CSS-first tokens in `src/app/globals.css`      |
 | Search             | Fuse.js in the browser over a generated `/search-index.json`                               |
+| Maps               | Local SVG state boundaries (geoBoundaries / GRID3) and LGA centroids; no tile service      |
 | Fonts              | Self-hosted, subsetted Archivo / Atkinson Hyperlegible Next / IBM Plex Mono in `src/fonts` |
 | Data pipeline      | Python 3.12 scripts (`pdfplumber` 0.11.10, `Pillow` 13.0.0), run by GitHub Actions         |
 | Quality            | Biome 2.6 for lint and format; `tsc --noEmit`; Node test runner and pytest                 |
@@ -93,8 +94,8 @@ flowchart LR
 
 ```
 src/app/            App Router routes (see table above) + globals.css + fonts
-src/components/     UI and client behaviour: FindBallot, MyBallot, BallotTray, RaceSheet,
-                    Promises, SiteHeader, controls, picks, ui, Term, Countdown, ...
+src/components/     UI and client behaviour: FindBallot, GeoMap, BallotDesk, LgaFilter,
+                    MyBallot, BallotTray, RaceSheet, Promises, SiteHeader, controls, picks, ui, ...
 src/lib/            data.ts (server-only data access), types.ts, seo.ts,
                     civics.ts (glossary/issues), economy.ts (hand-checked figures), site.ts, gutter.ts
 src/fonts/          subsetted WOFF2 files
@@ -117,6 +118,7 @@ Root documents: `README.md`, `HANDOFF.md`, `SECURITY.md`, `CONTRIBUTING.md`, `CO
 
 - `data/candidates/*.json`, `data/candidates/_report.json` (ingest)
 - `data/geo.json`, `public/data/pu/*.json` (build_geo)
+- `data/nigeria-map.json` (state boundary paths, `scripts/build_map.mjs`)
 - `data/ballot.json` (build_ballot)
 - `data/party_logos.json`, `data/candidate_photos.json`, `data/photo_report.json`, `data/official_photos.json`
 - `public/candidates/*.webp`, `public/parties/*.webp`
@@ -213,6 +215,7 @@ All data workflows share concurrency group `ingest` and commit back to `main`, w
 - **Copy:** plain English for first-time voters, no partisan framing. Glossaries and office explanations live in `src/lib/civics.ts` and `OFFICE_INFO` in `src/lib/data.ts`.
 - **Images:** candidate photos are plain `<img>` because files are pre-sized in `public/`; there is no `next/image` use. Keep explicit `width`/`height` and alt text.
 - **Client props:** pass slim shapes (`toTray()`), not full candidate records, to client components.
+- **Maps:** `GeoMap` renders local SVG state paths from `data/nigeria-map.json` plus LGA dots. Regenerate with `node scripts/build_map.mjs /tmp/nga-states.geojson`; credit geoBoundaries / GRID3, CC BY 4.0. Do not add a tile service without a privacy and performance review.
 
 ---
 
@@ -220,16 +223,16 @@ All data workflows share concurrency group `ingest` and commit back to `main`, w
 
 Deterministic layers exist. Run all of them before a pull request:
 
-| Command                                | Covers                                                                                    |
-| -------------------------------------- | ----------------------------------------------------------------------------------------- |
-| `npm run audit`                        | npm vulnerabilities at any severity                                                       |
-| `npm run check`                        | Biome formatting and lint                                                                 |
-| `npm run typecheck`                    | TypeScript strict compile                                                                 |
-| `npm test`                             | Data contract, foreign keys, sources, photo files, candidate IDs and polling unit parsing |
-| `npm run build`                        | Every route and static page                                                               |
-| `npm run smoke`                        | Built server, key routes, security headers and API guards                                 |
-| `uv run pytest -q`                     | Python pipeline helpers                                                                   |
-| `uv run pip-audit -r requirements.txt` | Python dependencies, on the Linux resolution                                              |
+| Command                                | Covers                                                                                          |
+| -------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| `npm run audit`                        | npm vulnerabilities at any severity                                                             |
+| `npm run check`                        | Biome formatting and lint                                                                       |
+| `npm run typecheck`                    | TypeScript strict compile                                                                       |
+| `npm test`                             | Data contract, foreign keys, sources, photo files, candidate IDs, maps and polling unit parsing |
+| `npm run build`                        | Every route and static page                                                                     |
+| `npm run smoke`                        | Built server, key routes, security headers and API guards                                       |
+| `uv run pytest -q`                     | Python pipeline helpers                                                                         |
+| `uv run pip-audit -r requirements.txt` | Python dependencies, on the Linux resolution                                                    |
 
 Test files:
 
@@ -298,6 +301,7 @@ Not covered yet: browser end-to-end for search and picks, automated accessibilit
 - **Single maintainer.** Contributor docs and CI reduce the bus factor but do not remove it.
 - **Official X photos beyond Peter Obi** remain a product and licensing decision.
 - **`data/photo_overrides.json` is present as `{}`.** The media workflow trigger is live; add entries only after a human review.
+- **Map boundaries are simplified.** They are for orientation, not survey-grade use. Four Imo LGAs have no centroid, so they appear in the list but not as map dots.
 - **Observability is limited** to Vercel logs, GitHub Actions logs and the `/data` page. There is no error tracking or alerting.
 
 ---

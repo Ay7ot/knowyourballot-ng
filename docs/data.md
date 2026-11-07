@@ -9,6 +9,7 @@ The site reads committed JSON. There is no runtime database. `data/ballot.json` 
 | Candidates                             | INEC final and updated lists on [inecnigeria.org](https://www.inecnigeria.org/press/)                                                            | Every row keeps `source.url` and `source.page` |
 | Polling unit to ward, LGA and district | INEC IReV polling-unit register, compiled by [Emeka-Onwuepe/Polling_Units_in_Nigeria](https://github.com/Emeka-Onwuepe/Polling_Units_in_Nigeria) | `data/raw/`                                    |
 | LGA centroids                          | [Open Admin Data](https://openadmindata.org/ng/)                                                                                                 | CC BY 4.0                                      |
+| State boundaries                       | [geoBoundaries](https://www.geoboundaries.org/) NGA ADM1 (GRID3)                                                                                 | CC BY 4.0                                      |
 | Party logos                            | Each party's INEC profile page                                                                                                                   | `public/parties/`                              |
 | Commons photos                         | Wikidata and Wikimedia Commons                                                                                                                   | Free licence, strict identity checks           |
 | Official photos                        | The candidate's own X account                                                                                                                    | Only when the account is tied to the person    |
@@ -20,6 +21,7 @@ Generated, do not hand-edit:
 
 - `data/candidates/*.json` and `data/candidates/_report.json`
 - `data/geo.json` and `public/data/pu/*.json`
+- `data/nigeria-map.json` (state boundary paths, built by `scripts/build_map.mjs`)
 - `data/ballot.json`
 - `data/party_logos.json`, `data/candidate_photos.json`, `data/photo_report.json`, `data/official_photos.json`
 - `public/candidates/*.webp` and `public/parties/*.webp`
@@ -99,6 +101,7 @@ A numeric suffix (`-2`, `-3`) is added if a candidate id collides. IDs are deriv
 8. `unmatched` is empty; a new row must be explained on `/data` before the test is updated.
 9. Every referenced photo and logo file exists.
 10. No stable candidate, race, state, LGA or district ID was removed.
+11. The map file covers every state with a valid SVG path and bounding box.
 
 ## Pipeline order
 
@@ -119,6 +122,18 @@ uv run python scripts/fetch_official_photos.py
 `build_geo.py` reads the raw register and writes `data/geo.json` plus `public/data/pu/*.json`. `ingest_inec.py` downloads and parses INEC PDFs. `build_ballot.py` joins candidate rows to the map and writes `data/ballot.json`. The photo and logo scripts write their own JSON and image files.
 
 All steps overwrite their outputs. A failed download is recorded in `data/candidates/_report.json` rather than silently dropped.
+
+## Maps
+
+`data/nigeria-map.json` holds simplified state boundary paths, per-state bounding boxes and a shared projection. `scripts/build_map.mjs` regenerates it from the geoBoundaries NGA ADM1 GeoJSON:
+
+```sh
+curl -L -o /tmp/nga-states.geojson \
+  "https://github.com/wmgeolab/geoBoundaries/raw/9469f09/releaseData/gbOpen/NGA/ADM1/geoBoundaries-NGA-ADM1_simplified.geojson"
+node scripts/build_map.mjs /tmp/nga-states.geojson
+```
+
+The boundaries are simplified for display, not survey-grade. Credit geoBoundaries / GRID3, CC BY 4.0 wherever the map appears. LGA points use the centroids from `data/geo.json`; four Imo LGAs have no centroid and therefore no dot.
 
 ## Adding or correcting data
 

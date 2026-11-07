@@ -1,44 +1,26 @@
 import Link from "next/link";
 import FindBallot from "@/components/FindBallot";
 import Countdown from "@/components/Countdown";
-import { ELECTIONS, OFFICE_INFO, OFFICE_LABEL, geo, stats, quickEntries } from "@/lib/data";
+import GeoMap from "@/components/GeoMap";
+import {
+  ELECTIONS,
+  OFFICE_INFO,
+  OFFICE_LABEL,
+  geo,
+  nationalMapPaths,
+  nationalMapViewBox,
+  quickEntries,
+  stats,
+} from "@/lib/data";
 import { gutter } from "@/lib/gutter";
 import { Thumbprint } from "@/components/picks";
 
 const fmt = (iso: string) =>
   new Date(`${iso}T12:00:00Z`).toLocaleDateString("en-NG", { weekday: "long", day: "numeric", month: "long" });
 
-/** Schematic voter's card showing where the polling unit code lives. Not a replica. */
-function CardHint() {
-  return (
-    <figure className="relative mx-auto w-full max-w-[22rem]" aria-labelledby="card-cap">
-      <div
-        className="sheet relative overflow-hidden p-4 shadow-[0_18px_40px_-24px_rgba(0,0,0,0.45)]"
-        style={{ aspectRatio: "1.586", maxWidth: "100%" }}
-      >
-        <div className="absolute inset-x-0 top-0 h-2 bg-green" />
-        <div className="mt-2 flex items-start gap-3">
-          <div className="h-16 w-14 shrink-0 rounded-sm bg-green-soft" />
-          <div className="flex-1 space-y-1.5 pt-1">
-            <div className="h-2 w-3/4 rounded bg-rule" />
-            <div className="h-2 w-1/2 rounded bg-rule" />
-            <div className="h-2 w-2/3 rounded bg-rule" />
-          </div>
-        </div>
-        <div className="absolute inset-x-4 bottom-4 rounded border-2 border-dashed border-violet bg-violet-soft px-3 py-2">
-          <p className="label text-[0.65rem] text-violet">Polling unit code</p>
-          <p className="mono text-lg font-medium tracking-wider">24/14/05/012</p>
-        </div>
-      </div>
-      <figcaption id="card-cap" className="mt-3 text-center text-sm text-muted">
-        Your voter&apos;s card (PVC) carries your polling unit code: four numbers for state, LGA, ward and unit.
-      </figcaption>
-    </figure>
-  );
-}
-
 export default function Home() {
   const s = stats();
+  const mapPaths = nationalMapPaths();
   const zones = Object.entries(
     geo.states.reduce<Record<string, typeof geo.states>>((acc, st) => {
       if (!acc[st.zone]) acc[st.zone] = [];
@@ -49,39 +31,78 @@ export default function Home() {
 
   return (
     <>
-      <section className="border-b border-rule">
+      <section className="relative overflow-hidden border-b border-rule bg-sheet">
         <div
-          className="mx-auto grid max-w-5xl items-center gap-10 py-10 sm:py-16 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)]"
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_82%_8%,var(--green-soft),transparent_42%)] opacity-80"
+        />
+        <div
+          className="shell relative grid gap-10 py-10 sm:py-14 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:items-center"
           style={gutter}
         >
           <div className="min-w-0">
             <p className="label text-green">Nigeria · 2027 general election</p>
-            <h1 className="display mt-3 text-[2.6rem] sm:text-6xl">
+            <h1 className="display mt-3 max-w-[18ch] text-[2.5rem] leading-[0.98] sm:text-6xl xl:text-7xl">
               Know who&apos;s on your ballot <span className="text-green">before you thumbprint it.</span>
             </h1>
-            <p className="mt-5 max-w-[52ch] text-lg text-muted">
+            <p className="mt-5 max-w-[58ch] text-lg text-muted">
               Every candidate you can vote for, from President to your State Assembly seat, taken from INEC&apos;s
               official lists for all 36 states and the FCT.
             </p>
-            <div className="mt-8">
+            <div className="mt-8 max-w-2xl">
               <FindBallot autoFocus quick={quickEntries()} />
             </div>
+            <p className="mt-3 max-w-[64ch] text-sm text-muted">
+              Your voter&apos;s card has a code like <span className="mono text-ink">24/14/05/012</span>. Type it above,
+              or search by LGA, ward, candidate or party.
+            </p>
+            <dl className="mt-8 grid max-w-xl grid-cols-3 gap-3 border-t border-rule pt-5">
+              {[
+                ["Candidates", s.candidates.toLocaleString()],
+                ["LGAs", s.lgas.toLocaleString()],
+                ["Wards", s.wards.toLocaleString()],
+              ].map(([label, value]) => (
+                <div key={label}>
+                  <dt className="label text-[0.65rem] text-muted">{label}</dt>
+                  <dd className="display-tight mt-1 text-2xl text-ink">{value}</dd>
+                </div>
+              ))}
+            </dl>
           </div>
           <div className="min-w-0">
-            <CardHint />
+            <GeoMap
+              paths={mapPaths}
+              viewBox={nationalMapViewBox}
+              title="37 states. One ballot."
+              description="Each shape is a state or the FCT. Hover to see it, click to open its candidates."
+            />
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-5xl py-12" style={gutter}>
-        <h2 className="display-tight text-2xl">Two voting days, five votes</h2>
-        <p className="mt-1 text-muted">
-          Most voters cast five ballots across two Saturdays. The FCT and the eight off-cycle states vote in fewer
-          races.
-        </p>
+      <section className="shell py-12" style={gutter}>
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <h2 className="display-tight text-2xl">Two voting days, five votes</h2>
+            <p className="mt-1 max-w-[62ch] text-muted">
+              Most voters cast five ballots across two Saturdays. The FCT and the eight off-cycle states vote in fewer
+              races.
+            </p>
+          </div>
+          <Link
+            prefetch={false}
+            href="/guide"
+            className="inline-flex min-h-11 items-center rounded-full border border-rule bg-sheet px-4 text-sm font-medium hover:border-green hover:bg-green-soft"
+          >
+            How voting day works <span aria-hidden>→</span>
+          </Link>
+        </div>
         <div className="mt-6 grid gap-5 md:grid-cols-2">
           {ELECTIONS.map((e) => (
-            <article key={e.date} className="sheet overflow-hidden">
+            <article
+              key={e.date}
+              className="sheet overflow-hidden motion-safe:transition-transform motion-safe:duration-200 motion-safe:hover:-translate-y-0.5"
+            >
               <header className="sheet-band flex items-start justify-between gap-4 px-5 pb-4 pt-5">
                 <div>
                   <p className="label text-green">{e.label}</p>
@@ -109,27 +130,24 @@ export default function Home() {
           Dates from INEC&apos;s revised 2027 timetable. Governorship polls in Anambra, Bayelsa, Edo, Ekiti, Imo, Kogi,
           Ondo and Osun run on their own calendar. The FCT has no governor or state assembly.
         </p>
-        <Link
-          prefetch={false}
-          href="/who-decides"
-          className="mt-6 flex items-center justify-between gap-4 rounded-md border-2 border-green bg-green-soft px-5 py-4 hover:bg-green-soft/70"
-        >
-          <span>
-            <span className="display-tight block text-lg">Who controls fuel prices? Your roads? Your school?</span>
-            <span className="block text-sm text-muted">
-              See which office decides what before you choose who to vote for.
-            </span>
-          </span>
-          <span aria-hidden className="text-2xl text-green">
-            →
-          </span>
-        </Link>
       </section>
 
       <section className="border-y border-rule bg-sheet">
-        <div className="mx-auto max-w-5xl py-12" style={gutter}>
-          <h2 className="display-tight text-2xl">From your voter&apos;s card to a decision</h2>
-          <ol className="mt-6 grid gap-8 md:grid-cols-3">
+        <div className="shell py-12" style={gutter}>
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <h2 className="display-tight text-2xl">From your voter&apos;s card to a decision</h2>
+              <p className="mt-1 max-w-[62ch] text-muted">Three steps, no account. Your marks stay in this browser.</p>
+            </div>
+            <Link
+              prefetch={false}
+              href="/who-decides"
+              className="inline-flex min-h-11 items-center rounded-full border border-rule bg-paper px-4 text-sm font-medium hover:border-green hover:bg-green-soft"
+            >
+              See who decides what <span aria-hidden>→</span>
+            </Link>
+          </div>
+          <ol className="mt-6 grid gap-4 md:grid-cols-3">
             {[
               [
                 "Find your ballot",
@@ -144,30 +162,33 @@ export default function Home() {
                 "Tap the thumbprint to mark who you're leaning towards. It stays on this phone only. Bring your PVC and vote at your own polling unit.",
               ],
             ].map(([t, d], i) => (
-              <li key={t} className="grid grid-cols-[auto_1fr] gap-4">
-                <span className="display grid h-10 w-10 place-items-center rounded-full border-2 border-green text-lg text-green">
-                  {i + 1}
-                </span>
-                <div>
-                  <h3 className="font-semibold">{t}</h3>
-                  <p className="mt-1 text-[0.95rem] text-muted">{d}</p>
+              <li
+                key={t}
+                className="group rounded-lg border border-rule bg-paper p-5 motion-safe:transition-colors hover:border-green hover:bg-green-soft/40"
+              >
+                <div className="flex items-center gap-3">
+                  <span className="display grid h-11 w-11 place-items-center rounded-full border-2 border-green text-lg text-green">
+                    {i + 1}
+                  </span>
+                  <h3 className="display-tight text-xl">{t}</h3>
                 </div>
+                <p className="mt-3 text-[0.95rem] text-muted">{d}</p>
               </li>
             ))}
           </ol>
         </div>
       </section>
 
-      <section className="mx-auto max-w-5xl py-12" style={gutter}>
+      <section className="shell py-12" style={gutter}>
         <div className="flex flex-wrap items-baseline justify-between gap-2">
           <h2 className="display-tight text-2xl">Browse by state</h2>
           <p className="mono text-xs text-muted">
             {s.candidates.toLocaleString()} candidates · {s.lgas} LGAs · {s.wards.toLocaleString()} wards
           </p>
         </div>
-        <div className="mt-6 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {zones.map(([zone, states]) => (
-            <div key={zone}>
+            <div key={zone} className="rounded-lg border border-rule bg-sheet p-4">
               <h3 className="label border-b border-rule pb-2 text-muted">{zone}</h3>
               <ul className="mt-1 grid grid-cols-2">
                 {states.map((st) => (
@@ -175,15 +196,41 @@ export default function Home() {
                     <Link
                       prefetch={false}
                       href={`/state/${st.slug}`}
-                      className="block rounded px-1 py-1.5 hover:bg-green-soft hover:text-green"
+                      className="flex min-h-10 items-center justify-between gap-2 rounded px-2 py-1.5 text-sm hover:bg-green-soft hover:text-green"
                     >
-                      {st.short}
+                      <span className="truncate">{st.short}</span>
+                      <span aria-hidden className="text-muted">
+                        →
+                      </span>
                     </Link>
                   </li>
                 ))}
               </ul>
             </div>
           ))}
+        </div>
+      </section>
+
+      <section className="border-t border-rule bg-sheet">
+        <div className="shell grid gap-4 py-10 md:grid-cols-2" style={gutter}>
+          <Link
+            prefetch={false}
+            href="/data"
+            className="group rounded-lg border-2 border-green bg-green-soft/50 p-5 hover:bg-green-soft"
+          >
+            <p className="label text-green">Sourced</p>
+            <p className="display-tight mt-2 text-xl">Every candidate links back to INEC&apos;s document.</p>
+            <p className="mt-1 text-sm text-muted">See coverage, known gaps and how corrections work.</p>
+          </Link>
+          <Link
+            prefetch={false}
+            href="/promises"
+            className="group rounded-lg border border-rule bg-paper p-5 hover:border-green hover:bg-green-soft/40"
+          >
+            <p className="label text-violet">Compare</p>
+            <p className="display-tight mt-2 text-xl">What do the candidates promise?</p>
+            <p className="mt-1 text-sm text-muted">Manifestos and reported pledges, topic by topic, with sources.</p>
+          </Link>
         </div>
       </section>
     </>
