@@ -133,8 +133,15 @@ The data contract test fails when a race, state, LGA or district ID disappears.
 `DATA_BOT_TOKEN` can push data branches and merge pull requests. If it leaks:
 
 1. Revoke the token in GitHub settings and delete the repository secret.
-2. Disable the three data workflows (`ingest.yml`, `media.yml`, `official-photos.yml`) and close any open data pull requests (`data/ingest`, `data/media`, `data/official-photos`).
-3. Review the repository security log, recent pull requests and `git log --stat` for `scripts/`, `.github/`, `data/`, `public/`, `tests/`, `data/sources.json`, `package.json`, `package-lock.json`, `requirements.txt`, `requirements-dev.txt` and `next.config.ts`.
+2. Disable the three data workflows (`ingest.yml`, `media.yml`, `official-photos.yml`) and close every open `data/*` pull request:
+
+   ```sh
+   gh pr list --state open --json number,headRefName \
+     --jq '.[] | select(.headRefName | startswith("data/")) | .number' |
+     while read -r pr; do [ -n "$pr" ] && gh pr close "$pr" --delete-branch; done
+   ```
+
+3. Review the repository security log, recent pull requests and `git log --stat` for `src/`, `scripts/`, `.github/`, `data/`, `public/`, `tests/`, `data/sources.json`, `package.json`, `package-lock.json`, `requirements.txt`, `requirements-dev.txt` and `next.config.ts`.
 4. Rotate the Vercel environment variables `BLOB_READ_WRITE_TOKEN` and `SEARCH_REPORT_KEY`. A preview build from a planted change can read them.
 5. Revert anything unexplained. A planted change can read a rotated token on the next run, so revocation alone is not enough.
 6. Create a replacement token with only Contents: Read and write and Pull requests: Read and write, add the secret, re-enable the workflows, and run one ingest. Confirm the pull request waits for both checks and auto-merges.

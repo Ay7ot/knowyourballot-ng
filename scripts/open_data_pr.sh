@@ -12,7 +12,7 @@
 #   DATA_BOT_TOKEN         fine-grained PAT or GitHub App token with
 #                          contents:write and pull-requests:write on this repo
 #   GITHUB_REPOSITORY      owner/repo, set by GitHub Actions
-#   MERGE_TIMEOUT_SECONDS  optional, default 1200
+#   MERGE_TIMEOUT_SECONDS  optional, default 1500
 #   MERGE_POLL_SECONDS     optional, default 10, minimum 1
 #   DATA_REMOTE            optional test override for the git remote
 
@@ -113,10 +113,16 @@ for attempt in 1 2 3; do
 done
 
 state="$(gh pr view "$pr" --json state --jq '.state')"
-if [ "$state" = "MERGED" ]; then
-  echo "Pull request ${pr} merged."
-  exit 0
-fi
+case "$state" in
+  MERGED)
+    echo "Pull request ${pr} merged."
+    exit 0
+    ;;
+  CLOSED)
+    echo "Pull request ${pr} was closed without merging." >&2
+    exit 1
+    ;;
+esac
 
 auto_merge="$(gh pr view "$pr" --json autoMergeRequest --jq '.autoMergeRequest')"
 if [ -z "$auto_merge" ] || [ "$auto_merge" = "null" ]; then
@@ -127,7 +133,7 @@ fi
 # A green workflow should mean the data merged, not merely that auto-merge was
 # requested. Wait for the merge so a failed required check shows up here. The
 # workflows set MERGE_TIMEOUT_SECONDS above the CI job timeouts.
-merge_timeout="${MERGE_TIMEOUT_SECONDS:-1200}"
+merge_timeout="${MERGE_TIMEOUT_SECONDS:-1500}"
 poll="${MERGE_POLL_SECONDS:-10}"
 if [ "$poll" -lt 1 ]; then
   poll=10

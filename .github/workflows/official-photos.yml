@@ -16,7 +16,7 @@ concurrency:
 jobs:
   photos:
     runs-on: ubuntu-latest
-    timeout-minutes: 50
+    timeout-minutes: 55
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
@@ -37,7 +37,7 @@ jobs:
       - name: Open or update the data pull request
         env:
           DATA_BOT_TOKEN: ${{ secrets.DATA_BOT_TOKEN }}
-          MERGE_TIMEOUT_SECONDS: "1200"
+          MERGE_TIMEOUT_SECONDS: "1500"
         run: |
           git add data/official_photos.json public/candidates/official
           cat > "$RUNNER_TEMP/pr-body.md" <<'EOF'

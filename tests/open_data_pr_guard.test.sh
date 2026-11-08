@@ -66,4 +66,24 @@ if ! grep -q "not on main" "$tmp/ancestor.log"; then
   exit 1
 fi
 
+# A data change already on main is a no-op, not an empty pull request.
+cd "$work"
+git reset -q --hard
+git clean -qfd
+git checkout -q main
+printf 'already\n' > data.txt
+git add data.txt
+git commit -qm already
+git push -q origin main
+git checkout -q HEAD~1
+printf 'already\n' > data.txt
+git add data.txt
+
+if ! DATA_REMOTE="$bare" DATA_BOT_TOKEN=dummy GITHUB_REPOSITORY=test/repo \
+  bash "$script" data/ingest "test" "test" "$body" >"$tmp/already.log" 2>&1; then
+  echo "an already-on-main change should exit 0" >&2
+  cat "$tmp/already.log" >&2
+  exit 1
+fi
+
 echo "open_data_pr guard tests pass"

@@ -13,7 +13,7 @@
 - history stays linear;
 - no bypass actor is listed. The rules bind everyone, including the repository owner. The check command below reports `bypass_actors` and `current_user_can_bypass`; record both after applying.
 
-The ruleset, the workflow checkouts and the CI trigger all target `main`. If you rename the default branch, update all three.
+The ruleset, the workflow checkouts, the CI trigger and the script all target `main`. If you rename the default branch, update all four.
 
 ## Data pull requests
 
@@ -21,7 +21,7 @@ The ruleset, the workflow checkouts and the CI trigger all target `main`. If you
 
 The pull request author is the account that owns the token. A fine-grained PAT acts as its owner, so the author is the maintainer; the commit author is `ballot-data-bot`. Use a GitHub App if you want a distinct actor. Auto-merge is enabled immediately, so the pull request is an audit trail, not a manual approval gate. Close it or revert if the diff is wrong. Do not use the `data/*` branches for human work.
 
-The data workflow waits for the pull request to merge. A green run means the data merged, there were no data changes, or the change was already on `main`. A red run after the pull request was created means a required check failed, the pull request was closed, or the wait timed out. The workflows set `MERGE_TIMEOUT_SECONDS` to 1200 seconds, with job timeouts of 50 minutes for ingest and official photos and 330 minutes for media.
+The data workflow waits for the pull request to merge. A green run means the data merged, there were no data changes, or the change was already on `main`. A red run after the pull request was created means a required check failed, the pull request was closed, or the wait timed out. The workflows set `MERGE_TIMEOUT_SECONDS` to 1500 seconds, with job timeouts of 55 minutes for ingest and official photos and 335 minutes for media.
 
 ## Rollout status
 
