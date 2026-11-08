@@ -71,14 +71,14 @@ python scripts/fetch_official_photos.py   # X profile photos for handles in offi
 python scripts/photo_options.py <id> "<Commons category>"   # list Commons options for a human to pick
 ```
 
-GitHub Actions (they commit data back to `main`, which triggers a deploy):
+GitHub Actions (they open auto-merged data pull requests; the merge triggers a deploy):
 
 - **ingest.yml**: daily 05:00 UTC, plus on changes to `sources.json` or the ingest scripts. Downloads INEC PDFs, parses with pdfplumber, rebuilds `ballot.json`. INEC substitutes candidates and courts change lists right up to election day, so this matters.
 - **media.yml**: Mondays, or manual with an `offices` input. Party logos and Commons photos. Long runs (up to 5 hours for all offices).
 - **official-photos.yml**: on changes to `official_handles.json` or its script.
 - **photo-options.yml**: manual. Pushes review thumbnails to the `photo-review` branch (never `main`). That branch is a scratch area; nothing in it needs merging.
 
-All data workflows share the `ingest` concurrency group so they don't race each other's commits. If you push while a workflow is running, pull first.
+All data workflows share the `ingest` concurrency group so they don't race each other's branch pushes. If you push while a workflow is running, pull first.
 
 ### Photo matching rules (don't loosen without a reason)
 
@@ -147,11 +147,11 @@ Vercel is connected to the GitHub repo. Push to `main` and Vercel builds and dep
 
 - **Licence: MIT.** See `LICENSE`.
 - **Generated JSON stays in Git.** No Git LFS and no external artifact store; review large additions and keep new committed artifacts small.
-- **Full gate on `main`: bot identity with auto-merged data pull requests.** The data workflows push reserved branches and open pull requests with `DATA_BOT_TOKEN`; the full ruleset requires a pull request and both CI checks, with no bypass actor. The live ruleset stays partial until the secret exists and the workflow change is merged; one data run then validates auto-merge. See `docs/branch-protection.md`.
+- **Full gate on `main`: a dedicated token with auto-merged data pull requests.** The data workflows push reserved branches and open pull requests with `DATA_BOT_TOKEN`; the full ruleset requires a pull request and both CI checks, with no bypass actor. The live ruleset stays partial until the secret exists and the workflow change is merged; one data run then validates auto-merge. See `docs/branch-protection.md`.
 
 ## Open decisions (need Ayomide)
 
-1. **Set `DATA_BOT_TOKEN` and validate auto-merge.** Create the fine-grained token, add the repository secret, merge the workflow change, apply `.github/ruleset.json`, then run one ingest to validate auto-merge. The steps are in `docs/branch-protection.md`.
+1. **Set `DATA_BOT_TOKEN` and validate auto-merge.** Create the fine-grained token, add the repository secret, disable the three data workflows, merge the workflow change, apply `.github/ruleset.json`, record the ruleset state, re-enable the workflows, then run one ingest. The exact steps are in `docs/branch-protection.md`.
 2. **Official X photos for other candidates.** Options: (a) President, Governor and Senate first, then report coverage (recommended: that's where voters look and where accounts can be verified); (b) everyone verifiable, including Reps and Assembly (slow, most have no verifiable account); (c) Obi only, add others when campaigns send photos. These images are not freely licensed; credit and removal requests are the mitigation.
 3. **Set `SEARCH_REPORT_KEY`** in Vercel so failed searches can be reviewed.
 4. **Campaign outreach** for photos and manifestos: the reliable way to cover the ~13,000 candidates with no public record.

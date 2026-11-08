@@ -8,6 +8,7 @@ Operational procedures for the live site and the data pipeline. Pushing to `main
 | --------------------------------------- | ---------------------------------------------------------------------------- |
 | Daily ingest failed                     | Check the Actions log and `data/candidates/_report.json`                     |
 | Data PR or auto-merge failed            | Check `DATA_BOT_TOKEN`, the reserved branch and the auto-merge setting       |
+| `DATA_BOT_TOKEN` compromised            | Revoke it, disable the data workflows, audit scripts and workflows           |
 | Bad data reached production             | Roll back the data commit and the Vercel deployment, then fix the parser     |
 | Vercel build failed                     | Run `npm run build` locally and compare the error                            |
 | Search report returns 404               | Set or check `SEARCH_REPORT_KEY` in Vercel                                   |
@@ -49,6 +50,8 @@ The data workflows push a reserved branch and open an auto-merged pull request. 
 5. If auto-merge is unavailable, check Settings, General, Allow auto-merge. The workflow enables it with `gh pr merge --auto`.
 6. If the pull request conflicts, resolve it on the data branch or close the pull request and rerun the workflow. Do not push the data commit to `main` by hand.
 7. If a required check never reports, confirm the check names are exactly `App checks and build` and `Python pipeline tests`, and that `ci.yml` runs on `pull_request`.
+8. If the run is red after the pull request was created, open the pull request and check the failing required job. The data workflow waits for the merge; a failed check, a closed pull request or a timeout makes the run red.
+9. A green run with no pull request means there were no data changes. It does not validate the gate.
 
 ## Bad data in production
 
@@ -125,11 +128,23 @@ The data contract test fails when a race, state, LGA or district ID disappears.
 - **Data:** revert the data commit on a branch, run the checks, and merge through a pull request.
 - **Workflow change:** revert the workflow commit. A rerun uses the workflow from the commit that triggered it.
 
+## Token compromised
+
+`DATA_BOT_TOKEN` can push data branches and merge pull requests. If it leaks:
+
+1. Revoke the token in GitHub settings and delete the repository secret.
+2. Disable the three data workflows (`ingest.yml`, `media.yml`, `official-photos.yml`).
+3. Review the repository security log, recent pull requests and `git log` for `scripts/`, `.github/`, `data/sources.json`, `package.json` and `next.config.ts`.
+4. Revert anything unexplained. A planted change can read a rotated token on the next run, so revocation alone is not enough.
+5. Create a replacement token with only Contents: Read and write and Pull requests: Read and write, add the secret, re-enable the workflows, and run one ingest. Confirm the pull request waits for both checks and auto-merges.
+
 ## Rotate `DATA_BOT_TOKEN`
 
-1. Create a replacement fine-grained token with Contents: Read and write and Pull requests: Read and write, scoped to this repository.
+Token expiry: ____________________ (record the date when the token is created; set a reminder 14 days before).
+
+1. Create a replacement fine-grained token with Contents: Read and write and Pull requests: Read and write, scoped to this repository. Grant nothing else.
 2. Update the repository secret `DATA_BOT_TOKEN`.
-3. Run `gh workflow run ingest.yml` and confirm it opens and auto-merges a pull request, or exits with no changes.
+3. Run `gh workflow run ingest.yml` and confirm the run either merges a data pull request after both checks or exits with no changes. A no-change run does not validate auto-merge.
 4. Revoke the old token.
 
 ## Escalation

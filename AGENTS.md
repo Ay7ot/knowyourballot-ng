@@ -103,8 +103,8 @@ src/lib/            data.ts (server-only data access), types.ts, seo.ts,
 src/fonts/          subsetted WOFF2 files
 data/               committed data (generated and hand-maintained; see below)
 public/             candidates/*.webp, parties/*.webp, data/pu/*.json
-scripts/            Python data pipeline + smoke.sh + snapshot_ids.mjs
-tests/              data-contract.test.mjs, python/test_*.py, fixtures/data-ids.json
+scripts/            Python data pipeline + smoke.sh + snapshot_ids.mjs + open_data_pr.sh
+tests/              data-contract.test.mjs, open_data_pr_guard.test.sh, python/test_*.py, fixtures/data-ids.json
 docs/               data.md, testing.md, runbook.md, labels.md
 .github/workflows/  ci.yml, ingest.yml, media.yml, official-photos.yml, photo-options.yml
 biome.json          lint and format config
@@ -195,12 +195,12 @@ uv run python scripts/subset_fonts.py               # rebuild fonts if they chan
 
 Workflows:
 
-- `ingest.yml`: daily 05:00 UTC, plus on `data/sources.json` / ingest script changes. Downloads, parses, rebuilds `ballot.json`, commits to `main`.
+- `ingest.yml`: daily 05:00 UTC, plus on `data/sources.json` / ingest script changes. Downloads, parses, rebuilds `ballot.json`, and opens an auto-merged pull request.
 - `media.yml`: Mondays (or manual with `offices`), party logos and Commons photos; up to 5 hours.
 - `official-photos.yml`: on `data/official_handles.json` or script changes.
 - `photo-options.yml`: manual; pushes review images to the `photo-review` branch, never `main`.
 
-All data workflows share concurrency group `ingest` and commit back to `main`, which triggers a deploy. Pull before pushing if a workflow is running.
+All data workflows share concurrency group `ingest` and open auto-merged pull requests; the merge triggers a deploy. Pull before pushing if a workflow is running.
 
 ---
 
@@ -225,16 +225,17 @@ All data workflows share concurrency group `ingest` and commit back to `main`, w
 
 Deterministic layers exist. Run all of them before a pull request:
 
-| Command                                | Covers                                                                                          |
-| -------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| `npm run audit`                        | npm vulnerabilities at any severity                                                             |
-| `npm run check`                        | Biome formatting and lint                                                                       |
-| `npm run typecheck`                    | TypeScript strict compile                                                                       |
-| `npm test`                             | Data contract, foreign keys, sources, photo files, candidate IDs, maps and polling unit parsing |
-| `npm run build`                        | Every route and static page                                                                     |
-| `npm run smoke`                        | Built server, key routes, security headers and API guards                                       |
-| `uv run pytest -q`                     | Python pipeline helpers                                                                         |
-| `uv run pip-audit -r requirements.txt` | Python dependencies, on the Linux resolution                                                    |
+| Command                                 | Covers                                                                                          |
+| --------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| `npm run audit`                         | npm vulnerabilities at any severity                                                             |
+| `npm run check`                         | Biome formatting and lint                                                                       |
+| `npm run typecheck`                     | TypeScript strict compile                                                                       |
+| `npm test`                              | Data contract, foreign keys, sources, photo files, candidate IDs, maps and polling unit parsing |
+| `bash tests/open_data_pr_guard.test.sh` | Data branch names cannot target `main`; a no-change data run is a no-op                         |
+| `npm run build`                         | Every route and static page                                                                     |
+| `npm run smoke`                         | Built server, key routes, security headers and API guards                                       |
+| `uv run pytest -q`                      | Python pipeline helpers                                                                         |
+| `uv run pip-audit -r requirements.txt`  | Python dependencies, on the Linux resolution                                                    |
 
 Test files:
 
