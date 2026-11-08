@@ -253,7 +253,7 @@ Not covered yet: browser end-to-end for search and picks, automated accessibilit
 - Vercel is connected to GitHub. **Push to `main` → production deploy**; other branches get preview URLs. There is no `vercel.json`.
 - Before pushing: `npm run audit && npm run check && npm run typecheck && npm test && npm run build && npm run smoke`. After pushing: check the live page.
 - CI in `.github/workflows/ci.yml` runs audit, format/lint, typecheck, tests, build and smoke on every pull request and push to `main`. GitHub Actions are pinned to commit SHAs, and checkouts do not persist credentials.
-- **`main` is protected.** Changes land through a pull request with CI; force pushes and branch deletion are blocked. The data workflows are the only automation allowed to bypass the pull request requirement.
+- **`main` blocks history rewrites, not direct pushes.** A ruleset blocks force pushes, branch deletion and non-linear history for everyone, with no bypass actor. It does not require a pull request or passing CI: the data workflows push with `GITHUB_TOKEN`, and GitHub rejects the built-in Actions identity as a ruleset bypass actor on a personal repository. Treat every push as a production deploy. Human changes go through a pull request and the full local gate; do not push to `main` without explicit approval. See `docs/branch-protection.md` for the limitation and the options.
 - Data workflows run `npm run test:data` before committing, so a broken join or missing asset stops the commit.
 - Env vars (none needed for local dev):
   - `BLOB_READ_WRITE_TOKEN`: Vercel Blob store `kyb-search-misses`; without it `/api/search-miss` returns 204 and stores nothing. `vercel env pull .env.local` needs the Vercel CLI (not installed here).

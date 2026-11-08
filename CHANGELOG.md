@@ -33,7 +33,7 @@ All notable changes to this project are recorded here. The format follows [Keep 
 - Normalised party codes at build time. One candidate changed from `S D P` to `SDP`.
 - Data workflows now run the data contract test before committing.
 - Updated the README, HANDOFF and AGENTS documents for the current stack and checks.
-- Added the MIT `LICENSE`, documented the keep-in-Git data decision and added the `main` branch-protection ruleset.
+- Documented the keep-in-Git data decision and added the `main` history-protection ruleset, with the PR/CI limitation recorded.
 - Bumped Pillow to 13.0.0 and pdfplumber to 0.11.10, and added `pip-audit` for the Linux resolution.
 - Pinned GitHub Actions to commit SHAs and stopped persisting checkout credentials.
 - Scoped the npm overrides to the vulnerable parents.
