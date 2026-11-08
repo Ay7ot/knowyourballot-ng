@@ -231,7 +231,7 @@ Deterministic layers exist. Run all of them before a pull request:
 | `npm run check`                         | Biome formatting and lint                                                                       |
 | `npm run typecheck`                     | TypeScript strict compile                                                                       |
 | `npm test`                              | Data contract, foreign keys, sources, photo files, candidate IDs, maps and polling unit parsing |
-| `bash tests/open_data_pr_guard.test.sh` | Data branch names cannot target `main`; a no-change data run is a no-op                         |
+| `bash tests/open_data_pr_guard.test.sh` | Data branch names and non-main checkouts are rejected; a no-change run is a no-op               |
 | `npm run build`                         | Every route and static page                                                                     |
 | `npm run smoke`                         | Built server, key routes, security headers and API guards                                       |
 | `uv run pytest -q`                      | Python pipeline helpers                                                                         |
@@ -253,8 +253,8 @@ Not covered yet: browser end-to-end for search and picks, automated accessibilit
 
 - Vercel is connected to GitHub. **Push to `main` → production deploy**; other branches get preview URLs. There is no `vercel.json`.
 - Before pushing: `npm run audit && npm run check && npm run typecheck && npm test && npm run build && npm run smoke`. After pushing: check the live page.
-- CI in `.github/workflows/ci.yml` runs audit, format/lint, typecheck, tests, build and smoke on every pull request and push to `main`. GitHub Actions are pinned to commit SHAs, and checkouts do not persist credentials.
-- **`main` has a ruleset.** The full gate in `.github/ruleset.json` requires a pull request and the `App checks and build` and `Python pipeline tests` checks, and blocks force pushes, branch deletion and non-linear history for everyone, with no bypass actor. It is applied after the `DATA_BOT_TOKEN` secret exists and the workflow change is merged; one data run then validates auto-merge. Until then the live ruleset blocks history rewrites only. The data workflows open auto-merged pull requests with `DATA_BOT_TOKEN`; they do not push to `main`. Treat every push as a production deploy. Do not push to `main` without explicit approval. Check the live state with the command in `docs/branch-protection.md`.
+- CI in `.github/workflows/ci.yml` runs audit, format/lint, typecheck, tests, the data PR guard, build and smoke on every pull request and push to `main`. GitHub Actions are pinned to commit SHAs, and checkouts do not persist credentials.
+- **`main` has a ruleset.** The full gate in `.github/ruleset.json` requires a pull request and the `App checks and build` and `Python pipeline tests` checks, and blocks force pushes, branch deletion and non-linear history for everyone, with no bypass actor. It is applied after the `DATA_BOT_TOKEN` secret exists and the workflow change is merged, with the data workflows disabled across the merge; one data run then validates auto-merge. Until then the live ruleset blocks history rewrites only. The data workflows open auto-merged pull requests with `DATA_BOT_TOKEN`; they do not push to `main`. Treat every push as a production deploy. Do not push to `main` without explicit approval. Check the live state with the command in `docs/branch-protection.md`.
 - Data workflows run `npm run test:data` before committing, so a broken join or missing asset stops the pull request.
 - Env vars (none needed for local dev):
   - `BLOB_READ_WRITE_TOKEN`: Vercel Blob store `kyb-search-misses`; without it `/api/search-miss` returns 204 and stores nothing. `vercel env pull .env.local` needs the Vercel CLI (not installed here).

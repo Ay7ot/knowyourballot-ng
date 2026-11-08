@@ -10,7 +10,7 @@ The project uses deterministic checks rather than manual inspection. Run the ful
 | `npm run check`                         | Biome formatting and lint pass                                                              |
 | `npm run typecheck`                     | TypeScript compiles with `strict: true`                                                     |
 | `npm test`                              | The data contract, polling unit parser and ID snapshot hold                                 |
-| `bash tests/open_data_pr_guard.test.sh` | Data branch names cannot target `main`; a no-change data run is a no-op                     |
+| `bash tests/open_data_pr_guard.test.sh` | Data branch names and non-main checkouts are rejected; a no-change data run is a no-op      |
 | `npm run build`                         | Every static page and route builds                                                          |
 | `npm run smoke`                         | The built server returns 200 for key routes, sets security headers, and enforces API guards |
 | `uv run pytest -q`                      | Python pipeline helpers behave as expected                                                  |
@@ -63,7 +63,7 @@ The tests read the committed data but do not touch the network.
 
 ### Data PR guards
 
-`tests/open_data_pr_guard.test.sh` runs the branch and no-change guards in `scripts/open_data_pr.sh`. It checks that `main`, `master`, `HEAD`, `feature/x`, `data/Ingest` and `data/ingest/extra` are rejected, and that an accepted data branch with no staged changes exits 0. It does not need a token or network and does not exercise GitHub.
+`tests/open_data_pr_guard.test.sh` runs the branch, checkout and no-change guards in `scripts/open_data_pr.sh`. It checks that `main`, `master`, `HEAD`, `feature/x`, `data/Ingest` and `data/ingest/extra` are rejected, that a checkout which is not an ancestor of `main` is refused, and that an accepted data branch with no staged changes exits 0. It does not need a token or network and does not exercise GitHub.
 
 ### CI
 

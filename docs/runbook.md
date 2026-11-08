@@ -50,8 +50,8 @@ The data workflows push a reserved branch and open an auto-merged pull request. 
 5. If auto-merge is unavailable, check Settings, General, Allow auto-merge. The workflow enables it with `gh pr merge --auto`.
 6. If the pull request conflicts, resolve it on the data branch or close the pull request and rerun the workflow. Do not push the data commit to `main` by hand.
 7. If a required check never reports, confirm the check names are exactly `App checks and build` and `Python pipeline tests`, and that `ci.yml` runs on `pull_request`.
-8. If the run is red after the pull request was created, open the pull request and check the failing required job. The data workflow waits for the merge; a failed check, a closed pull request or a timeout makes the run red.
-9. A green run with no pull request means there were no data changes. It does not validate the gate.
+8. If the run is red after the pull request was created, open the pull request and check the required jobs. They may have failed, or they may still be running when the wait timeout expires; the log says which.
+9. A green run with no pull request means there were no data changes, or the change was already on `main`. It does not validate the gate.
 
 ## Bad data in production
 
@@ -133,10 +133,11 @@ The data contract test fails when a race, state, LGA or district ID disappears.
 `DATA_BOT_TOKEN` can push data branches and merge pull requests. If it leaks:
 
 1. Revoke the token in GitHub settings and delete the repository secret.
-2. Disable the three data workflows (`ingest.yml`, `media.yml`, `official-photos.yml`).
-3. Review the repository security log, recent pull requests and `git log` for `scripts/`, `.github/`, `data/sources.json`, `package.json` and `next.config.ts`.
-4. Revert anything unexplained. A planted change can read a rotated token on the next run, so revocation alone is not enough.
-5. Create a replacement token with only Contents: Read and write and Pull requests: Read and write, add the secret, re-enable the workflows, and run one ingest. Confirm the pull request waits for both checks and auto-merges.
+2. Disable the three data workflows (`ingest.yml`, `media.yml`, `official-photos.yml`) and close any open data pull requests (`data/ingest`, `data/media`, `data/official-photos`).
+3. Review the repository security log, recent pull requests and `git log --stat` for `scripts/`, `.github/`, `data/`, `public/`, `tests/`, `data/sources.json`, `package.json`, `package-lock.json`, `requirements.txt`, `requirements-dev.txt` and `next.config.ts`.
+4. Rotate the Vercel environment variables `BLOB_READ_WRITE_TOKEN` and `SEARCH_REPORT_KEY`. A preview build from a planted change can read them.
+5. Revert anything unexplained. A planted change can read a rotated token on the next run, so revocation alone is not enough.
+6. Create a replacement token with only Contents: Read and write and Pull requests: Read and write, add the secret, re-enable the workflows, and run one ingest. Confirm the pull request waits for both checks and auto-merges.
 
 ## Rotate `DATA_BOT_TOKEN`
 
