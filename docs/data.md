@@ -137,7 +137,7 @@ The boundaries are simplified for display, not survey-grade. Credit geoBoundarie
 
 ## Keeping data in Git
 
-The generated JSON stays in Git by decision. There is no Git LFS and no external artifact store. The repository is larger as a result; review large additions and keep new committed artifacts small. Human changes to `main` go through a pull request; the data workflows are the only automation allowed to push directly, after `npm run test:data` passes.
+The generated JSON stays in Git by decision. There is no Git LFS and no external artifact store. The repository is larger as a result; review large additions and keep new committed artifacts small. Human changes to `main` go through a pull request; the data workflows push reserved branches and open auto-merged pull requests with `DATA_BOT_TOKEN` after `npm run test:data` passes. They do not push directly. See [branch-protection.md](branch-protection.md) for the token and rollout.
 
 ## Adding or correcting data
 

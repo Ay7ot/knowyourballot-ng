@@ -68,7 +68,7 @@ uv run python scripts/fetch_official_photos.py
 
 ## Deploy
 
-Vercel is connected to the repository. A push to `main` builds and deploys production; other branches get previews. Run the checks above before pushing.
+Vercel is connected to the repository. A merge to `main` builds and deploys production; other branches get previews. Changes land through a pull request, and the data workflows open auto-merged data pull requests. Run the checks above before pushing.
 
 Environment variables:
 

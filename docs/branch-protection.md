@@ -4,52 +4,95 @@
 
 ## What is enforced
 
-- force pushes are blocked (`non_fast_forward`);
-- the branch cannot be deleted (`deletion`);
-- history stays linear (`required_linear_history`), so merge with squash or rebase;
-- no bypass actor is listed, so the rules bind everyone, including the repository owner. The API reports `current_user_can_bypass: "never"`.
+- a pull request is required before merging;
+- no approving review is required, because the project has one maintainer;
+- the `App checks and build` and `Python pipeline tests` checks must pass;
+- force pushes are blocked;
+- the branch cannot be deleted;
+- history stays linear, so use squash merges;
+- no bypass actor is listed. The rules bind everyone, including the repository owner. The API reports `current_user_can_bypass: "never"`.
 
-## What is not enforced yet
+The data workflows are not an exception. `ingest.yml`, `media.yml` and `official-photos.yml` stage their changes, push a reserved branch (`data/ingest`, `data/media`, `data/official-photos`), open a pull request with `DATA_BOT_TOKEN`, and enable squash auto-merge. CI runs on the pull request, and GitHub merges it only after both checks pass. The token cannot push to `main` because it is not a bypass actor. Auto-merge is enabled immediately, so the pull request is an audit trail, not a manual approval gate; close it or revert if the diff is wrong. Do not use the `data/*` branches for human work.
 
-The ruleset does not require a pull request or passing CI. A direct push to `main` is still accepted, including one that breaks a test, the smoke check or a data rule. Vercel builds on push and does not wait for CI, so such a push can reach production. The local checklist in `AGENTS.md` is the only pre-push gate for a human; CI runs after the push. `npm run test:data` is the only gate for a data workflow push.
+## Rollout status
 
-The reason is the data workflows. `ingest.yml`, `media.yml` and `official-photos.yml` push to `main` with the job's `GITHUB_TOKEN`. On a repository owned by a personal account, GitHub refuses the built-in GitHub Actions integration as a ruleset bypass actor:
+The full ruleset and the workflow changes are ready. The safe order is:
+
+1. Create the `DATA_BOT_TOKEN` repository secret.
+2. Merge the workflow change after its CI passes.
+3. Apply the full ruleset:
+
+   ```sh
+   gh api --method PUT repos/Ay7ot/knowyourballot-ng/rulesets/26766584 --input .github/ruleset.json
+   ```
+
+4. Run one data workflow and confirm the pull request waits for both checks and auto-merges:
+
+   ```sh
+   gh workflow run ingest.yml
+   ```
+
+5. If the run fails, use the emergency rollback below, fix the token or workflow, and reapply.
+
+Apply the ruleset before the validation run. Under the partial ruleset a pull request has no required checks, so auto-merge can merge immediately. The full ruleset is what makes auto-merge wait for CI.
+
+Until steps 1 to 3 are done, the live ruleset is the partial one: deletion, non-fast-forward and linear history only. A direct push to `main` is still accepted, and Vercel deploys without waiting for CI.
+
+## Create `DATA_BOT_TOKEN`
+
+Use a fine-grained personal access token:
+
+1. On GitHub, open Settings, Developer settings, Personal access tokens, Fine-grained tokens, then Generate new token.
+2. Name it `knowyourballot-data-bot` and set an expiry of at most 365 days. Add the expiry date to the runbook.
+3. Under Repository access, choose Only select repositories and `Ay7ot/knowyourballot-ng`.
+4. Under Permissions, set Contents to Read and write and Pull requests to Read and write. Metadata is read-only and selected automatically.
+5. Generate the token, then add it to the repository as an Actions secret named `DATA_BOT_TOKEN` (Settings, Secrets and variables, Actions, New repository secret).
+
+A GitHub App with the same repository permissions also works and does not expire. Add a step that mints an installation token with `actions/create-github-app-token`, then pass its output as `DATA_BOT_TOKEN` to the data pull request step instead of reading a repository secret.
+
+## Apply
+
+Apply after the token exists and the workflow change is merged. The file describes the applied state.
+
+```sh
+gh api --method PUT repos/Ay7ot/knowyourballot-ng/rulesets/26766584 --input .github/ruleset.json
+```
+
+If the ruleset is ever recreated, use `POST` and update the ID in this document.
+
+## Check
+
+```sh
+gh api repos/Ay7ot/knowyourballot-ng/rulesets/26766584 \
+  --jq '{name,rules,bypass_actors,current_user_can_bypass}'
+```
+
+## Emergency rollback
+
+If the data workflows cannot open or merge a pull request, revert the live ruleset to the partial definition without editing the repository file:
+
+```sh
+gh api --method PUT repos/Ay7ot/knowyourballot-ng/rulesets/26766584 --input - <<'JSON'
+{
+  "name": "Protect main history",
+  "target": "branch",
+  "enforcement": "active",
+  "conditions": { "ref_name": { "include": ["refs/heads/main"], "exclude": [] } },
+  "rules": [{ "type": "deletion" }, { "type": "non_fast_forward" }, { "type": "required_linear_history" }],
+  "bypass_actors": []
+}
+JSON
+```
+
+Fix the token or workflow, reapply `.github/ruleset.json`, then run one data workflow and confirm the pull request waits for CI and auto-merges. Keep the partial ruleset in place meanwhile; it still blocks history rewrites.
+
+## Why there is no Actions bypass
+
+On a repository owned by a personal account, GitHub refuses the built-in GitHub Actions integration as a ruleset bypass actor:
 
 ```
 422 Validation Failed
 Actor GitHub Actions integration must be part of the ruleset source or owner organization
 ```
 
-Adding the `pull_request` or `required_status_checks` rules without a bypass would block those workflows at the push step (`GH013`), so the protection was applied without them.
-
-## Options for a full pull-request and CI gate
-
-1. **Bot identity and auto-merged data pull requests (recommended).** Install a GitHub App on the repository, or create a fine-grained personal access token, and store its credential as `DATA_BOT_TOKEN`. Change the data workflows to push a branch, open a pull request and enable auto-merge. CI runs on the pull request because it is created by the bot, not by `GITHUB_TOKEN`. The ruleset can then require a pull request and both CI checks. A GitHub App key does not expire; a fine-grained token needs rotation, 365 days at most. This is the only option that keeps the data automation while giving every change, human or automated, a pull request and a passing CI run.
-2. **Manual data pull requests.** Have the data workflows push a branch and open a pull request with `GITHUB_TOKEN`. That pull request does not start CI automatically, so the maintainer must approve the run and merge. No secret to manage, but the daily ingest creates a pull request even when only the report timestamp changed. Make that timestamp stable first, or accept the daily step.
-3. **Transfer the repository to an organization.** The built-in GitHub Actions integration becomes a legal bypass actor there. Apply the full PR + CI ruleset with GitHub Actions in `bypass_actors` and leave the workflows unchanged. The repository URL changes, Vercel must be reconnected, and the data bot still bypasses the pull-request gate, so data commits remain covered only by `npm run test:data`.
-4. **Keep the current partial protection.** Force pushes, deletion and non-linear history are blocked for everyone. Direct pushes and failing CI are not blocked. This is the current state.
-
-## Apply
-
-The ruleset file describes the state that is actually applied, not the desired end state. Apply it after changes with:
-
-```sh
-gh api --method POST repos/Ay7ot/knowyourballot-ng/rulesets --input .github/ruleset.json
-```
-
-If the ruleset already exists, update it instead:
-
-```sh
-id=$(gh api repos/Ay7ot/knowyourballot-ng/rulesets --jq '.[] | select(.name == "Protect main history") | .id')
-gh api --method PUT "repos/Ay7ot/knowyourballot-ng/rulesets/$id" --input .github/ruleset.json
-```
-
-When one of the options above is implemented, update the JSON file and this document in the same change.
-
-## Check
-
-```sh
-gh api repos/Ay7ot/knowyourballot-ng/rulesets
-gh api repos/Ay7ot/knowyourballot-ng/rulesets/26766584 \
-  --jq '{name,rules,bypass_actors,current_user_can_bypass}'
-```
+That is why the data workflows use a separate bot identity and a pull request instead of pushing to `main`. Do not add the Actions integration to `bypass_actors`; it cannot be applied here.

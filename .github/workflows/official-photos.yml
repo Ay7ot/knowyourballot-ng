@@ -7,7 +7,7 @@ on:
     paths: [data/official_handles.json, scripts/fetch_official_photos.py]
 
 permissions:
-  contents: write
+  contents: read # data writes use DATA_BOT_TOKEN so the main ruleset applies
 
 concurrency:
   group: ingest
@@ -33,14 +33,17 @@ jobs:
       - run: npm ci
       - name: Validate the data contract
         run: npm run test:data
-      - name: Commit
+      - name: Open or update the data pull request
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DATA_BOT_TOKEN: ${{ secrets.DATA_BOT_TOKEN }}
         run: |
-          git config user.name "ballot-data-bot"
-          git config user.email "actions@users.noreply.github.com"
           git add data/official_photos.json public/candidates/official
-          git diff --cached --quiet && exit 0
-          git commit -m "data: official candidate photos"
-          git pull --rebase "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" main
-          git push "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:main
+          cat > "$RUNNER_TEMP/pr-body.md" <<'EOF'
+          Automated official X photo refresh for allowlisted candidate accounts.
+
+          These images are not freely licensed. Review the credit and removal link in the diff. CI gates the merge; the pull request stays as an audit trail.
+          EOF
+          scripts/open_data_pr.sh data/official-photos \
+            "data: official candidate photos" \
+            "data: official candidate photos" \
+            "$RUNNER_TEMP/pr-body.md"

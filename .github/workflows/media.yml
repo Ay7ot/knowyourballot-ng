@@ -17,7 +17,7 @@ on:
     - cron: "30 6 * * 1" # Mondays: pick up substitutions and newly added photos
 
 permissions:
-  contents: write
+  contents: read # data writes use DATA_BOT_TOKEN so the main ruleset applies
 
 concurrency:
   group: ingest
@@ -53,14 +53,17 @@ jobs:
       - run: npm ci
       - name: Validate the data contract
         run: npm run test:data
-      - name: Commit changes
+      - name: Open or update the data pull request
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DATA_BOT_TOKEN: ${{ secrets.DATA_BOT_TOKEN }}
         run: |
-          git config user.name "ballot-data-bot"
-          git config user.email "actions@users.noreply.github.com"
           git add data/party_logos.json data/candidate_photos.json data/photo_report.json public/parties public/candidates
-          if git diff --cached --quiet; then echo "No changes"; exit 0; fi
-          git commit -m "media: refresh party logos and candidate photos"
-          git pull --rebase "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" main
-          git push "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:main
+          cat > "$RUNNER_TEMP/pr-body.md" <<'EOF'
+          Automated party logo and Commons photo refresh.
+
+          Review the photo report and the licence fields in the diff. CI gates the merge; the pull request stays as an audit trail.
+          EOF
+          scripts/open_data_pr.sh data/media \
+            "media: refresh party logos and candidate photos" \
+            "media: refresh party logos and candidate photos" \
+            "$RUNNER_TEMP/pr-body.md"

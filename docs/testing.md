@@ -62,7 +62,7 @@ The tests read the committed data but do not touch the network.
 
 ### CI
 
-`.github/workflows/ci.yml` runs the app checks, the Python tests and `pip-audit` on every pull request and every push to `main`. The data workflows also run `npm run test:data` before they commit, so a broken join or a missing photo file stops the commit.
+`.github/workflows/ci.yml` runs the app checks, the Python tests and `pip-audit` on every pull request and every push to `main`. The data workflows also run `npm run test:data` before they open a pull request, so a broken join or a missing photo file stops the commit.
 
 ## Not covered yet
 
