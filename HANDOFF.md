@@ -112,7 +112,7 @@ Environment variables (none needed for local dev):
 
 ## Deploy flow
 
-Vercel is connected to the GitHub repo. Push to `main` and Vercel builds and deploys to production; other branches get preview URLs. There's no `vercel.json`. `main` is protected by a repository ruleset: changes land through a pull request with CI, and force pushes and branch deletion are blocked. The data workflows are the only automation allowed to bypass the pull request requirement. Before pushing: `npm run audit && npm run check && npm run typecheck && npm test && npm run build && npm run smoke`. CI in `.github/workflows/ci.yml` runs the same checks on every pull request and push to `main`. After pushing, check the live page. Lighthouse is 100 on desktop and 96 to 98 for mobile performance, limited by Next/React's ~110 KB of shared JS; keep new client JS small.
+Vercel is connected to the GitHub repo. Push to `main` and Vercel builds and deploys to production; other branches get preview URLs. There's no `vercel.json`. `main` has a ruleset that blocks force pushes, branch deletion and non-linear history for everyone. It does not require a pull request or passing CI yet: the data workflows push with `GITHUB_TOKEN`, and GitHub rejects the built-in Actions identity as a bypass actor on a personal repository. Human changes still go through a pull request and the full local checklist. Before pushing: `npm run audit && npm run check && npm run typecheck && npm test && npm run build && npm run smoke`. CI in `.github/workflows/ci.yml` runs the same checks on every pull request and push to `main`, but it runs after a push, not before the deploy. After pushing, check the live page and the CI run. `docs/branch-protection.md` records the limitation and the options for a full gate. Lighthouse is 100 on desktop and 96 to 98 for mobile performance, limited by Next/React's ~110 KB of shared JS; keep new client JS small.
 
 ## Security and limits
 
@@ -147,13 +147,14 @@ Vercel is connected to the GitHub repo. Push to `main` and Vercel builds and dep
 
 - **Licence: MIT.** See `LICENSE`.
 - **Generated JSON stays in Git.** No Git LFS and no external artifact store; review large additions and keep new committed artifacts small.
-- **`main` is protected.** Changes land through a pull request with CI; force pushes and branch deletion are blocked. The data workflows are the only automation allowed to bypass the pull request requirement, after the data contract test passes.
+- **`main` history is protected.** A ruleset blocks force pushes, branch deletion and non-linear history, with no bypass actor. Full PR + CI protection is not enabled yet because the data workflows push with `GITHUB_TOKEN` and GitHub rejects the built-in Actions identity as a bypass actor on a personal repository. See `docs/branch-protection.md` for the limitation and the four options.
 
 ## Open decisions (need Ayomide)
 
-1. **Official X photos for other candidates.** Options: (a) President, Governor and Senate first, then report coverage (recommended: that's where voters look and where accounts can be verified); (b) everyone verifiable, including Reps and Assembly (slow, most have no verifiable account); (c) Obi only, add others when campaigns send photos. These images are not freely licensed; credit and removal requests are the mitigation.
-2. **Set `SEARCH_REPORT_KEY`** in Vercel so failed searches can be reviewed.
-3. **Campaign outreach** for photos and manifestos: the reliable way to cover the ~13,000 candidates with no public record.
+1. **Full gate on `main`.** Choose one of the options in `docs/branch-protection.md`: a bot identity with auto-merged data pull requests (recommended), manual data pull requests, a transfer to a GitHub organization, or keep the current partial protection.
+2. **Official X photos for other candidates.** Options: (a) President, Governor and Senate first, then report coverage (recommended: that's where voters look and where accounts can be verified); (b) everyone verifiable, including Reps and Assembly (slow, most have no verifiable account); (c) Obi only, add others when campaigns send photos. These images are not freely licensed; credit and removal requests are the mitigation.
+3. **Set `SEARCH_REPORT_KEY`** in Vercel so failed searches can be reviewed.
+4. **Campaign outreach** for photos and manifestos: the reliable way to cover the ~13,000 candidates with no public record.
 
 ## Suggested next steps
 
