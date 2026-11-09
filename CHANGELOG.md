@@ -42,6 +42,7 @@ All notable changes to this project are recorded here. The format follows [Keep 
 
 ### Fixed
 
+- Search suggestions are no longer clipped by the home hero or the global search dialog. The list flips above the input when space below is tight, is capped to the visible viewport, and scrolls internally on long result sets.
 - `npm audit` now reports 0 vulnerabilities. `postcss` and `zod` are pinned through `overrides`.
 - Permanent redirect from the old `sha--benue--gboko-iii--s-d-p` URL to the corrected candidate.
 - Unknown candidate, race and state URLs return 404, and the smoke test checks them.

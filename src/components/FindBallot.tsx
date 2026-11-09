@@ -6,6 +6,7 @@ import type Fuse from "fuse.js";
 import type { SearchEntry } from "@/lib/types";
 import type { QuickEntry } from "@/lib/data";
 import { formatPollingUnit, matchPollingUnit, type PollingUnitParts } from "@/lib/polling-unit";
+import { computeListFit, type ListFit } from "@/lib/list-position";
 
 type LgaPoint = { id: string; n: string; s: string; h: string; lat: number | null; lon: number | null };
 
@@ -93,8 +94,28 @@ export default function FindBallot({ autoFocus = false, quick = [] }: { autoFocu
   const [locating, setLocating] = useState(false);
   const [near, setNear] = useState<LgaPoint[] | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
+  // Where the result list goes and how tall it may be.
+  const [listFit, setListFit] = useState<ListFit | null>(null);
   // Autofocus shouldn't pull the (large) search index before the voter shows intent.
   const autoFocused = useRef(false);
+
+  const fit = useCallback(() => {
+    const input = inputRef.current;
+    if (!input) return;
+    const r = input.getBoundingClientRect();
+    const viewport = window.visualViewport;
+    const header = document.querySelector<HTMLElement>("body > header");
+    const next = computeListFit(
+      r.top,
+      r.bottom,
+      viewport?.offsetTop ?? 0,
+      viewport?.height ?? window.innerHeight,
+      header?.getBoundingClientRect().bottom ?? 0,
+    );
+    // Page scroll fires often; only re-render when the fit actually changes.
+    setListFit((prev) => (prev && prev.above === next.above && prev.maxHeight === next.maxHeight ? prev : next));
+  }, []);
 
   const warm = useCallback(() => {
     if (fuse || loading) return;
@@ -232,127 +253,188 @@ export default function FindBallot({ autoFocus = false, quick = [] }: { autoFocu
 
   const showList = open && q.trim().length >= 2;
 
+  // Re-fit when the window, the visual viewport or the page scrolls.
+  useEffect(() => {
+    if (!showList) return;
+    let frame = 0;
+    const schedule = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        fit();
+      });
+    };
+    window.addEventListener("resize", schedule);
+    window.addEventListener("scroll", schedule, { passive: true });
+    const viewport = window.visualViewport;
+    viewport?.addEventListener("resize", schedule);
+    viewport?.addEventListener("scroll", schedule);
+    return () => {
+      if (frame) cancelAnimationFrame(frame);
+      window.removeEventListener("resize", schedule);
+      window.removeEventListener("scroll", schedule);
+      viewport?.removeEventListener("resize", schedule);
+      viewport?.removeEventListener("scroll", schedule);
+    };
+  }, [showList, fit]);
+
+  // The dialog body scrolls only while the results are closed. Toggle a class
+  // from here instead of using :has(), which older Chrome and Firefox lack.
+  useEffect(() => {
+    const body = inputRef.current?.closest(".search-body");
+    if (!body) return;
+    body.classList.toggle("list-open", showList);
+    return () => body.classList.remove("list-open");
+  }, [showList]);
+
+  // Arrow keys can move past the visible rows now that the list can scroll.
+  useEffect(() => {
+    if (!showList || !results[active]) return;
+    const list = listRef.current;
+    const option = list?.querySelector<HTMLElement>('[role="option"][aria-selected="true"]');
+    if (!list || !option) return;
+    if (active === 0) {
+      list.scrollTop = 0; // a new query starts at the top
+      return;
+    }
+    const top = option.offsetTop;
+    const bottom = top + option.offsetHeight;
+    if (top < list.scrollTop) list.scrollTop = top;
+    else if (bottom > list.scrollTop + list.clientHeight) list.scrollTop = bottom - list.clientHeight;
+  }, [showList, active, results]);
+
   return (
     <div className="w-full">
-      <div className="relative">
+      <div>
         <label htmlFor={inputId} className="label mb-2 block text-ink">
           Find your ballot
         </label>
-        <svg
-          aria-hidden
-          viewBox="0 0 24 24"
-          className="pointer-events-none absolute left-4 bottom-[18px] h-5 w-5 text-muted"
-        >
-          <path
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            d="m21 21-4.3-4.3M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z"
-          />
-        </svg>
-        <input
-          id={inputId}
-          ref={inputRef}
-          type="search"
-          inputMode="search"
-          autoComplete="off"
-          role="combobox"
-          aria-autocomplete="list"
-          aria-expanded={showList}
-          aria-controls={listId}
-          aria-activedescendant={showList && results[active] ? optionId(active) : undefined}
-          placeholder="Your LGA, a name, a party or a question"
-          className="control h-14 w-full rounded-lg border-2 border-ink bg-sheet pl-12 pr-12 text-[1.05rem] placeholder:text-muted"
-          value={q}
-          onFocus={() => {
-            if (autoFocused.current) autoFocused.current = false;
-            else warm();
-            setOpen(true);
-          }}
-          onPointerDown={warm}
-          onChange={(e) => {
-            setQ(e.target.value);
-            setActive(0);
-            setOpen(true);
-            setMsg(null);
-            warm();
-          }}
-          onKeyDown={onKey}
-          onBlur={() => setTimeout(() => setOpen(false), 150)}
-        />
-        {q && (
-          <button
-            type="button"
-            aria-label="Clear search"
-            onMouseDown={(e) => e.preventDefault()}
-            onClick={() => {
-              setQ("");
-              setMsg(null);
-              inputRef.current?.focus();
-            }}
-            className="absolute bottom-2 right-2 grid h-10 w-10 place-items-center rounded-md text-muted hover:bg-green-soft hover:text-ink"
+        <div className="relative">
+          <svg
+            aria-hidden
+            viewBox="0 0 24 24"
+            className="pointer-events-none absolute left-4 bottom-[18px] h-5 w-5 text-muted"
           >
-            <svg
-              viewBox="0 0 24 24"
-              aria-hidden
-              className="h-5 w-5"
+            <path
               fill="none"
               stroke="currentColor"
               strokeWidth="2"
               strokeLinecap="round"
+              d="m21 21-4.3-4.3M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z"
+            />
+          </svg>
+          <input
+            id={inputId}
+            ref={inputRef}
+            type="search"
+            inputMode="search"
+            autoComplete="off"
+            role="combobox"
+            aria-autocomplete="list"
+            aria-expanded={showList}
+            aria-controls={listId}
+            aria-activedescendant={showList && results[active] ? optionId(active) : undefined}
+            placeholder="Your LGA, a name, a party or a question"
+            className="control h-14 w-full rounded-lg border-2 border-ink bg-sheet pl-12 pr-12 text-[1.05rem] placeholder:text-muted"
+            value={q}
+            onFocus={() => {
+              if (autoFocused.current) autoFocused.current = false;
+              else warm();
+              fit();
+              setOpen(true);
+            }}
+            onPointerDown={warm}
+            onChange={(e) => {
+              setQ(e.target.value);
+              setActive(0);
+              setOpen(true);
+              setMsg(null);
+              warm();
+              fit();
+            }}
+            onKeyDown={onKey}
+            onBlur={() => setTimeout(() => setOpen(false), 150)}
+          />
+          {q && (
+            <button
+              type="button"
+              aria-label="Clear search"
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={() => {
+                setQ("");
+                setMsg(null);
+                inputRef.current?.focus();
+              }}
+              className="absolute bottom-2 right-2 grid h-10 w-10 place-items-center rounded-md text-muted hover:bg-green-soft hover:text-ink"
             >
-              <path d="M6 6l12 12M18 6 6 18" />
-            </svg>
-          </button>
-        )}
-        {showList && (
-          <div
-            id={listId}
-            role="listbox"
-            className="absolute z-20 mt-2 w-full overflow-hidden rounded-lg border border-rule bg-sheet shadow-xl"
-          >
-            {pu ? (
-              <div>
-                <button
-                  type="button"
-                  onMouseDown={(e) => e.preventDefault()}
-                  onClick={() => lookupPu(pu)}
-                  className="w-full text-left px-4 py-3 bg-green-soft"
-                >
-                  <div className="font-medium">Find polling unit {formatPollingUnit(pu)}</div>
-                  <div className="text-sm text-muted">Open the ballot for this polling unit</div>
-                </button>
-              </div>
-            ) : results.length === 0 && loading && !fuse ? (
-              <div className="px-4 py-3 text-sm text-muted">Loading places and candidates…</div>
-            ) : results.length === 0 ? (
-              <div className="px-4 py-3 text-sm text-muted">
-                Nothing matched &ldquo;{q.trim()}&rdquo;. Try your LGA or ward (like <em>Ikeja</em>), a candidate&apos;s
-                name, a party (like <em>APC</em>), an office (like <em>Senate</em>), or a question like{" "}
-                <em>when is the election</em>.
-              </div>
-            ) : (
-              results.map((r, i) => (
-                <div key={`${r.h}|${r.n}`} id={optionId(i)} role="option" aria-selected={i === active} tabIndex={-1}>
+              <svg
+                viewBox="0 0 24 24"
+                aria-hidden
+                className="h-5 w-5"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+              >
+                <path d="M6 6l12 12M18 6 6 18" />
+              </svg>
+            </button>
+          )}
+          {showList && listFit && (
+            <div
+              id={listId}
+              ref={listRef}
+              role="listbox"
+              style={{
+                maxHeight: listFit.above
+                  ? listFit.maxHeight
+                  : `max(0px, calc(${listFit.maxHeight}px - env(safe-area-inset-bottom, 0px)))`,
+                ...(listFit.above ? { bottom: "calc(100% + 0.5rem)" } : { top: "calc(100% + 0.5rem)" }),
+              }}
+              className="absolute z-20 w-full overflow-y-auto overscroll-contain rounded-lg border border-rule bg-sheet shadow-xl"
+            >
+              {pu ? (
+                <div>
                   <button
                     type="button"
                     onMouseDown={(e) => e.preventDefault()}
-                    onMouseEnter={() => setActive(i)}
-                    onClick={() => go(r)}
-                    className={`w-full text-left px-4 py-3 flex items-center gap-3 ${i === active ? "bg-green-soft" : ""}`}
+                    onClick={() => lookupPu(pu)}
+                    className="w-full text-left px-4 py-3 bg-green-soft"
                   >
-                    <span className="label w-16 shrink-0 text-[0.62rem] text-muted sm:w-20">{r.label}</span>
-                    <span className="min-w-0">
-                      <span className="block truncate font-medium">{r.n}</span>
-                      <span className="line-clamp-2 block text-sm text-muted">{r.x}</span>
-                    </span>
+                    <div className="font-medium">Find polling unit {formatPollingUnit(pu)}</div>
+                    <div className="text-sm text-muted">Open the ballot for this polling unit</div>
                   </button>
                 </div>
-              ))
-            )}
-          </div>
-        )}
+              ) : results.length === 0 && loading && !fuse ? (
+                <div className="px-4 py-3 text-sm text-muted">Loading places and candidates…</div>
+              ) : results.length === 0 ? (
+                <div className="px-4 py-3 text-sm text-muted">
+                  Nothing matched &ldquo;{q.trim()}&rdquo;. Try your LGA or ward (like <em>Ikeja</em>), a
+                  candidate&apos;s name, a party (like <em>APC</em>), an office (like <em>Senate</em>), or a question
+                  like <em>when is the election</em>.
+                </div>
+              ) : (
+                results.map((r, i) => (
+                  <div key={`${r.h}|${r.n}`} id={optionId(i)} role="option" aria-selected={i === active} tabIndex={-1}>
+                    <button
+                      type="button"
+                      onMouseDown={(e) => e.preventDefault()}
+                      onMouseEnter={() => setActive(i)}
+                      onClick={() => go(r)}
+                      className={`w-full text-left px-4 py-3 flex items-center gap-3 ${i === active ? "bg-green-soft" : ""}`}
+                    >
+                      <span className="label w-16 shrink-0 text-[0.62rem] text-muted sm:w-20">{r.label}</span>
+                      <span className="min-w-0">
+                        <span className="block truncate font-medium">{r.n}</span>
+                        <span className="line-clamp-2 block text-sm text-muted">{r.x}</span>
+                      </span>
+                    </button>
+                  </div>
+                ))
+              )}
+            </div>
+          )}
+        </div>
       </div>
 
       {quick.length > 0 && (
@@ -369,6 +451,7 @@ export default function FindBallot({ autoFocus = false, quick = [] }: { autoFocu
                 setOpen(true);
                 warm();
                 inputRef.current?.focus();
+                fit();
               }}
               className="min-h-9 rounded-full border border-rule bg-sheet px-3 font-medium hover:border-green hover:bg-green-soft"
             >

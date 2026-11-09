@@ -93,6 +93,11 @@ input[type="checkbox"].control:focus-visible { outline: 2px solid var(--green); 
 input[type="search"]::-webkit-search-cancel-button,
 input[type="search"]::-webkit-search-decoration { -webkit-appearance: none; appearance: none; }
 
+/* The global search body scrolls only while the result list is closed, so an
+   open list can paint outside the dialog card. FindBallot toggles .list-open;
+   a class keeps this working without :has() on older Chrome and Firefox. */
+.search-body.list-open { overflow: visible; }
+
 /* Display: Archivo, stretched wide like a ballot header. */
 .display { font-family: var(--font-display); font-stretch: 118%; font-weight: 800; letter-spacing: -0.015em; line-height: 1.02; }
 .display-tight { font-family: var(--font-display); font-stretch: 112%; font-weight: 750; letter-spacing: -0.01em; line-height: 1.1; }
