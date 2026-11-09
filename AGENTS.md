@@ -103,8 +103,8 @@ src/lib/            data.ts (server-only data access), types.ts, seo.ts,
 src/fonts/          subsetted WOFF2 files
 data/               committed data (generated and hand-maintained; see below)
 public/             candidates/*.webp, parties/*.webp, data/pu/*.json
-scripts/            Python data pipeline + smoke.sh + snapshot_ids.mjs
-tests/              data-contract.test.mjs, python/test_*.py, fixtures/data-ids.json
+scripts/            Python data pipeline + smoke.sh + snapshot_ids.mjs + open_data_pr.sh
+tests/              data-contract.test.mjs, open_data_pr_guard.test.sh, python/test_*.py, fixtures/data-ids.json
 docs/               data.md, testing.md, runbook.md, labels.md
 .github/workflows/  ci.yml, ingest.yml, media.yml, official-photos.yml, photo-options.yml
 biome.json          lint and format config
@@ -195,12 +195,12 @@ uv run python scripts/subset_fonts.py               # rebuild fonts if they chan
 
 Workflows:
 
-- `ingest.yml`: daily 05:00 UTC, plus on `data/sources.json` / ingest script changes. Downloads, parses, rebuilds `ballot.json`, commits to `main`.
+- `ingest.yml`: daily 05:00 UTC, plus on `data/sources.json` / ingest script changes. Downloads, parses, rebuilds `ballot.json`, and opens an auto-merged pull request.
 - `media.yml`: Mondays (or manual with `offices`), party logos and Commons photos; up to 5 hours.
 - `official-photos.yml`: on `data/official_handles.json` or script changes.
 - `photo-options.yml`: manual; pushes review images to the `photo-review` branch, never `main`.
 
-All data workflows share concurrency group `ingest` and commit back to `main`, which triggers a deploy. Pull before pushing if a workflow is running.
+All data workflows share concurrency group `ingest` and open auto-merged pull requests; the merge triggers a deploy. Pull before pushing if a workflow is running.
 
 ---
 
@@ -225,16 +225,17 @@ All data workflows share concurrency group `ingest` and commit back to `main`, w
 
 Deterministic layers exist. Run all of them before a pull request:
 
-| Command                                | Covers                                                                                          |
-| -------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| `npm run audit`                        | npm vulnerabilities at any severity                                                             |
-| `npm run check`                        | Biome formatting and lint                                                                       |
-| `npm run typecheck`                    | TypeScript strict compile                                                                       |
-| `npm test`                             | Data contract, foreign keys, sources, photo files, candidate IDs, maps and polling unit parsing |
-| `npm run build`                        | Every route and static page                                                                     |
-| `npm run smoke`                        | Built server, key routes, security headers and API guards                                       |
-| `uv run pytest -q`                     | Python pipeline helpers                                                                         |
-| `uv run pip-audit -r requirements.txt` | Python dependencies, on the Linux resolution                                                    |
+| Command                                 | Covers                                                                                          |
+| --------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| `npm run audit`                         | npm vulnerabilities at any severity                                                             |
+| `npm run check`                         | Biome formatting and lint                                                                       |
+| `npm run typecheck`                     | TypeScript strict compile                                                                       |
+| `npm test`                              | Data contract, foreign keys, sources, photo files, candidate IDs, maps and polling unit parsing |
+| `bash tests/open_data_pr_guard.test.sh` | Data branch names and non-main checkouts are rejected; a no-change run is a no-op               |
+| `npm run build`                         | Every route and static page                                                                     |
+| `npm run smoke`                         | Built server, key routes, security headers and API guards                                       |
+| `uv run pytest -q`                      | Python pipeline helpers                                                                         |
+| `uv run pip-audit -r requirements.txt`  | Python dependencies, on the Linux resolution                                                    |
 
 Test files:
 
@@ -252,9 +253,9 @@ Not covered yet: browser end-to-end for search and picks, automated accessibilit
 
 - Vercel is connected to GitHub. **Push to `main` → production deploy**; other branches get preview URLs. There is no `vercel.json`.
 - Before pushing: `npm run audit && npm run check && npm run typecheck && npm test && npm run build && npm run smoke`. After pushing: check the live page.
-- CI in `.github/workflows/ci.yml` runs audit, format/lint, typecheck, tests, build and smoke on every pull request and push to `main`. GitHub Actions are pinned to commit SHAs, and checkouts do not persist credentials.
-- **`main` blocks history rewrites, not direct pushes.** A ruleset blocks force pushes, branch deletion and non-linear history for everyone, with no bypass actor. It does not require a pull request or passing CI: the data workflows push with `GITHUB_TOKEN`, and GitHub rejects the built-in Actions identity as a ruleset bypass actor on a personal repository. Treat every push as a production deploy. Human changes go through a pull request and the full local gate; do not push to `main` without explicit approval. See `docs/branch-protection.md` for the limitation and the options.
-- Data workflows run `npm run test:data` before committing, so a broken join or missing asset stops the commit.
+- CI in `.github/workflows/ci.yml` runs audit, format/lint, typecheck, tests, the data PR guard, build and smoke on every pull request and push to `main`. GitHub Actions are pinned to commit SHAs, and checkouts do not persist credentials.
+- **`main` has a ruleset.** The full gate in `.github/ruleset.json` requires a pull request and the `App checks and build` and `Python pipeline tests` checks, and blocks force pushes, branch deletion and non-linear history for everyone, with no bypass actor. It is applied after the `DATA_BOT_TOKEN` secret exists and the workflow change is merged, with the data workflows disabled across the merge; one data run then validates auto-merge. Until then the live ruleset blocks history rewrites only. The data workflows open auto-merged pull requests with `DATA_BOT_TOKEN`; they do not push to `main`. Treat every push as a production deploy. Do not push to `main` without explicit approval. Check the live state with the command in `docs/branch-protection.md`.
+- Data workflows run `npm run test:data` before committing, so a broken join or missing asset stops the pull request.
 - Env vars (none needed for local dev):
   - `BLOB_READ_WRITE_TOKEN`: Vercel Blob store `kyb-search-misses`; without it `/api/search-miss` returns 204 and stores nothing. `vercel env pull .env.local` needs the Vercel CLI (not installed here).
   - `SEARCH_REPORT_KEY`: **not set yet**. Without it, `GET /api/search-miss` returns 404 (fail closed).
@@ -293,7 +294,7 @@ Not covered yet: browser end-to-end for search and picks, automated accessibilit
 
 ## Known gaps and risks
 
-- **Data workflows still commit to `main`.** They now validate with `npm run test:data` before committing, but there is no human review or PR gate. A bad but structurally valid parse can still deploy.
+- **Data workflows use auto-merged pull requests.** They validate with `npm run test:data` and the full CI before merge, but no human approves the data PR. A bad but structurally valid parse can still deploy. The PR stays as an audit trail.
 - **Large JSON in Git:** `data/ballot.json` ~6.5 MB, `data/candidates/assembly.json` ~3.9 MB, `public/data/pu` ~7.2 MB. Builds and clones are heavy; think before adding more committed artifacts.
 - **ID stability:** names and slugs drive IDs. The data contract test fails when a stable ID is removed, and renames still need a redirect.
 - **Rate limiting is per serverless instance.** The in-memory limiter is not a global quota. Use Vercel WAF or a shared store if abuse becomes a cost problem.

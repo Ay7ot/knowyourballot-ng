@@ -4,16 +4,17 @@ The project uses deterministic checks rather than manual inspection. Run the ful
 
 ## Gates
 
-| Command                                | What it proves                                                                              |
-| -------------------------------------- | ------------------------------------------------------------------------------------------- |
-| `npm run audit`                        | No known npm vulnerabilities at any severity                                                |
-| `npm run check`                        | Biome formatting and lint pass                                                              |
-| `npm run typecheck`                    | TypeScript compiles with `strict: true`                                                     |
-| `npm test`                             | The data contract, polling unit parser and ID snapshot hold                                 |
-| `npm run build`                        | Every static page and route builds                                                          |
-| `npm run smoke`                        | The built server returns 200 for key routes, sets security headers, and enforces API guards |
-| `uv run pytest -q`                     | Python pipeline helpers behave as expected                                                  |
-| `uv run pip-audit -r requirements.txt` | Python dependencies are clean on the Linux resolution                                       |
+| Command                                 | What it proves                                                                              |
+| --------------------------------------- | ------------------------------------------------------------------------------------------- |
+| `npm run audit`                         | No known npm vulnerabilities at any severity                                                |
+| `npm run check`                         | Biome formatting and lint pass                                                              |
+| `npm run typecheck`                     | TypeScript compiles with `strict: true`                                                     |
+| `npm test`                              | The data contract, polling unit parser and ID snapshot hold                                 |
+| `bash tests/open_data_pr_guard.test.sh` | Data branch names and non-main checkouts are rejected; a no-change data run is a no-op      |
+| `npm run build`                         | Every static page and route builds                                                          |
+| `npm run smoke`                         | The built server returns 200 for key routes, sets security headers, and enforces API guards |
+| `uv run pytest -q`                      | Python pipeline helpers behave as expected                                                  |
+| `uv run pip-audit -r requirements.txt`  | Python dependencies are clean on the Linux resolution                                       |
 
 `npm run smoke` expects a production build. Run `npm run build` first.
 
@@ -60,9 +61,13 @@ The tests read the committed data but do not touch the network.
 - `X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options` and `Content-Security-Policy`;
 - `/api/search-miss` rejects a non-JSON body, a browser cross-origin request and an oversized body, hides the report without a key, accepts a bearer key and rate-limits repeated requests.
 
+### Data PR guards
+
+`tests/open_data_pr_guard.test.sh` runs the branch, checkout and no-change guards in `scripts/open_data_pr.sh`. It checks that `main`, `master`, `HEAD`, `feature/x`, `data/Ingest` and `data/ingest/extra` are rejected, that a checkout which is not an ancestor of `main` is refused, and that an accepted data branch with no staged changes exits 0. It does not need a token or network and does not exercise GitHub.
+
 ### CI
 
-`.github/workflows/ci.yml` runs the app checks, the Python tests and `pip-audit` on every pull request and every push to `main`. The data workflows also run `npm run test:data` before they commit, so a broken join or a missing photo file stops the commit.
+`.github/workflows/ci.yml` runs the app checks, the data PR guard test, the Python tests and `pip-audit` on every pull request and every push to `main`. The data workflows also run `npm run test:data` before they open a pull request, so a broken join or a missing photo file stops the commit.
 
 ## Not covered yet
 

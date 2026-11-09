@@ -71,14 +71,14 @@ python scripts/fetch_official_photos.py   # X profile photos for handles in offi
 python scripts/photo_options.py <id> "<Commons category>"   # list Commons options for a human to pick
 ```
 
-GitHub Actions (they commit data back to `main`, which triggers a deploy):
+GitHub Actions (they open auto-merged data pull requests; the merge triggers a deploy):
 
 - **ingest.yml**: daily 05:00 UTC, plus on changes to `sources.json` or the ingest scripts. Downloads INEC PDFs, parses with pdfplumber, rebuilds `ballot.json`. INEC substitutes candidates and courts change lists right up to election day, so this matters.
 - **media.yml**: Mondays, or manual with an `offices` input. Party logos and Commons photos. Long runs (up to 5 hours for all offices).
 - **official-photos.yml**: on changes to `official_handles.json` or its script.
 - **photo-options.yml**: manual. Pushes review thumbnails to the `photo-review` branch (never `main`). That branch is a scratch area; nothing in it needs merging.
 
-All data workflows share the `ingest` concurrency group so they don't race each other's commits. If you push while a workflow is running, pull first.
+All data workflows share the `ingest` concurrency group so they don't race each other's branch pushes. If you push while a workflow is running, pull first.
 
 ### Photo matching rules (don't loosen without a reason)
 
@@ -112,7 +112,7 @@ Environment variables (none needed for local dev):
 
 ## Deploy flow
 
-Vercel is connected to the GitHub repo. Push to `main` and Vercel builds and deploys to production; other branches get preview URLs. There's no `vercel.json`. `main` has a ruleset that blocks force pushes, branch deletion and non-linear history for everyone. It does not require a pull request or passing CI yet: the data workflows push with `GITHUB_TOKEN`, and GitHub rejects the built-in Actions identity as a bypass actor on a personal repository. Human changes still go through a pull request and the full local checklist. Before pushing: `npm run audit && npm run check && npm run typecheck && npm test && npm run build && npm run smoke`. CI in `.github/workflows/ci.yml` runs the same checks on every pull request and push to `main`, but it runs after a push, not before the deploy. After pushing, check the live page and the CI run. `docs/branch-protection.md` records the limitation and the options for a full gate. Lighthouse is 100 on desktop and 96 to 98 for mobile performance, limited by Next/React's ~110 KB of shared JS; keep new client JS small.
+Vercel is connected to the GitHub repo. Push to `main` and Vercel builds and deploys to production; other branches get preview URLs. There's no `vercel.json`. `main` has a ruleset. The full gate in `.github/ruleset.json` requires a pull request and the `App checks and build` and `Python pipeline tests` checks, and blocks force pushes, branch deletion and non-linear history. It is applied after the `DATA_BOT_TOKEN` secret exists and the workflow change is merged, with the data workflows disabled across the merge; one data run then validates auto-merge. Until then the live ruleset blocks history rewrites only. The data workflows push reserved branches and open auto-merged pull requests; they do not push to `main`. Human changes still go through a pull request and the full local checklist. Before pushing: `npm run audit && npm run check && npm run typecheck && npm test && npm run build && npm run smoke`. CI in `.github/workflows/ci.yml` runs the same checks on every pull request and push to `main`. Once the full ruleset is applied, a merge cannot land before the checks pass. After pushing, check the live page and the CI run. `docs/branch-protection.md` has the token setup, apply command and emergency rollback. Lighthouse is 100 on desktop and 96 to 98 for mobile performance, limited by Next/React's ~110 KB of shared JS; keep new client JS small.
 
 ## Security and limits
 
@@ -147,11 +147,11 @@ Vercel is connected to the GitHub repo. Push to `main` and Vercel builds and dep
 
 - **Licence: MIT.** See `LICENSE`.
 - **Generated JSON stays in Git.** No Git LFS and no external artifact store; review large additions and keep new committed artifacts small.
-- **`main` history is protected.** A ruleset blocks force pushes, branch deletion and non-linear history, with no bypass actor. Full PR + CI protection is not enabled yet because the data workflows push with `GITHUB_TOKEN` and GitHub rejects the built-in Actions identity as a bypass actor on a personal repository. See `docs/branch-protection.md` for the limitation and the four options.
+- **Full gate on `main`: a dedicated token with auto-merged data pull requests.** The data workflows push reserved branches and open pull requests with `DATA_BOT_TOKEN`; the full ruleset requires a pull request and both CI checks, with no bypass actor. The live ruleset stays partial until the secret exists and the workflow change is merged, with the data workflows disabled across the merge; one data run then validates auto-merge. See `docs/branch-protection.md`.
 
 ## Open decisions (need Ayomide)
 
-1. **Full gate on `main`.** Choose one of the options in `docs/branch-protection.md`: a bot identity with auto-merged data pull requests (recommended), manual data pull requests, a transfer to a GitHub organization, or keep the current partial protection.
+1. **Set `DATA_BOT_TOKEN` and validate auto-merge.** Create the fine-grained token, add the repository secret, disable the three data workflows, merge the workflow change, apply `.github/ruleset.json`, record the ruleset state, re-enable the workflows, then run one ingest. The exact steps are in `docs/branch-protection.md`.
 2. **Official X photos for other candidates.** Options: (a) President, Governor and Senate first, then report coverage (recommended: that's where voters look and where accounts can be verified); (b) everyone verifiable, including Reps and Assembly (slow, most have no verifiable account); (c) Obi only, add others when campaigns send photos. These images are not freely licensed; credit and removal requests are the mitigation.
 3. **Set `SEARCH_REPORT_KEY`** in Vercel so failed searches can be reviewed.
 4. **Campaign outreach** for photos and manifestos: the reliable way to cover the ~13,000 candidates with no public record.

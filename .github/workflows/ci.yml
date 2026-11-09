@@ -31,6 +31,8 @@ jobs:
       - run: npm run check
       - run: npm run typecheck
       - run: npm run test
+      - name: Test the data PR guards
+        run: bash tests/open_data_pr_guard.test.sh
       - run: npm run build
       - run: npm run smoke
 

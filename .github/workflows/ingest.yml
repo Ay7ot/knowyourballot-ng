@@ -9,7 +9,7 @@ on:
     - cron: "0 5 * * *" # daily, 6am Lagos time: INEC updates lists after substitutions and court orders
 
 permissions:
-  contents: write
+  contents: read # data writes use DATA_BOT_TOKEN so the main ruleset applies
 
 concurrency:
   group: ingest
@@ -18,9 +18,11 @@ concurrency:
 jobs:
   ingest:
     runs-on: ubuntu-latest
+    timeout-minutes: 55
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
+          ref: main
           persist-credentials: false
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
@@ -43,13 +45,18 @@ jobs:
           name: inec-pdfs
           path: .cache/inec/
           retention-days: 30
-      - name: Commit changes
+      - name: Open or update the data pull request
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DATA_BOT_TOKEN: ${{ secrets.DATA_BOT_TOKEN }}
+          MERGE_TIMEOUT_SECONDS: "1500"
         run: |
-          git config user.name "ballot-data-bot"
-          git config user.email "actions@users.noreply.github.com"
           git add data/candidates data/ballot.json
-          if git diff --cached --quiet; then echo "No changes"; exit 0; fi
-          git commit -m "data: refresh INEC candidate lists"
-          git push "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:main
+          cat > "$RUNNER_TEMP/pr-body.md" <<'EOF'
+          Automated INEC ingest from the daily workflow.
+
+          This pull request was opened by the data workflow. It updates the candidate lists, the ballot join and the ingest report. CI gates the merge; the pull request stays as an audit trail.
+          EOF
+          scripts/open_data_pr.sh data/ingest \
+            "data: refresh INEC candidate lists" \
+            "data: refresh INEC candidate lists" \
+            "$RUNNER_TEMP/pr-body.md"

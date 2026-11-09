@@ -33,7 +33,8 @@ All notable changes to this project are recorded here. The format follows [Keep 
 - Normalised party codes at build time. One candidate changed from `S D P` to `SDP`.
 - Data workflows now run the data contract test before committing.
 - Updated the README, HANDOFF and AGENTS documents for the current stack and checks.
-- Documented the keep-in-Git data decision and added the `main` history-protection ruleset, with the PR/CI limitation recorded.
+- Data workflows now push reserved data branches and open auto-merged pull requests with `DATA_BOT_TOKEN`; the full `main` ruleset requires a pull request and both CI checks once the token and a test run are in place.
+- The data PR script rejects branch names that could target `main`, exits on a no-op rerun, and waits for the merge so a failed required check turns the workflow red.
 - Bumped Pillow to 13.0.0 and pdfplumber to 0.11.10, and added `pip-audit` for the Linux resolution.
 - Pinned GitHub Actions to commit SHAs and stopped persisting checkout credentials.
 - Scoped the npm overrides to the vulnerable parents.
