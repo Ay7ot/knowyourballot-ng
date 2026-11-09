@@ -23,9 +23,11 @@ The pull request author is the account that owns the token. A fine-grained PAT a
 
 The data workflow waits for the pull request to merge. A green run means the data merged, there were no data changes, or the change was already on `main`. A red run after the pull request was created means a required check failed, the pull request was closed, or the wait timed out. The workflows set `MERGE_TIMEOUT_SECONDS` to 1500 seconds, with job timeouts of 55 minutes for ingest and official photos and 335 minutes for media.
 
-## Rollout status
+## Rollout procedure
 
-The live ruleset is partial until the token exists, the workflow change is merged, and the full ruleset is applied. The order below keeps a schedule from auto-merging a data pull request while the ruleset has no required checks.
+The full gate was applied on 2026-11-09. The validation run opened data PR #16, which waited for `App checks and build` and `Python pipeline tests` and auto-merged. The live ruleset reports `bypass_actors: []` and `current_user_can_bypass: never`.
+
+Before a rollout, the live ruleset is partial until the token exists, the workflow change is merged, and the full ruleset is applied. The order below keeps a schedule from auto-merging a data pull request while the ruleset has no required checks. Repeat it after an emergency rollback.
 
 1. Create the `DATA_BOT_TOKEN` repository secret with the exact permissions below. Confirm the permission list before saving.
 2. In Settings, General, enable Allow auto-merge and Allow squash merging.
