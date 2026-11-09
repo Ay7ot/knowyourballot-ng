@@ -31,7 +31,7 @@ export default function Home() {
 
   return (
     <>
-      <section className="relative overflow-hidden border-b border-rule bg-sheet">
+      <section className="relative border-b border-rule bg-sheet">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_82%_8%,var(--green-soft),transparent_42%)] opacity-80"

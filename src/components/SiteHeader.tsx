@@ -259,7 +259,7 @@ export default function SiteHeader() {
         ref={searchRef}
         aria-labelledby="search-title"
         onClose={() => setSearchOpen(false)}
-        className="m-auto max-h-[88dvh] w-[min(760px,calc(100vw-24px))] overflow-hidden rounded-xl border border-rule bg-sheet p-0 text-ink shadow-2xl backdrop:bg-black/45"
+        className="m-auto w-[min(760px,calc(100vw-24px))] overflow-visible rounded-xl border border-rule bg-sheet p-0 text-ink shadow-2xl backdrop:bg-black/45"
       >
         <div className="flex items-center justify-between border-b border-rule px-4 py-3">
           <p id="search-title" className="display-tight text-lg">
@@ -273,7 +273,7 @@ export default function SiteHeader() {
             Close
           </button>
         </div>
-        <div className="max-h-[75dvh] overflow-y-auto p-4">
+        <div className="search-body max-h-[75dvh] overflow-y-auto p-4">
           <FindBallot autoFocus quick={[]} />
           <p className="mt-3 text-xs text-muted">
             Search by polling unit code, LGA, ward, candidate or party. Press Esc to close.
