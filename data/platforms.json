@@ -1,5 +1,5 @@
 {
- "checked": "2026-11-06",
+ "checked": "2026-11-09",
  "topics": [
   "Economy",
   "Fuel and power",
@@ -17,12 +17,6 @@
    "date": "2026-11-05",
    "title": "2027: Atiku, Amaechi storm Kebbi, vow to restore fuel subsidy",
    "url": "https://newtelegraphng.com/2027-atiku-amaechi-storm-kebbi-vows-to-restore-fuel-subsidy/"
-  },
-  "pt-shettima-nasarawa": {
-   "outlet": "Premium Times (press release from the Vice President's office)",
-   "date": "2026-11-05",
-   "title": "2027: Shettima says Tinubu administration turning regions into economic powerhouses as APC campaigns in Nasarawa",
-   "url": "https://www.premiumtimesng.com/news/top-news/922821-2027-shettima-says-tinubu-administration-turning-regions-into-economic-powerhouses-as-apc-campaigns-in-nasarawa.html"
   },
   "von-obi-launch": {
    "outlet": "Voice of Nigeria",
@@ -131,6 +125,24 @@
    "date": "2026-10-01",
    "title": "Niger 2027: Nami unveils 10-point agenda",
    "url": "https://blueprint.ng/niger-2027-nami-unveils-10-point-agenda/"
+  },
+  "apc-manifesto-2027": {
+   "outlet": "All Progressives Congress (document hosted by Proshare)",
+   "date": "2026-10-28",
+   "title": "APC Manifesto for the 2027 Presidential Election: From Reforms to Prosperity (Agenda 2027–2031)",
+   "url": "https://prjdg-unstruc.s3.ca-central-1.amazonaws.com/Others/News/249518a9-31af-4b8e-9457-23903981f412"
+  },
+  "statehouse-apc-rally": {
+   "outlet": "State House, Abuja",
+   "date": "2026-11-07",
+   "title": "In Port Harcourt, President Tinubu thanks mammoth crowd at campaign rally for loyalty, commends Wike, Fubara reconciliation",
+   "url": "https://statehouse.gov.ng/in-port-harcourt-president-tinubu-thanks-mammoth-crowd-at-campaign-rally-for-loyalty-commends-wike-fubara-reconciliation/"
+  },
+  "proshare-apc-manifesto": {
+   "outlet": "Proshare",
+   "date": "2026-11-08",
+   "title": "APC Manifesto for the 2027 Elections",
+   "url": "https://proshare.co/articles/apc-manifesto-for-the-2027-elections?category=Elections&classification=Read&menu=Reports"
   }
  },
  "candidates": {
@@ -340,27 +352,156 @@
    ]
   },
   "president--apc": {
-   "status": "pledges",
-   "title": null,
-   "unveiled": null,
-   "document": null,
-   "note": "Campaigning on the record of the Renewed Hope agenda. We haven't found a published 2027 manifesto. These pledges are from the running mate's campaign statements.",
+   "status": "manifesto",
+   "title": "From Reforms to Prosperity",
+   "unveiled": "2026-11-07",
+   "document": "https://prjdg-unstruc.s3.ca-central-1.amazonaws.com/Others/News/249518a9-31af-4b8e-9457-23903981f412",
+   "documentPages": 109,
+   "note": "Unveiled by President Bola Tinubu at the APC presidential rally in Port Harcourt on 7 November 2026. The 109-page document is dated 28 October 2026. It groups the Renewed Hope agenda into four pillars: a secure and resilient nation; a better quality and more affordable life; energy, infrastructure and economic growth; and effective and accountable governance. It says every commitment will carry a baseline, target, cost, owner and reporting date on a public delivery tracker. A copy was published online by Proshare.",
+   "noteSrc": [
+    "apc-manifesto-2027",
+    "statehouse-apc-rally",
+    "proshare-apc-manifesto"
+   ],
    "pledges": [
     {
-     "topic": "Infrastructure",
-     "text": "Complete road links that connect producers to markets, including the Akwanga–Jos–Bauchi–Gombe–Biu–Maiduguri highway.",
+     "topic": "Security",
+     "text": "Safer lives and communities: stronger protection against terrorism, banditry and kidnapping, a police service that responds when needed, and better protection of Nigeria's borders.",
+     "page": 18,
      "src": [
-      "pt-shettima-nasarawa"
+      "apc-manifesto-2027"
+     ]
+    },
+    {
+     "topic": "Security",
+     "text": "Recruit, train and deploy 28,000 additional Army personnel and 50,000 new police officers, moving towards one police officer for every 400 people, with public reporting; cover all mapped borders with electronic surveillance and all identified mining sites with Mining Marshals.",
+     "page": 31,
+     "src": [
+      "apc-manifesto-2027"
+     ]
+    },
+    {
+     "topic": "Economy",
+     "text": "Bring inflation down to single digits, at most 8% year-on-year by the end of 2031, subject to credible, independent monetary policy.",
+     "page": 79,
+     "src": [
+      "apc-manifesto-2027"
+     ]
+    },
+    {
+     "topic": "Economy",
+     "text": "Expand social protection to 20 million verified people by 2030, with school feeding nationwide, and enforce the ₦70,000 minimum wage in every state.",
+     "page": 50,
+     "src": [
+      "apc-manifesto-2027"
+     ]
+    },
+    {
+     "topic": "Economy",
+     "text": "Reach half of all economically active Nigerians with equitable consumer credit by 2030.",
+     "page": 79,
+     "src": [
+      "apc-manifesto-2027"
+     ]
+    },
+    {
+     "topic": "Economy",
+     "text": "Lift annual non-oil exports to at least $15 billion by 2031, including $1 billion from processed cocoa butter, and raise manufacturing to at least 12% of GDP.",
+     "page": 79,
+     "src": [
+      "apc-manifesto-2027"
+     ]
+    },
+    {
+     "topic": "Fuel and power",
+     "text": "Reach at least 7,500MW sustained average and 10,000MW peak power generation by 2031, cut power losses and uncollected bills to at most 16%, and install seven million more meters.",
+     "page": 79,
+     "src": [
+      "apc-manifesto-2027"
      ]
     },
     {
      "topic": "Jobs",
-     "text": "Create jobs through transport infrastructure, industrial policy and more local mineral processing.",
+     "text": "Create one million export-linked jobs for young Nigerians through talent and services exports by 2030, and halve youth unemployment by 2031.",
+     "page": 18,
      "src": [
-      "pt-shettima-nasarawa"
+      "apc-manifesto-2027"
+     ]
+    },
+    {
+     "topic": "Jobs",
+     "text": "Skill two million young people and make 30 million Nigerians digitally literate.",
+     "page": 50,
+     "src": [
+      "apc-manifesto-2027"
+     ]
+    },
+    {
+     "topic": "Agriculture",
+     "text": "Expand domestic food production, storage and processing, halve the food lost after harvest, and move goods faster and cheaper between states.",
+     "page": 18,
+     "src": [
+      "apc-manifesto-2027"
+     ]
+    },
+    {
+     "topic": "Education",
+     "text": "Halve the number of out-of-school children, increase the number completing school, and deploy 20,000 additional teachers.",
+     "page": 18,
+     "src": [
+      "apc-manifesto-2027"
+     ]
+    },
+    {
+     "topic": "Health",
+     "text": "Expand health insurance from more than 23 million enrollees to 40% of Nigerians, and raise functioning primary health centres from 53% to at least 90%.",
+     "page": 18,
+     "src": [
+      "apc-manifesto-2027"
+     ]
+    },
+    {
+     "topic": "Infrastructure",
+     "text": "Deliver 154,800 housing units under the Tinubu Mass Social Housing Scheme, working towards 200,000 homes, tracked on a public dashboard.",
+     "page": 49,
+     "src": [
+      "apc-manifesto-2027"
+     ]
+    },
+    {
+     "topic": "Infrastructure",
+     "text": "Expand the national fibre backbone to at least 125,000km and port cargo to at least 180 million tonnes a year.",
+     "page": 79,
+     "src": [
+      "apc-manifesto-2027"
+     ]
+    },
+    {
+     "topic": "Governance",
+     "text": "Extend digital case management from the superior courts to magistrate courts by 2029, and publish allocations for every one of the 774 local councils with clear performance and accountability standards.",
+     "page": 92,
+     "src": [
+      "apc-manifesto-2027"
+     ]
+    },
+    {
+     "topic": "Governance",
+     "text": "Launch a Citizen Service Guarantee with published service standards and response times, and hold quarterly citizen engagements with published outcomes.",
+     "page": 92,
+     "src": [
+      "apc-manifesto-2027"
+     ]
+    },
+    {
+     "topic": "Governance",
+     "text": "In the first 100 days, publish baselines and named owners for every headline commitment, the first quarterly cost-of-living basket, and an independent audit of unfinished or underused public assets.",
+     "page": 94,
+     "src": [
+      "apc-manifesto-2027"
      ]
     }
-   ]
+   ],
+   "documentKind": "full"
   },
   "gov--lagos--apc": {
    "status": "manifesto",
@@ -582,10 +723,11 @@
    "noteSrc": [
     "von-oyo-apm"
    ],
-   "pledges": []
+   "pledges": [],
+   "documentKind": "abridged"
   },
   "gov--kwara--pdp": {
-   "status": "pledges",
+   "status": "awaiting",
    "title": null,
    "unveiled": null,
    "document": null,
@@ -773,6 +915,9 @@
       "ne-adc-manifesto"
      ]
     }
+   ],
+   "noteSrc": [
+    "ne-adc-manifesto"
    ]
   }
  }

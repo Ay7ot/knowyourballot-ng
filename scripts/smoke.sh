@@ -58,12 +58,36 @@ check_header() {
   echo "PASS header $name"
 }
 
+check_present() {
+  local path="$1" text="$2"
+  if ! curl -fsS "$BASE$path" | grep -Fq "$text"; then
+    echo "FAIL $path: missing '$text'"
+    exit 1
+  fi
+  echo "PASS $path: has '$text'"
+}
+
+check_absent() {
+  local path="$1" text="$2"
+  if curl -fsS "$BASE$path" | grep -Fq "$text"; then
+    echo "FAIL $path: unexpected '$text'"
+    exit 1
+  fi
+  echo "PASS $path: no '$text'"
+}
+
 check /
 check /race/president
 check /candidate/president--ndc
 check /state/lagos
 check /economy
 check /promises
+check /manifestos
+check /manifesto/president--apc
+check /manifesto/president--sdp
+check /manifesto/party--adc
+check /manifesto/gov--oyo--apm
+check /manifesto/gov--kwara--pdp
 check /data
 check /search-index.json
 check /lga-points.json
@@ -72,6 +96,16 @@ check /candidate/definitely-not-real 404
 check /candidate/sha--benue--gboko-iii--sdp 200
 check /race/not-real 404
 check /state/not-real 404
+check /manifesto/not-real 404
+
+check_present /manifesto/president--apc "From Reforms to Prosperity"
+check_present /manifesto/president--apc "p. 49"
+check_present /manifesto/gov--oyo--apm "Read the abridged manifesto"
+check_absent /manifesto/gov--oyo--apm "Read the full manifesto"
+check_present /manifesto/gov--kwara--pdp "Manifesto not published yet"
+check_absent /manifesto/gov--kwara--pdp "The commitments below"
+check_present /manifesto/party--adc "African Democratic Congress"
+check_absent /manifesto/party--adc "African Democratic Congress, African Democratic Congress"
 
 code=$(curl -s -o /dev/null -w "%{http_code}" "$BASE/candidate/sha--benue--gboko-iii--s-d-p")
 [ "$code" = "308" ] || { echo "FAIL redirect old candidate URL: $code"; exit 1; }

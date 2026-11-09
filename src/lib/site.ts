@@ -45,3 +45,19 @@ export function manifestoUrl(name: string, pageUrl: string) {
   const q = new URLSearchParams({ title: `Manifesto: ${name}`, body, labels: "manifesto" });
   return `${REPO}/issues/new?${q}`;
 }
+
+/** Prefilled issue for a manifesto whose candidate or party is not known yet. */
+export function manifestoLibraryUrl(pageUrl: string) {
+  const body = [
+    `**Page:** ${pageUrl}`,
+    "",
+    "**Candidate or party:**",
+    "",
+    "**Link to the manifesto, or to a news report of their pledges:**",
+    "",
+    "(We publish pledges only with a public source. A person reviews each one.)",
+    "",
+  ].join("\n");
+  const q = new URLSearchParams({ title: "Manifesto: add a 2027 manifesto", body, labels: "manifesto" });
+  return `${REPO}/issues/new?${q}`;
+}

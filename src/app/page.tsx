@@ -224,12 +224,14 @@ export default function Home() {
           </Link>
           <Link
             prefetch={false}
-            href="/promises"
+            href="/manifestos"
             className="group rounded-lg border border-rule bg-paper p-5 hover:border-green hover:bg-green-soft/40"
           >
-            <p className="label text-violet">Compare</p>
-            <p className="display-tight mt-2 text-xl">What do the candidates promise?</p>
-            <p className="mt-1 text-sm text-muted">Manifestos and reported pledges, topic by topic, with sources.</p>
+            <p className="label text-violet">Manifestos</p>
+            <p className="display-tight mt-2 text-xl">Every manifesto, in one place.</p>
+            <p className="mt-1 text-sm text-muted">
+              Published manifestos and campaign pledges, by office and race, each linked to its source.
+            </p>
           </Link>
         </div>
       </section>

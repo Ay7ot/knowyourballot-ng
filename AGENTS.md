@@ -71,22 +71,23 @@ flowchart LR
 ### Data flow
 
 1. **Python pipeline** downloads and parses INEC PDFs, builds the electoral map, and joins rows into `data/ballot.json`. See `scripts/` and `.github/workflows/`.
-2. **Build-time import:** `src/lib/data.ts` imports `ballot.json`, `geo.json`, `parties.json`, `platforms.json` and photo JSON with `import "server-only"`. It builds `Map`s once and exposes getters (`getRace`, `getCandidate`, `ballotForLga`, `stats`, `toTray`, `candidatePhoto`, `platformFor`, `quickEntries`).
+2. **Build-time import:** `src/lib/data.ts` imports `ballot.json`, `geo.json`, `parties.json`, `platforms.json` and photo JSON with `import "server-only"`. It builds `Map`s once and exposes getters (`getRace`, `getCandidate`, `ballotForLga`, `stats`, `toTray`, `candidatePhoto`, `platformFor`, `manifestoEntries`, `manifestoFor`, `quickEntries`).
 3. **Server components** call those getters and pass trimmed props to client components.
 4. **Client components** (`"use client"`) handle interaction only: ballot tray, picks/compare, search, header menu, share, countdown. They never import `src/lib/data.ts`.
 5. **Generated routes** emit the search index and LGA points as JSON for the browser.
 
 ### Rendering strategy
 
-| Route                                                                     | Strategy                                                                                                                                 |
-| ------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| `/`, `/guide`, `/who-decides`, `/economy`, `/data`, `/promises`, `/state` | Static                                                                                                                                   |
-| `/state/[state]`, `/state/[state]/[lga]`                                  | Fully static, `dynamicParams = false`, `generateStaticParams` over 37 states and 774 LGAs                                                |
-| `/race/[id]`                                                              | Fully static, `dynamicParams = false`, 1,489 races                                                                                       |
-| `/candidate/[id]`                                                         | President and Governor pages prerendered; the rest render on first request and are cached (`dynamicParams = true`, `revalidate = 86400`) |
-| `/search-index.json`, `/lga-points.json`                                  | `dynamic = "force-static"` JSON routes with cache headers                                                                                |
-| `/og`                                                                     | Edge runtime (`src/app/og/route.tsx`), TTFs live beside the route                                                                        |
-| `/api/search-miss`                                                        | Node runtime; `POST` writes sanitised query text to Vercel Blob, `GET ?key=…` returns a 30-day report                                    |
+| Route                                                                                    | Strategy                                                                                                                                 |
+| ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| `/`, `/guide`, `/who-decides`, `/economy`, `/data`, `/promises`, `/manifestos`, `/state` | Static                                                                                                                                   |
+| `/state/[state]`, `/state/[state]/[lga]`                                                 | Fully static, `dynamicParams = false`, `generateStaticParams` over 37 states and 774 LGAs                                                |
+| `/race/[id]`                                                                             | Fully static, `dynamicParams = false`, 1,489 races                                                                                       |
+| `/candidate/[id]`                                                                        | President and Governor pages prerendered; the rest render on first request and are cached (`dynamicParams = true`, `revalidate = 86400`) |
+| `/manifesto/[id]`                                                                        | Fully static, `dynamicParams = false`, one page per manifesto or pledge record                                                           |
+| `/search-index.json`, `/lga-points.json`                                                 | `dynamic = "force-static"` JSON routes with cache headers                                                                                |
+| `/og`                                                                                    | Edge runtime (`src/app/og/route.tsx`), TTFs live beside the route                                                                        |
+| `/api/search-miss`                                                                       | Node runtime; `POST` writes sanitised query text to Vercel Blob, `GET ?key=…` returns a 30-day report                                    |
 
 `next.config.ts`: `poweredByHeader: false`, `experimental.inlineCss`, and a one-day `Cache-Control` for `/data/:path*`.
 
@@ -164,7 +165,7 @@ npm run format         # write formatting fixes
 npm run audit          # npm audit, fails on any vulnerability
 npm run typecheck      # tsc --noEmit
 npm test               # data contract and ID snapshot
-npm run build          # full production build (2,777 static pages); about a minute
+npm run build          # full production build (2,794 static pages); about a minute
 npm run smoke          # start the built server and check routes, headers and API guards
 npm run snapshot:ids   # update the stable-ID snapshot after a reviewed rename
 npm run start          # serve the production build
@@ -225,17 +226,17 @@ All data workflows share concurrency group `ingest` and open auto-merged pull re
 
 Deterministic layers exist. Run all of them before a pull request:
 
-| Command                                 | Covers                                                                                          |
-| --------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| `npm run audit`                         | npm vulnerabilities at any severity                                                             |
-| `npm run check`                         | Biome formatting and lint                                                                       |
-| `npm run typecheck`                     | TypeScript strict compile                                                                       |
-| `npm test`                              | Data contract, foreign keys, sources, photo files, candidate IDs, maps and polling unit parsing |
-| `bash tests/open_data_pr_guard.test.sh` | Data branch names and non-main checkouts are rejected; a no-change run is a no-op               |
-| `npm run build`                         | Every route and static page                                                                     |
-| `npm run smoke`                         | Built server, key routes, security headers and API guards                                       |
-| `uv run pytest -q`                      | Python pipeline helpers                                                                         |
-| `uv run pip-audit -r requirements.txt`  | Python dependencies, on the Linux resolution                                                    |
+| Command                                 | Covers                                                                                                            |
+| --------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `npm run audit`                         | npm vulnerabilities at any severity                                                                               |
+| `npm run check`                         | Biome formatting and lint                                                                                         |
+| `npm run typecheck`                     | TypeScript strict compile                                                                                         |
+| `npm test`                              | Data contract, foreign keys, sources, photo files, candidate IDs, manifesto states, maps and polling unit parsing |
+| `bash tests/open_data_pr_guard.test.sh` | Data branch names and non-main checkouts are rejected; a no-change run is a no-op                                 |
+| `npm run build`                         | Every route and static page                                                                                       |
+| `npm run smoke`                         | Built server, key routes, security headers and API guards                                                         |
+| `uv run pytest -q`                      | Python pipeline helpers                                                                                           |
+| `uv run pip-audit -r requirements.txt`  | Python dependencies, on the Linux resolution                                                                      |
 
 Test files:
 

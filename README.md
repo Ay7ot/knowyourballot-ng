@@ -8,7 +8,7 @@ Live: https://knowyourballot-ng.vercel.app
 
 A non-partisan civic site. Every candidate row comes from an INEC document and keeps the source URL and page. There is no religion, no unsourced claim and no editorialising. Corrections arrive as GitHub issues and a person reviews each one.
 
-On desktop, the site uses a wide ballot desk: an interactive map of Nigeria's states and LGAs, a global search dialog on `Cmd/Ctrl+K`, and a sticky progress rail on ballot pages. The same pages collapse to a single column on a phone. The side-by-side comparison has a Policies tab, so you can compare what candidates promise and see clearly when a campaign has not published a manifesto or position yet.
+On desktop, the site uses a wide ballot desk: an interactive map of Nigeria's states and LGAs, a global search dialog on `Cmd/Ctrl+K`, and a sticky progress rail on ballot pages. The same pages collapse to a single column on a phone. The side-by-side comparison has a Policies tab, so you can compare what candidates promise and see clearly when a campaign has not published a manifesto or position yet. Every manifesto and pledge we hold also has a page in the [manifesto library](https://knowyourballot-ng.vercel.app/manifestos), with the full document linked where one exists.
 
 ## Data
 
@@ -40,7 +40,7 @@ npm run audit        # no known npm vulnerabilities
 npm run check        # Biome formatting and lint
 npm run typecheck    # tsc --noEmit
 npm test             # data contract, polling unit parser and ID snapshot
-npm run build        # production build, 2,777 static pages
+npm run build        # production build, 2,794 static pages
 npm run smoke        # built server, key routes, headers and API guards
 ```
 

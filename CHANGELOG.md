@@ -26,6 +26,8 @@ All notable changes to this project are recorded here. The format follows [Keep 
 - Wide desktop shell and two-column layouts for state, LGA, race and candidate pages.
 - Policies tab in the side-by-side comparison, with candidate pledges, a party-platform fallback, per-topic missing-position states and campaign request links.
 - Map build script and `data/nigeria-map.json`, credited to geoBoundaries / GRID3.
+- Manifesto library at `/manifestos` and a reader at `/manifesto/[id]`, with source page references and the full document link where one exists.
+- APC's 2027–2031 presidential manifesto, "From Reforms to Prosperity", with 17 page-cited commitments.
 
 ### Changed
 

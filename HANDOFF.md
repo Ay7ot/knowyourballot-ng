@@ -21,7 +21,7 @@ You're taking over **Know Your Ballot · Nigeria 2027**, a civic site where any 
 ## Stack
 
 - Next.js 15 (App Router) + React 19 + TypeScript, Tailwind CSS v4 (via `@tailwindcss/postcss`).
-- Static-first: `npm run build` generates 2,777 static pages (37 states, 774 LGAs, 1,489 races and the President/Governor candidate pages). The other ~14,700 candidate pages render on first request and are cached with `revalidate = 86400`. A full build takes about a minute locally.
+- Static-first: `npm run build` generates 2,794 static pages (37 states, 774 LGAs, 1,489 races, the President/Governor candidate pages, and the manifesto library). The other ~14,700 candidate pages render on first request and are cached with `revalidate = 86400`. A full build takes about a minute locally.
 - Data lives as JSON in `data/` and is imported at build time through `src/lib/data.ts` (server-only). `data/ballot.json` (~6.5 MB) is the single file the site reads for candidates and races.
 - Client search: Fuse.js over `/search-index.json` (generated route). Search understands offices, parties, topics and plain questions.
 - Self-hosted, subsetted fonts in `src/fonts` (Archivo, Atkinson Hyperlegible Next, IBM Plex Mono). Rebuild with `scripts/subset_fonts.py` if fonts change.
@@ -33,7 +33,7 @@ Key directories:
 
 ```
 src/app/            routes: /, /state/[state]/[lga], /race/[id], /candidate/[id], /promises,
-                    /guide, /who-decides, /economy, /data, /og, /api/search-miss
+                    /manifestos, /manifesto/[id], /guide, /who-decides, /economy, /data, /og, /api/search-miss
 src/components/     FindBallot, MyBallot, BallotTray, RaceSheet, Promises, SiteHeader, controls, ...
 src/lib/            data.ts (data access), types.ts, seo.ts, civics.ts (glossary/issues),
                     economy.ts (hand-checked figures), site.ts
@@ -102,7 +102,7 @@ uv pip install -r requirements-dev.txt
 uv run pytest -q
 ```
 
-Verified on 7 Nov 2026: `npm ci`, `npm run check`, `npm run typecheck`, `npm test`, `npm run build` and `npm run smoke` pass on this Mac. The build generated 2,777 static pages and the smoke test returned 200 for `/`, `/race/president`, `/candidate/president--ndc`, `/state/lagos`, `/economy`, `/promises`, `/data`, `/search-index.json`, `/lga-points.json` and `/og`.
+Verified on 9 Nov 2026: `npm run audit`, `npm run check`, `npm run typecheck`, `npm test`, `npm run build` and `npm run smoke` pass on this Mac. The build generated 2,794 static pages and the smoke test returned 200 for `/`, `/race/president`, `/candidate/president--ndc`, `/state/lagos`, `/economy`, `/promises`, `/manifestos`, `/manifesto/president--apc`, `/data`, `/search-index.json`, `/lga-points.json` and `/og`.
 
 Environment variables (none needed for local dev):
 
@@ -142,6 +142,12 @@ Vercel is connected to the GitHub repo. Push to `main` and Vercel builds and dep
 - Security headers and a production CSP are set in `next.config.ts`; `/api/search-miss` has origin, content-type, size and rate guards.
 - `error` and `global-error` boundaries were added. The root loading boundary was removed after it caused soft 404s; the smoke test now checks 404s and the redirect.
 - Party codes are normalised at build time. One candidate changed from `S D P` to `SDP`, with a permanent redirect from the old URL.
+
+### Manifesto library (9 Nov 2026)
+
+- APC's 2027–2031 presidential manifesto, “From Reforms to Prosperity”, added with 17 page-cited commitments and a link to the 109-page document.
+- `/manifestos` lists every manifesto and pledge record; `/manifesto/[id]` gives each one a reader with its sources and an explicit document state (full, abridged, summary only, or awaiting publication).
+- Manifestos is in the header nav, home cards, footer and search; pledges across the site now show page references where a source has them.
 
 ## Decisions already made
 

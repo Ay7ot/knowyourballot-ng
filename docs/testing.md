@@ -50,13 +50,14 @@ The tests read the committed data but do not touch the network.
 
 ### Build and smoke
 
-`npm run build` generates 2,777 static pages. It catches broken routes, invalid static params and server/client boundary mistakes.
+`npm run build` generates 2,794 static pages. It catches broken routes, invalid static params and server/client boundary mistakes.
 
 `scripts/smoke.sh` starts the built server on port 3210 and checks:
 
-- `/`, `/race/president`, `/candidate/president--ndc`, `/state/lagos`, `/economy`, `/promises`, `/data`;
+- `/`, `/race/president`, `/candidate/president--ndc`, `/state/lagos`, `/economy`, `/promises`, `/manifestos`, `/manifesto/president--apc`, `/manifesto/gov--oyo--apm`, `/manifesto/gov--kwara--pdp`, `/data`;
 - `/search-index.json`, `/lga-points.json`, `/og`;
-- unknown candidate, race and state URLs return 404;
+- unknown candidate, race, state and manifesto URLs return 404;
+- the APC reader contains its title and a page reference; the Oyo APM reader says "abridged" and not "full"; the Kwara reader says "Manifesto not published yet" and has no empty "commitments below" copy; the party reader does not duplicate the party name;
 - the old `sha--benue--gboko-iii--s-d-p` candidate URL redirects with 308;
 - `X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options` and `Content-Security-Policy`;
 - `/api/search-miss` rejects a non-JSON body, a browser cross-origin request and an oversized body, hides the report without a key, accepts a bearer key and rate-limits repeated requests.

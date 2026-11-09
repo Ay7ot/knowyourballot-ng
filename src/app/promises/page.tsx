@@ -39,8 +39,12 @@ export default function PromisesPage() {
       </p>
 
       <p className="mt-3 text-sm">
+        <Link prefetch={false} href="/manifestos" className="font-medium text-green underline">
+          See every manifesto and pledge we have found
+        </Link>
+        , or{" "}
         <Link prefetch={false} href="/economy" className="font-medium text-green underline">
-          See where the economy stands now
+          see where the economy stands now
         </Link>
         , in eight numbers, before you weigh these promises.
       </p>
