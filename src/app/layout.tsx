@@ -58,7 +58,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <a className="underline" href="https://www.inecnigeria.org/press/">
                   INEC&apos;s published lists
                 </a>
-                , checked daily. No religion, no rumours.
+                , checked daily.{" "}
+                <Link prefetch={false} className="underline" href="/manifestos">
+                  Manifestos and pledges
+                </Link>{" "}
+                link to their sources. No religion, no rumours.
               </p>
             </div>
             <div className="space-y-2">

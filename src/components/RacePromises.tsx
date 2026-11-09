@@ -63,7 +63,7 @@ export default function RacePromises({ cands }: { cands: Candidate[] }) {
                       </p>
                       <p className="mt-0.5 max-w-[75ch] text-[0.95rem]">
                         {x.text}
-                        <Cites ids={x.src} />
+                        <Cites ids={x.src} page={x.page} />
                       </p>
                     </div>
                   </li>

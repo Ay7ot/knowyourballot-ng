@@ -143,16 +143,95 @@ test("every platform pledge has a resolvable source", () => {
     ),
   };
   for (const [who, platform] of Object.entries(groups)) {
-    assert.ok(["manifesto", "pledges"].includes(platform.status), `${who} has an unknown status`);
+    assert.ok(["manifesto", "pledges", "awaiting"].includes(platform.status), `${who} has an unknown status`);
+    if (platform.status === "pledges") {
+      assert.ok(platform.pledges.length > 0, `${who} is pledges-only but has no pledges`);
+      assert.equal(platform.document, null, `${who} is pledges-only but links a document`);
+    }
+    if (platform.status === "awaiting") {
+      assert.equal(platform.pledges.length, 0, `${who} is awaiting a manifesto but has pledges`);
+      assert.equal(platform.document, null, `${who} is awaiting a manifesto but links a document`);
+    }
+    if (platform.status === "manifesto" && !platform.document) {
+      assert.ok(platform.pledges.length > 0, `${who} has a manifesto with no document and no pledges`);
+    }
+    if (platform.document) {
+      assert.match(platform.document, /^https:\/\//, `${who} has a non-https document link`);
+      assert.ok(
+        ["full", "abridged", "website"].includes(platform.documentKind),
+        `${who} does not say what its document link is (full, abridged or website)`,
+      );
+    }
+    if (platform.documentPages !== undefined) {
+      assert.ok(
+        Number.isInteger(platform.documentPages) && platform.documentPages > 0,
+        `${who} has an invalid document page count`,
+      );
+      assert.equal(platform.documentKind, "full", `${who} has a page count but is not marked as the full document`);
+    }
+    for (const noteSource of platform.noteSrc ?? []) {
+      assert.ok(platforms.sources[noteSource], `${who} references missing note source ${noteSource}`);
+    }
     for (const pledge of platform.pledges) {
       assert.ok(pledge.topic, `${who} has a pledge without a topic`);
+      assert.ok(platforms.topics.includes(pledge.topic), `${who} has an unknown topic ${pledge.topic}`);
       assert.ok(pledge.text, `${who} has a pledge without text`);
       assert.ok(pledge.src.length > 0, `${who} has a pledge without a source`);
+      if (pledge.page !== undefined) {
+        assert.ok(Number.isInteger(pledge.page) && pledge.page > 0, `${who} has an invalid source page`);
+        assert.equal(
+          pledge.src.length,
+          1,
+          `${who} has a page number with multiple sources; the page cannot be attributed to one source`,
+        );
+      }
       for (const source of pledge.src) {
         assert.ok(platforms.sources[source], `${who} references missing source ${source}`);
       }
     }
   }
+});
+
+test("every platform URL is https", () => {
+  for (const [id, source] of Object.entries(platforms.sources)) {
+    assert.match(source.url, /^https:\/\//, `source ${id} is not https`);
+  }
+  for (const [id, platform] of Object.entries({
+    ...platforms.candidates,
+    ...Object.fromEntries(Object.entries(platforms.parties ?? {}).map(([code, p]) => [`party ${code}`, p])),
+  })) {
+    if (platform.document) assert.match(platform.document, /^https:\/\//, `${id} has a non-https document link`);
+  }
+});
+
+test("the APC presidential manifesto is recorded with its document", () => {
+  const apc = platforms.candidates["president--apc"];
+  assert.ok(apc, "missing APC platform");
+  assert.equal(apc.status, "manifesto");
+  assert.equal(apc.documentKind, "full");
+  assert.ok(apc.document?.startsWith("https://"), "APC manifesto has no document link");
+  assert.equal(apc.documentPages, 109, "APC manifesto page count is wrong");
+  assert.equal(apc.pledges.length, 17, "APC manifesto pledge count changed");
+  assert.ok(
+    apc.pledges.every((pledge) => Number.isInteger(pledge.page) && pledge.page > 0),
+    "an APC pledge has no page reference",
+  );
+  const pages = new Set(apc.pledges.map((pledge) => pledge.page));
+  for (const page of [18, 31, 49, 50, 79, 92, 94]) {
+    assert.ok(pages.has(page), `APC manifesto has no commitment on page ${page}`);
+  }
+  const housing = apc.pledges.find((pledge) => pledge.text.startsWith("Deliver 154,800 housing units"));
+  assert.equal(housing?.page, 49, "the housing dashboard commitment must cite p.49");
+});
+
+test("zero-pledge and abridged records have honest states", () => {
+  const kwara = platforms.candidates["gov--kwara--pdp"];
+  assert.equal(kwara.status, "awaiting");
+  assert.equal(kwara.pledges.length, 0);
+  const oyo = platforms.candidates["gov--oyo--apm"];
+  assert.equal(oyo.status, "manifesto");
+  assert.equal(oyo.documentKind, "abridged");
+  assert.equal(oyo.pledges.length, 0);
 });
 
 test("no stable id was removed", () => {

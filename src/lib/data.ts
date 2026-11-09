@@ -293,12 +293,18 @@ export function candidatePhoto(id: string, name: string): Photo | null {
 }
 
 export type PlatformSource = { outlet: string; date: string; title: string; url: string };
-export type Pledge = { topic: string; text: string; src: string[] };
+export type Pledge = { topic: string; text: string; src: string[]; page?: number };
+/** Whether a linked document is the full text, an abridged version, or a campaign website. */
+export type DocumentKind = "full" | "abridged" | "website";
 export type Platform = {
-  status: "manifesto" | "pledges";
+  status: "manifesto" | "pledges" | "awaiting";
   title: string | null;
   unveiled: string | null;
   document: string | null;
+  /** Never assume a document link is the full text: say what it is. */
+  documentKind?: DocumentKind;
+  /** Page count of the linked document, when we know it. */
+  documentPages?: number;
   note: string;
   noteSrc?: string[];
   pledges: Pledge[];
@@ -308,22 +314,110 @@ export const PLATFORMS = platformJson as unknown as {
   topics: string[];
   sources: Record<string, PlatformSource>;
   candidates: Record<string, Platform>;
+  parties?: Record<string, Platform>;
 };
 export const platformFor = (id: string): Platform | null =>
   (PLATFORMS.candidates as Record<string, Platform>)[id] ?? null;
-export const partyPlatform = (code: string): Platform | null =>
-  (PLATFORMS as unknown as { parties?: Record<string, Platform> }).parties?.[code] ?? null;
+export const partyPlatform = (code: string): Platform | null => PLATFORMS.parties?.[code] ?? null;
+
+/** What a linked document actually is. A URL alone does not mean the full text is online. */
+export const platformDocumentKind = (p: Platform): DocumentKind =>
+  p.documentKind ?? (p.documentPages ? "full" : "website");
+
+/** One row in /manifestos: a candidate's manifesto or a party platform. */
+export type ManifestoEntry = {
+  /** URL id: the candidate id, or `party--<code>` for a party platform. */
+  id: string;
+  platform: Platform;
+  candidate: Candidate | null;
+  partyCode: string;
+  partyFull: string | null;
+  office: Office | null;
+  race: Race | null;
+  /** The document title, or a plain label when there is no title. */
+  title: string;
+};
+
+const MANIFESTO_OFFICE_ORDER: Record<Office, number> = {
+  president: 0,
+  governor: 1,
+  senate: 2,
+  rep: 3,
+  assembly: 4,
+};
+const manifestoDate = (p: Platform) => (p.unveiled ? Date.parse(`${p.unveiled}T12:00:00Z`) : 0);
+
+let manifestoCache: ManifestoEntry[] | null = null;
+let manifestoById: Map<string, ManifestoEntry> | null = null;
+
+/** Every manifesto and pledge record we hold, newest first within each office. */
+export function manifestoEntries(): ManifestoEntry[] {
+  if (manifestoCache) return manifestoCache;
+  const rows: ManifestoEntry[] = [];
+  for (const [id, platform] of Object.entries(PLATFORMS.candidates)) {
+    const candidate = getCandidate(id);
+    if (!candidate) continue;
+    rows.push({
+      id,
+      platform,
+      candidate,
+      partyCode: candidate.party,
+      partyFull: partyName(candidate.party) ?? null,
+      office: candidate.office,
+      race: getRace(candidate.race) ?? null,
+      title:
+        platform.title ??
+        (platform.status === "awaiting"
+          ? "Manifesto not published yet"
+          : platform.status === "pledges"
+            ? "Campaign pledges"
+            : "Manifesto"),
+    });
+  }
+  for (const [code, platform] of Object.entries(PLATFORMS.parties ?? {})) {
+    rows.push({
+      id: `party--${code.toLowerCase()}`,
+      platform,
+      candidate: null,
+      partyCode: code,
+      partyFull: partyName(code) ?? null,
+      office: null,
+      race: null,
+      title: platform.title ?? "Party platform",
+    });
+  }
+  manifestoCache = rows.sort((a, b) => {
+    const status = Number(b.platform.status === "manifesto") - Number(a.platform.status === "manifesto");
+    if (status) return status;
+    const office =
+      (a.office ? MANIFESTO_OFFICE_ORDER[a.office] : 5) - (b.office ? MANIFESTO_OFFICE_ORDER[b.office] : 5);
+    if (office) return office;
+    const dated = manifestoDate(b.platform) - manifestoDate(a.platform);
+    if (dated) return dated;
+    return (a.candidate?.name ?? a.partyFull ?? a.partyCode).localeCompare(
+      b.candidate?.name ?? b.partyFull ?? b.partyCode,
+      "en-NG",
+    );
+  });
+  return manifestoCache;
+}
+
+export function manifestoFor(id: string): ManifestoEntry | null {
+  const key = id.startsWith("party--") ? `party--${id.slice(7).toLowerCase()}` : id;
+  manifestoById ??= new Map(manifestoEntries().map((entry) => [entry.id, entry]));
+  return manifestoById.get(key) ?? null;
+}
 
 export type TrayPledge = { topic: string; text: string; source: { label: string; url: string } | null };
 export type TrayPolicy = {
-  kind: "manifesto" | "pledges" | "party" | "none";
+  kind: "manifesto" | "pledges" | "awaiting" | "party" | "none";
   title: string | null;
   pledges: TrayPledge[];
   note: string;
   noteSource: { label: string; url: string } | null;
 };
 
-const sourceLink = (ids: string[]): { label: string; url: string } | null => {
+const sourceLink = (ids: string[], page?: number): { label: string; url: string } | null => {
   const source = ids.map((id) => PLATFORMS.sources[id]).find(Boolean);
   if (!source) return null;
   const date =
@@ -336,11 +430,11 @@ const sourceLink = (ids: string[]): { label: string; url: string } | null => {
           ? { month: "short", year: "numeric" }
           : { day: "numeric", month: "short", year: "numeric" },
       );
-  return { label: `${source.outlet.split(" (")[0]}, ${formatted}`, url: source.url };
+  return { label: `${source.outlet.split(" (")[0]}, ${formatted}${page ? `, p. ${page}` : ""}`, url: source.url };
 };
 
 const trayPledges = (pledges: Pledge[]): TrayPledge[] =>
-  pledges.map((p) => ({ topic: p.topic, text: p.text, source: sourceLink(p.src) }));
+  pledges.map((p) => ({ topic: p.topic, text: p.text, source: sourceLink(p.src, p.page) }));
 
 /** A compact policy summary for the side-by-side compare dialog. */
 export function trayPolicy(c: Candidate): TrayPolicy {
@@ -465,6 +559,13 @@ export function quickEntries(): QuickEntry[] {
       x: "Manifestos and reported pledges, topic by topic, with sources",
       h: "/promises",
       k: "promise promises manifesto manifestos pledge pledges plan plans agenda policy policies campaign",
+    },
+    {
+      g: "Help",
+      n: "Manifesto library",
+      x: "Every manifesto and pledge we have found, with sources",
+      h: "/manifestos",
+      k: "manifesto manifestos library documents document download pdf party platform blueprint agenda plan",
     },
   ];
   const TOPIC_WORDS: Record<string, string> = {

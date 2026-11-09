@@ -142,7 +142,7 @@ The generated JSON stays in Git by decision. There is no Git LFS and no external
 ## Adding or correcting data
 
 - **A candidate fact:** find the INEC document in `data/sources.json`, correct the source or the parser, rerun ingest and build, then run the tests. Do not type a fact in by hand.
-- **A manifesto or pledge:** add it to `data/platforms.json` with a public source. When a note asserts a fact, add `noteSrc` too; the compare view only shows sourced notes.
+- **A manifesto or pledge:** add it to `data/platforms.json` with a public source. When a note asserts a fact, add `noteSrc` too; the compare view only shows sourced notes. If the source is a link, set `document`, `documentKind` (`full`, `abridged` or `website`) and a `page` on each pledge. A page number needs exactly one source. Use `status: "awaiting"` when a campaign has not published a manifesto or pledges yet; do not use `pledges` with an empty array. Every record appears on `/manifestos` and `/manifesto/[id]`.
 - **A photo:** add a rejection to `data/photo_rejects.json` if a match is wrong. For a verified Commons choice, add it to `data/photo_overrides.json` or use the photo review workflow.
 - **A party:** update `data/parties.json` only from INEC's register.
 

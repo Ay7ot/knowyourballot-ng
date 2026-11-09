@@ -7,19 +7,22 @@ export const day = (iso: string) =>
     : new Date(`${iso}T12:00:00Z`).toLocaleDateString("en-NG", { day: "numeric", month: "short", year: "numeric" });
 
 /** Numbered source links for a pledge, like footnotes. */
-export function Cites({ ids }: { ids: string[] }) {
+export function Cites({ ids, page }: { ids: string[]; page?: number }) {
   return (
     <span className="text-xs">
-      {ids.map((id) => {
+      {ids.map((id, i) => {
         const s = PLATFORMS.sources[id];
+        if (!s) return null;
+        const atPage = page && i === 0 ? `, p. ${page}` : "";
         return (
           <a
             key={id}
             href={s.url}
-            title={`${s.outlet}, ${day(s.date)}: ${s.title}`}
+            title={`${s.outlet}, ${day(s.date)}${page && i === 0 ? `, page ${page}` : ""}: ${s.title}`}
             className="ml-1.5 inline-block whitespace-nowrap text-muted underline decoration-rule underline-offset-2 hover:text-ink"
           >
             {s.outlet.split(" (")[0]}, {day(s.date)}
+            {atPage}
           </a>
         );
       })}
@@ -64,11 +67,19 @@ export function PlatformStatus({ p, who = "this candidate" }: { p: Platform | nu
 }
 
 /** A candidate's pledges grouped by topic, each with its source. */
-export default function Promises({ p, who }: { p: Platform | null; who?: string }) {
+export default function Promises({
+  p,
+  who,
+  showStatus = true,
+}: {
+  p: Platform | null;
+  who?: string;
+  showStatus?: boolean;
+}) {
   const topics = p ? PLATFORMS.topics.filter((t) => p.pledges.some((x) => x.topic === t)) : [];
   return (
     <div className="space-y-4">
-      <PlatformStatus p={p} who={who} />
+      {showStatus && <PlatformStatus p={p} who={who} />}
       {topics.length > 0 && (
         <dl className="divide-y divide-rule border-y border-rule">
           {topics.map((t) => (
@@ -80,7 +91,7 @@ export default function Promises({ p, who }: { p: Platform | null; who?: string 
                   .map((x) => (
                     <p key={x.text} className="max-w-[75ch] text-[0.95rem]">
                       {x.text}
-                      <Cites ids={x.src} />
+                      <Cites ids={x.src} page={x.page} />
                     </p>
                   ))}
               </dd>

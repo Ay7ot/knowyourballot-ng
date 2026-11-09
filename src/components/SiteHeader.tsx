@@ -10,6 +10,11 @@ const NAV = [
   { href: "/", label: "Find my ballot", note: "Search by polling unit, LGA, ward or name" },
   { href: "/who-decides", label: "Who decides", note: "Fuel, naira, roads, schools: which office controls what" },
   { href: "/economy", label: "Economy", note: "Prices, the naira, jobs and debt, in plain words" },
+  {
+    href: "/manifestos",
+    label: "Manifestos",
+    note: "Every manifesto and campaign pledge we have found, with sources",
+  },
   { href: "/guide", label: "Voting day", note: "What to bring and how voting works" },
   { href: "/state", label: "States", note: "Browse all 36 states and the FCT" },
   { href: "/data", label: "Sources", note: "Where the data comes from, and corrections" },
@@ -17,6 +22,7 @@ const NAV = [
 
 function isActive(path: string, href: string) {
   if (href === "/") return path === "/";
+  if (href === "/manifestos") return path === href || path.startsWith("/manifesto/");
   return path === href || path.startsWith(`${href}/`);
 }
 
@@ -163,7 +169,10 @@ export default function SiteHeader() {
           </button>
 
           {/* Tablet and desktop: inline links */}
-          <nav aria-label="Main" className="hidden items-center gap-0.5 text-[0.95rem] md:flex">
+          <nav
+            aria-label="Main"
+            className="hidden items-center gap-0 text-[0.9rem] md:flex lg:gap-0.5 lg:text-[0.95rem]"
+          >
             {NAV.slice(1).map(({ href, label }) => {
               const active = isActive(path, href);
               return (
@@ -171,7 +180,7 @@ export default function SiteHeader() {
                   key={href}
                   href={href}
                   aria-current={active ? "page" : undefined}
-                  className={`relative rounded-md px-3 py-2 font-medium transition-colors hover:bg-green-soft hover:text-ink ${active ? "text-ink after:absolute after:inset-x-3 after:-bottom-[0.6rem] after:h-[3px] after:rounded-full after:bg-green" : "text-muted"}`}
+                  className={`relative rounded-md px-2 py-2 font-medium transition-colors hover:bg-green-soft hover:text-ink lg:px-3 ${active ? "text-ink after:absolute after:inset-x-2 after:-bottom-[0.6rem] after:h-[3px] after:rounded-full after:bg-green lg:after:inset-x-3" : "text-muted"}`}
                 >
                   {label}
                 </Link>
