@@ -21,12 +21,12 @@ You're taking over **Know Your Ballot · Nigeria 2027**, a civic site where any 
 ## Stack
 
 - Next.js 15 (App Router) + React 19 + TypeScript, Tailwind CSS v4 (via `@tailwindcss/postcss`).
-- Static-first: `npm run build` generates 2,794 static pages (37 states, 774 LGAs, 1,489 races, the President/Governor candidate pages, and the manifesto library). The other ~14,700 candidate pages render on first request and are cached with `revalidate = 86400`. A full build takes about a minute locally.
+- Static-first: `npm run build` generates 532 static pages (37 state pages, 463 President/Governor candidate pages, 16 manifesto pages, and the static site pages). The 774 LGA pages and 1,489 race pages render on first request and cache; the remaining candidate pages do too, with `revalidate = false`. A full build takes about a minute locally.
 - Data lives as JSON in `data/` and is imported at build time through `src/lib/data.ts` (server-only). `data/ballot.json` (~6.5 MB) is the single file the site reads for candidates and races.
 - Client search: Fuse.js over `/search-index.json` (generated route). Search understands offices, parties, topics and plain questions.
 - Self-hosted, subsetted fonts in `src/fonts` (Archivo, Atkinson Hyperlegible Next, IBM Plex Mono). Rebuild with `scripts/subset_fonts.py` if fonts change.
 - Share images: `src/app/og/route.tsx` (edge runtime, TTFs sit beside it). Page metadata all goes through `pageMeta()` in `src/lib/seo.ts`.
-- One API route: `src/app/api/search-miss/route.ts`, which logs searches that found nothing to a Vercel Blob store.
+- Two API routes: `src/app/api/search-miss/route.ts`, which logs searches that found nothing to a Vercel Blob store, and `src/app/api/candidate-details/route.ts`, which returns facts and policy for the compare tray when it opens.
 - Python 3.12 data scripts in `scripts/`, run by GitHub Actions. Locally, use `uv venv --python 3.12 && uv pip install -r requirements-dev.txt`; the system Python is 3.9 and does not have the pipeline packages.
 
 Key directories:
@@ -102,7 +102,7 @@ uv pip install -r requirements-dev.txt
 uv run pytest -q
 ```
 
-Verified on 9 Nov 2026: `npm run audit`, `npm run check`, `npm run typecheck`, `npm test`, `npm run build` and `npm run smoke` pass on this Mac. The build generated 2,794 static pages and the smoke test returned 200 for `/`, `/race/president`, `/candidate/president--ndc`, `/state/lagos`, `/economy`, `/promises`, `/manifestos`, `/manifesto/president--apc`, `/data`, `/search-index.json`, `/lga-points.json` and `/og`.
+Verified on 13 Nov 2026: `npm run audit`, `npm run check`, `npm run typecheck`, `npm test`, `npm run build`, `npm run isr:budget` and `npm run smoke` pass on this Mac. The build generated 532 static pages and 16,581 ISR units, and the smoke test returned 200 for `/`, `/race/president`, `/state/lagos/agege`, `/candidate/president--ndc`, `/state/lagos`, `/economy`, `/promises`, `/manifestos`, `/manifesto/president--apc`, `/data`, `/search-index.json`, `/lga-points.json`, `/api/candidate-details` and `/og`.
 
 Environment variables (none needed for local dev):
 

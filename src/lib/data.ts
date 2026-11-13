@@ -249,13 +249,19 @@ export function toTray(c: Candidate, raceLabel: string) {
     partyName: PARTIES[c.party] ?? null,
     logo: partyLogo(c.party),
     photo: candidatePhoto(c.id, c.name)?.file ?? null,
+    race: c.race,
+    raceLabel,
+  };
+}
+
+/** Facts and policy for a compared candidate, fetched only when the tray opens. */
+export function toTrayDetails(c: Candidate) {
+  return {
     age: c.age,
     gender: c.gender,
     level: c.level,
     qualifications: c.qualifications,
     mate: c.runningMate?.name ?? null,
-    race: c.race,
-    raceLabel,
     policy: trayPolicy(c),
   };
 }

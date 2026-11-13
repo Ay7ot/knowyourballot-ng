@@ -7,10 +7,8 @@ import {
   ballotForLga,
   candidatesOf,
   ELECTIONS,
-  geo,
   getLga,
   getSenatorial,
-  getState,
   lgaMapPoints,
   LEVEL_LABEL,
   OFFICE_LABEL,
@@ -33,10 +31,8 @@ import { ResetCompareOnMount } from "@/components/picks";
 import { Crumbs } from "@/components/ui";
 import { gutter } from "@/lib/gutter";
 
-export const dynamicParams = false;
-export function generateStaticParams() {
-  return geo.lgas.map((l) => ({ state: getState(l.state)!.slug, lga: l.slug }));
-}
+// Rendered on first request and cached. Prebuilding all 774 LGAs on every deploy
+// cost ~75k ISR write units per build, 49% of the whole build's writes.
 export async function generateMetadata({
   params,
 }: {

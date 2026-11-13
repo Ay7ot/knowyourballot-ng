@@ -29,7 +29,9 @@ import { electionFor } from "@/components/RaceSheet";
 
 // 15,000+ candidates: prebuild the President and Governor pages, render the rest on first visit and cache them.
 export const dynamicParams = true;
-export const revalidate = 86400;
+// Cache on first render until the next deploy. INEC data changes ship as a
+// deploy, so daily revalidation only adds ISR writes.
+export const revalidate = false;
 export function generateStaticParams() {
   return ballot.candidates
     .filter((c) => c.office === "president" || c.office === "governor")

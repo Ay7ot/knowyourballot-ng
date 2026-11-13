@@ -27,10 +27,10 @@ import { ResetCompareOnMount } from "@/components/picks";
 import { correctionUrl } from "@/lib/site";
 import { gutter } from "@/lib/gutter";
 
-export const dynamicParams = false;
-
 /** Race pages exist for every district on the map, even before INEC's list is imported. */
-function allRaces(): Race[] {
+let allRacesCache: Map<string, Race> | null = null;
+function allRaces(): Map<string, Race> {
+  if (allRacesCache) return allRacesCache;
   const have = new Map(ballot.races.map((r) => [r.id, r]));
   const placeholder = (id: string, office: Office, name: string, state: string | null, district: string | null): Race =>
     have.get(id) ?? { id, office, name, state, district, candidates: [] };
@@ -41,13 +41,13 @@ function allRaces(): Race[] {
       out.set(`gov--${s.slug}`, placeholder(`gov--${s.slug}`, "governor", `Governor of ${s.short}`, s.code, null));
   for (const d of geo.senatorial) out.set(`sen--${d.id}`, placeholder(`sen--${d.id}`, "senate", d.name, d.state, d.id));
   for (const d of geo.federal) out.set(`rep--${d.id}`, placeholder(`rep--${d.id}`, "rep", d.name, d.state, d.id));
-  return [...out.values()];
+  allRacesCache = out;
+  return out;
 }
-const findRace = (id: string) => getRace(id) ?? allRaces().find((r) => r.id === id);
+const findRace = (id: string) => getRace(id) ?? allRaces().get(id);
 
-export function generateStaticParams() {
-  return allRaces().map((r) => ({ id: r.id }));
-}
+// Rendered on first request and cached. The build no longer writes 1,489 race
+// pages on every deploy.
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const r = findRace((await params).id);
   if (!r) return {};
