@@ -31,8 +31,12 @@ import { ResetCompareOnMount } from "@/components/picks";
 import { Crumbs } from "@/components/ui";
 import { gutter } from "@/lib/gutter";
 
-// Rendered on first request and cached. Prebuilding all 774 LGAs on every deploy
-// cost ~75k ISR write units per build, 49% of the whole build's writes.
+// Rendered on first request and cached. An empty param list keeps the route on
+// the SSG path without writing all 774 LGA pages on every deploy.
+export const dynamicParams = true;
+export function generateStaticParams() {
+  return [];
+}
 export async function generateMetadata({
   params,
 }: {

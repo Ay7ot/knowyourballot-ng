@@ -46,8 +46,12 @@ function allRaces(): Map<string, Race> {
 }
 const findRace = (id: string) => getRace(id) ?? allRaces().get(id);
 
-// Rendered on first request and cached. The build no longer writes 1,489 race
-// pages on every deploy.
+// Rendered on first request and cached. An empty param list keeps the route on
+// the SSG path without writing all 1,489 race pages on every deploy.
+export const dynamicParams = true;
+export function generateStaticParams() {
+  return [];
+}
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const r = findRace((await params).id);
   if (!r) return {};
