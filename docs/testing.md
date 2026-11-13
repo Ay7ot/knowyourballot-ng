@@ -50,12 +50,13 @@ The tests read the committed data but do not touch the network.
 
 ### Build and smoke
 
-`npm run build` generates 2,794 static pages. It catches broken routes, invalid static params and server/client boundary mistakes.
+`npm run build` generates 532 static pages; the 774 LGA and 1,489 race pages render on first request and cache, so they are not in the build output. It catches broken routes, invalid static params and server/client boundary mistakes. `npm run isr:budget -- --max 30000` caps the build's ISR write units in CI.
 
 `scripts/smoke.sh` starts the built server on port 3210 and checks:
 
-- `/`, `/race/president`, `/candidate/president--ndc`, `/state/lagos`, `/economy`, `/promises`, `/manifestos`, `/manifesto/president--apc`, `/manifesto/gov--oyo--apm`, `/manifesto/gov--kwara--pdp`, `/data`;
-- `/search-index.json`, `/lga-points.json`, `/og`;
+- `/`, `/race/president`, `/state/lagos/agege`, `/candidate/president--ndc`, `/state/lagos`, `/economy`, `/promises`, `/manifestos`, `/manifesto/president--apc`, `/manifesto/gov--oyo--apm`, `/manifesto/gov--kwara--pdp`, `/data`;
+- `/search-index.json`, `/lga-points.json`, `/api/candidate-details`, `/og`;
+- an invalid LGA returns 404; the candidate-details API rejects more than 10 ids, reports missing ids and sends `s-maxage`;
 - unknown candidate, race, state and manifesto URLs return 404;
 - the APC reader contains its title and a page reference; the Oyo APM reader says "abridged" and not "full"; the Kwara reader says "Manifesto not published yet" and has no empty "commitments below" copy; the party reader does not duplicate the party name;
 - the old `sha--benue--gboko-iii--s-d-p` candidate URL redirects with 308;

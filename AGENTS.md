@@ -91,7 +91,7 @@ flowchart LR
 | `/api/search-miss`                                                                       | Node runtime; `POST` writes sanitised query text to Vercel Blob, `GET ?key=…` returns a 30-day report                                    |
 | `/api/candidate-details`                                                                 | Node runtime; facts and policy for the 2-3 candidates in the compare tray, fetched only when it opens                                    |
 
-`npm run isr:budget` reports the build's ISR write units (8 KB each). LGA and race pages were 89% of the old ~153k-unit build; do not add `generateStaticParams` back to either route without checking the number. Candidate pages cache until the next deploy; INEC data changes ship as a deploy.
+`npm run isr:budget` reports the build's ISR write units (8 KB each). LGA and race pages were 89% of the old ~153k-unit build; do not add `generateStaticParams` back to either route without checking the number. Candidate pages cache until the next deploy; INEC data changes ship as a deploy. See `docs/isr-budget.md` for the post-deploy threshold and rollback.
 
 `next.config.ts`: `poweredByHeader: false`, `experimental.inlineCss`, and a one-day `Cache-Control` for `/data/:path*`.
 
@@ -169,7 +169,8 @@ npm run format         # write formatting fixes
 npm run audit          # npm audit, fails on any vulnerability
 npm run typecheck      # tsc --noEmit
 npm test               # data contract and ID snapshot
-npm run build          # full production build (2,794 static pages); about a minute
+npm run build          # full production build (532 static pages; LGA and race pages render on demand); about a minute
+npm run isr:budget     # build ISR write units; CI fails above 30,000
 npm run smoke          # start the built server and check routes, headers and API guards
 npm run snapshot:ids   # update the stable-ID snapshot after a reviewed rename
 npm run start          # serve the production build

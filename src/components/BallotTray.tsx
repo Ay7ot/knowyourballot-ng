@@ -52,27 +52,33 @@ export default function BallotTray({
   const marked = races.filter((r) => picks[r.id]).length;
   const cmp = compare.map((id) => byId.get(id)).filter(Boolean) as TrayCandidate[];
   const cmpKey = cmp.map((c) => c.id).join(",");
+  const missingKey = cmp
+    .map((c) => c.id)
+    .filter((id) => !details[id])
+    .join(",");
 
   useEffect(() => {
-    if (!open || !cmpKey) return;
-    let cancelled = false;
+    if (!open || !missingKey) {
+      setDetailsLoading(false);
+      return;
+    }
+    const controller = new AbortController();
     setDetailsLoading(true);
     setDetailsError(false);
-    fetch(`/api/candidate-details?ids=${encodeURIComponent(cmpKey)}`)
+    fetch(`/api/candidate-details?ids=${encodeURIComponent(missingKey)}`, { signal: controller.signal })
       .then((res) => (res.ok ? res.json() : Promise.reject(new Error(String(res.status)))))
-      .then((data: Record<string, TrayDetails>) => {
-        if (!cancelled) setDetails((prev) => ({ ...prev, ...data }));
+      .then((data: { details: Record<string, TrayDetails>; missing?: string[] }) => {
+        setDetails((prev) => ({ ...prev, ...data.details }));
+        if (data.missing?.length) setDetailsError(true);
       })
-      .catch(() => {
-        if (!cancelled) setDetailsError(true);
+      .catch((err: unknown) => {
+        if (!(err instanceof DOMException && err.name === "AbortError")) setDetailsError(true);
       })
       .finally(() => {
-        if (!cancelled) setDetailsLoading(false);
+        if (!controller.signal.aborted) setDetailsLoading(false);
       });
-    return () => {
-      cancelled = true;
-    };
-  }, [open, cmpKey]);
+    return () => controller.abort();
+  }, [open, missingKey]);
 
   const topics = useMemo(() => {
     const order = [
@@ -249,11 +255,20 @@ export default function BallotTray({
           </button>
         </div>
 
+        <p className="sr-only" role="status" aria-live="polite">
+          {detailsLoading
+            ? "Loading candidate details."
+            : detailsError
+              ? "Some candidate details could not be loaded."
+              : ""}
+        </p>
+
         {tab === "policies" ? (
           <div
             id="compare-panel-policies"
             role="tabpanel"
             aria-labelledby="compare-tab-policies"
+            aria-busy={detailsLoading}
             className="max-h-[68dvh] overflow-auto"
           >
             <div className="grid gap-2 border-b border-rule px-4 py-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -386,6 +401,7 @@ export default function BallotTray({
             id="compare-panel-facts"
             role="tabpanel"
             aria-labelledby="compare-tab-facts"
+            aria-busy={detailsLoading}
             className="max-h-[68dvh] overflow-auto"
           >
             <div className="overflow-x-auto">

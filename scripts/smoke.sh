@@ -81,10 +81,18 @@ check /race/president
 check /candidate/president--ndc
 check /state/lagos
 check /state/lagos/agege
+check /state/lagos/not-real 404
 check "/api/candidate-details"
 check "/api/candidate-details?ids=president--ndc"
 check_present "/api/candidate-details?ids=president--ndc" '"policy"'
 check_present "/api/candidate-details?ids=president--ndc" '"pledges"'
+check "/api/candidate-details?ids=1,2,3,4,5,6,7,8,9,10,11" 400
+check_present "/api/candidate-details?ids=not-real" '"missing"'
+if ! curl -s -D - -o /dev/null "$BASE/api/candidate-details?ids=president--ndc" | grep -qi "^cache-control: .*s-maxage=3600"; then
+  echo "FAIL cache header s-maxage"
+  exit 1
+fi
+echo "PASS cache header s-maxage"
 check /economy
 check /promises
 check /manifestos

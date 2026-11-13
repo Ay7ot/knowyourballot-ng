@@ -34,6 +34,7 @@ jobs:
       - name: Test the data PR guards
         run: bash tests/open_data_pr_guard.test.sh
       - run: npm run build
+      - run: npm run isr:budget -- --max 30000
       - run: npm run smoke
 
   python:

@@ -40,7 +40,8 @@ npm run audit        # no known npm vulnerabilities
 npm run check        # Biome formatting and lint
 npm run typecheck    # tsc --noEmit
 npm test             # data contract, polling unit parser and ID snapshot
-npm run build        # production build, 2,794 static pages
+npm run build        # production build, 532 static pages; LGA and race pages render on demand
+npm run isr:budget   # ISR write units for the build; CI caps at 30,000
 npm run smoke        # built server, key routes, headers and API guards
 ```
 
