@@ -27,8 +27,6 @@ import { ResetCompareOnMount } from "@/components/picks";
 import { correctionUrl } from "@/lib/site";
 import { gutter } from "@/lib/gutter";
 
-export const dynamicParams = false;
-
 /** Race pages exist for every district on the map, even before INEC's list is imported. */
 function allRaces(): Race[] {
   const have = new Map(ballot.races.map((r) => [r.id, r]));
@@ -45,9 +43,8 @@ function allRaces(): Race[] {
 }
 const findRace = (id: string) => getRace(id) ?? allRaces().find((r) => r.id === id);
 
-export function generateStaticParams() {
-  return allRaces().map((r) => ({ id: r.id }));
-}
+// Rendered on first request and cached. The build no longer writes 1,489 race
+// pages on every deploy.
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const r = findRace((await params).id);
   if (!r) return {};

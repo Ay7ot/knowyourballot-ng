@@ -17,6 +17,7 @@
     "test:polling": "node --test --experimental-strip-types tests/polling-unit.test.mjs",
     "snapshot:ids": "node scripts/snapshot_ids.mjs",
     "smoke": "bash scripts/smoke.sh",
+    "isr:budget": "node scripts/isr-budget.mjs",
     "audit": "npm audit --audit-level=low"
   },
   "dependencies": {

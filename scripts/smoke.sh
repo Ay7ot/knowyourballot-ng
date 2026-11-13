@@ -80,6 +80,11 @@ check /
 check /race/president
 check /candidate/president--ndc
 check /state/lagos
+check /state/lagos/agege
+check "/api/candidate-details"
+check "/api/candidate-details?ids=president--ndc"
+check_present "/api/candidate-details?ids=president--ndc" '"policy"'
+check_present "/api/candidate-details?ids=president--ndc" '"pledges"'
 check /economy
 check /promises
 check /manifestos
